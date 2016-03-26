@@ -1,0 +1,1 @@
+export { default } from 'ember-attribute-validations/pattern-validators/email';
