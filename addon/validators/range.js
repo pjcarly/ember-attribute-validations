@@ -1,9 +1,5 @@
 import Ember from 'ember';
 import Validator from 'ember-attribute-validations/validator';
-import {
-  isNumeric
-}
-from 'ember-attribute-validations/utils';
 
 /**
  * Validator that could be used to validate Strings and Numbers.
@@ -36,8 +32,7 @@ export default Validator.extend({
   to: null,
 
   validate: function(name, value, attribute) {
-    let type = attribute.type,
-      fromValue = this.get('from'),
+    let fromValue = this.get('from'),
       toValue = this.get('to');
 
     Ember.assert('You must define a `from` for RangeValidator', Ember.isPresent(fromValue));
@@ -46,9 +41,9 @@ export default Validator.extend({
     let invalid = true;
 
     if (attribute.type === 'string') {
-      invalid = this.validateString(value, maxValue);
+      invalid = this.validateString(value, fromValue, toValue);
     } else {
-      invalid = this.validateNumber(value, maxValue);
+      invalid = this.validateNumber(value, fromValue, toValue);
     }
 
     if (invalid) {

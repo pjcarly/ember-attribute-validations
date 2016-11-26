@@ -1,9 +1,5 @@
 import Ember from 'ember';
 import Validator from 'ember-attribute-validations/validator';
-import {
-  isNumeric
-}
-from 'ember-attribute-validations/utils';
 
 /**
  * Validator that could be used to validate minimum length,
@@ -24,17 +20,16 @@ export default Validator.extend({
   min: null,
 
   validate: function(name, value, attribute) {
-    let type = attribute.type,
-      minValue = this.get('min');
+    let minValue = this.get('min');
 
     Ember.assert('You must define a `min` for MinValidator', Ember.isPresent(minValue));
 
     let invalid = true;
 
     if (attribute.type === 'string') {
-      invalid = this.validateString(value, maxValue);
+      invalid = this.validateString(value, minValue);
     } else {
-      invalid = this.validateNumber(value, maxValue);
+      invalid = this.validateNumber(value, minValue);
     }
 
     if (invalid) {

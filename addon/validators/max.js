@@ -1,8 +1,6 @@
 import Ember from 'ember';
 import Validator from 'ember-attribute-validations/validator';
-import {
-  hasValue, isNumeric
-}
+import { hasValue }
 from 'ember-attribute-validations/utils';
 
 /**
@@ -25,8 +23,7 @@ export default Validator.extend({
   max: null,
 
   validate: function(name, value, attribute) {
-    let type = attribute.type,
-      maxValue = this.get('max');
+    let maxValue = this.get('max');
 
     Ember.assert('You must define a `max` for MaxValidator', Ember.isPresent(maxValue));
 
