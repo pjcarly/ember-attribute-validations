@@ -1,6 +1,6 @@
 {
   "name": "ember-attribute-validations",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "The default blueprint for ember-cli addons.",
   "directories": {
     "doc": "doc",
@@ -39,11 +39,11 @@
     "ember-addon",
     "validation",
     "model validation",
-    "attribute validation",
     "ember data validation"
   ],
   "dependencies": {
-    "ember-cli-babel": "^5.0.0"
+    "ember-cli-babel": "^5.0.0",
+    "ember-getowner-polyfill": "^1.0.1"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"

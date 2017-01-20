@@ -1,12 +1,12 @@
 import Ember from 'ember';
 import ValidationError from '../error';
 import defaultMessages from '../messages';
+import getOwner from 'ember-getowner-polyfill';
 
 function createValidationError(model) {
-	var messageResolver = lookupMessageResolver(model.container);
-
-	var message = messageResolver.resolveMessage('error'),
-		errors = model.get('errors');
+	const messageResolver = lookupMessageResolver(getOwner(model));
+	const errors = model.get('errors');
+	let message = messageResolver.resolveMessage('error');
 
 	if(Ember.isEmpty(message)) {
 		message = Ember.get(defaultMessages, 'error');
@@ -20,16 +20,27 @@ function lookupMessageResolver(container) {
 		container.lookup('ember-attribute-validations@resolver:validation-message');
 }
 
-function lookupValidator(container, obj) {
-	var typeKey = obj.type;
+function lookupValidtorFactory(container, key) {
+	let lookupFactory;
 
-	var validatorClass = container.lookupFactory('validator:' + typeKey) ||
-		container.lookupFactory('ember-attribute-validations@validator:' + typeKey);
+	if(Ember.canInvoke(container, '_lookupFactory')) {
+		lookupFactory = container._lookupFactory;
+	} else {
+		lookupFactory = container.lookupFactory;
+	}
+
+	return lookupFactory.call(container, `validator:${key}`) ||
+		lookupFactory.call(container, `ember-attribute-validations@validator:${key}`);
+}
+
+function lookupValidator(container, obj) {
+	const typeKey = obj.type;
+	const validatorClass =lookupValidtorFactory(container, typeKey);
 
 	Ember.assert('Could not find Validator `' + typeKey + '`.', typeof validatorClass === 'function');
 
-	var messageResolver = lookupMessageResolver(container);
-	var value = obj.value;
+	const messageResolver = lookupMessageResolver(container);
+	let value = obj.value;
 
 	if (typeof value !== 'object') {
 		value = {};
@@ -63,9 +74,9 @@ export default Ember.Mixin.create({
 	 * @param  {Attribute}  attribute
 	 * @return {Validator}
 	 */
-	validatorsFor: function(attribute) {
-		var meta = attribute.options;
-		var validations = Ember.get(meta, 'validation');
+	validatorsFor(attribute) {
+		const meta = attribute.options;
+		let validations = Ember.get(meta, 'validation');
 
 		if (Ember.isEmpty(validations)) {
 			return [];
@@ -75,12 +86,12 @@ export default Ember.Mixin.create({
 			validations = [validations];
 		}
 
-		var validators = [];
+		const validators = [];
 
-		validations.forEach(function(validation) {
-			var keys = Object.keys(validation);
+		validations.forEach((validation) => {
+			const keys = Object.keys(validation);
 
-			keys.forEach(function(name) {
+			keys.forEach((name) => {
 				validators.push({
 					type: name,
 					value: validation[name],
@@ -89,9 +100,9 @@ export default Ember.Mixin.create({
 			});
 		});
 
-		return validators.map(function(validator) {
-			return lookupValidator(this.container, validator);
-		}, this);
+		return validators.map((validator) => {
+			return lookupValidator(getOwner(this), validator);
+		});
 	},
 
 	/**
@@ -107,39 +118,49 @@ export default Ember.Mixin.create({
 	 * @param  {Attribute} attribute
 	 * @private
 	 */
-	_validateAttribute: function(attribute) {
-		var validators = this.validatorsFor(attribute),
-			name = attribute.name;
+	_validateAttribute(attribute) {
+		const validators = this.validatorsFor(attribute);
+		const name = attribute.name;
 
 		// Assign the Model name to the Attribute
 		attribute.parentTypeKey = this.constructor.modelName ||
 			this.constructor.typeKey;
 
-		var errors = this.get('errors');
+		const errors = this.get('errors');
 
-		validators.forEach(function(validator) {
-			var result = validator.validate(name, this.get(name), attribute, this);
-
-			if (typeof result === 'string') {
-				errors.add(name, result);
-			}
-		}, this);
-	},
-
-	_validateRelationship: function(relationship){
-		var validators = this.validatorsFor(relationship),
-			name = relationship.key;
-
-		var errors = this.get('errors');
-
-		validators.forEach(function(validator) {
-			var result = validator.validate(name, this.get(name), relationship, this);
+		validators.forEach((validator) => {
+			const result = validator.validate(name, this.get(name), attribute, this);
 
 			if (typeof result === 'string') {
-				errors.add(name, result);
+				if(Ember.canInvoke(errors, '_add')) {
+					errors._add(name, result);
+				} else {
+					errors.add(name, result);
+				}
 			}
-		}, this);
+		});
 	},
+
+  _validateRelationship(relationship) {
+    const validators = this.validatorsFor(relationship);
+    const name = relationship.key;
+
+    relationship.parentTypeKey = this.constructor.modelName ||
+			this.constructor.typeKey;
+    const errors = this.get('errors');
+
+    validators.forEach((validator) => {
+      const result = validator.validate(name, this.get(name), relationship, this);
+
+      if (typeof result === 'string') {
+        if(Ember.canInvoke(errors, '_add')) {
+          errors._add(name, result);
+        } else {
+          errors.add(name, result);
+        }
+      }
+    });
+  },
 
 	/**
 	 * Validates the Model.
@@ -153,29 +174,44 @@ export default Ember.Mixin.create({
 	 * @method validate
 	 * @return {Boolean}
 	 */
-	validate: function() {
+	validate() {
 		// Do not validate the records which are deleted
 		if (this.get('isDeleted')) {
 			return true;
 		}
 
-		// Move the Model into `inFlight` state
-		this.send('willCommit');
+		const errors = this.get('errors');
 
-		var errors = this.get('errors');
+		// Clear the errors from the model and set the model
+		// into an `uncommitted` state if the model is invalid
+		if (!this.get('isValid')) {
+			errors.trigger('becameValid');
+		}
 
-		this.eachAttribute(function(key, attribute) {
+		this.eachAttribute((key, attribute) => {
 			Ember.run(this, '_validateAttribute', attribute);
-		}, this);
+		});
 
-		this.eachRelationship(function(key, relationship) {
-			Ember.run(this, '_validateRelationship', relationship);
-		}, this);
+    this.eachRelationship((key, relationship) => {
+      Ember.run(this, '_validateRelationship', relationship);
+    });
 
-		return Ember.get(errors, 'isEmpty');
+		const isValid = Ember.get(errors, 'isEmpty');
+
+		// Move the model into an 'invalid' state if the errors
+		// are not empty
+		if(!isValid) {
+			errors.trigger('becameInvalid');
+		}
+
+		return isValid;
 	},
 
-	save: function() {
+	save({validate=true}={}) {
+		if(!validate) {
+			return this._super();
+		}
+
 		if (this.validate()) {
 			return this._super();
 		}
