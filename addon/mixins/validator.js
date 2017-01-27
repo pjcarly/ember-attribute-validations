@@ -1,10 +1,9 @@
 import Ember from 'ember';
 import ValidationError from '../error';
 import defaultMessages from '../messages';
-import getOwner from 'ember-getowner-polyfill';
 
 function createValidationError(model) {
-	const messageResolver = lookupMessageResolver(getOwner(model));
+	const messageResolver = lookupMessageResolver(Ember.getOwner(model));
 	const errors = model.get('errors');
 	let message = messageResolver.resolveMessage('error');
 
@@ -101,7 +100,7 @@ export default Ember.Mixin.create({
 		});
 
 		return validators.map((validator) => {
-			return lookupValidator(getOwner(this), validator);
+			return lookupValidator(Ember.getOwner(this), validator);
 		});
 	},
 
