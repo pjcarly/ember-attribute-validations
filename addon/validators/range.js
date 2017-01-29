@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import Validator from 'ember-attribute-validations/validator';
+import { getValidationType } from 'ember-attribute-validations/utils';
 
 /**
  * Validator that could be used to validate Strings and Numbers.
@@ -32,7 +33,7 @@ export default Validator.extend({
 	to: null,
 
 	validate: function(name, value, attribute) {
-		const type = attribute.type;
+		const type = getValidationType(attribute.type);
 		const fromValue = this.get('from');
 		const toValue = this.get('to');
 

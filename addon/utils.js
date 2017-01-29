@@ -1,6 +1,25 @@
 import Ember from 'ember';
 
 /**
+ * Determines which type to use to validate attributes with
+ *
+ * @param  {*}  value
+ * @return {Boolean}
+ */
+export function getValidationType(type) {
+  // TODO: find a better way for this, at the moment this module depends on the type of the attribute
+  // once we have custom data types, we should be able to switch on something else (perhaps the transform?)
+  const stringTypes = ['string', 'email', 'phone', 'select', 'textarea'];
+  const numberTypes = ['number', 'percent', 'price'];
+
+  if(numberTypes.includes(type)){
+    return 'number';
+  } else {
+    return 'string';
+  }
+}
+
+/**
  * Determines whether or not a value is empty
  *
  * @param  {*}  value

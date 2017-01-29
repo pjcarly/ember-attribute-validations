@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import defaultMessages from 'ember-attribute-validations/messages';
+import { getValidationType } from 'ember-attribute-validations/utils';
 
 function dictionary() {
 	var dict = Object.create(null);
@@ -22,7 +23,6 @@ function dictionary() {
  * @extends {Ember.Object}
  */
 export default Ember.Object.extend({
-
 	init: function() {
 		this._cache = dictionary(null);
 	},
@@ -184,7 +184,7 @@ export default Ember.Object.extend({
 	 * @return {String}
 	 */
 	_parseAttributeType: function(attribute) {
-		return attribute.type;
+    return getValidationType(attribute.type);
 	},
 
 	/**

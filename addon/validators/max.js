@@ -1,8 +1,6 @@
 import Ember from 'ember';
 import Validator from 'ember-attribute-validations/validator';
-import {
-	hasValue
-} from 'ember-attribute-validations/utils';
+import { hasValue, getValidationType } from 'ember-attribute-validations/utils';
 
 /**
  * Validator that could be used to validate maximum length,
@@ -24,7 +22,7 @@ export default Validator.extend({
 	max: null,
 
 	validate: function(name, value, attribute) {
-		const type = attribute.type;
+		const type = getValidationType(attribute.type);
 		const maxValue = this.get('max');
 
 		Ember.assert('You must define a `max` for MaxValidator', Ember.isPresent(maxValue));
