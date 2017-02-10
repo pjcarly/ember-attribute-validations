@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import defaultMessages from 'ember-attribute-validations/messages';
 import { getValidationType } from 'ember-attribute-validations/utils';
+import { getLabel } from 'ember-field-components/classes/model-utils';
 
 function dictionary() {
 	var dict = Object.create(null);
@@ -111,13 +112,7 @@ export default Ember.Object.extend({
 	 * @return {String}
 	 */
 	resolveLabel: function(validator, attribute) {
-		if (Ember.isPresent(attribute.options.label)) {
-			return attribute.options.label;
-		}
-
-		return attribute.name.replace(/(?:^\w|[A-Z]|\b\w)/g, function(match, index) {
-			return index === 0 ? match.toUpperCase() : ' ' + match.toLowerCase();
-		}).replace(/_/g, ' ');
+    return getLabel(attribute.parentType, attribute.name);
 	},
 
 	/**
