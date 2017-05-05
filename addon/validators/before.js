@@ -1,10 +1,8 @@
 import Ember from 'ember';
 import Validator from 'ember-attribute-validations/validator';
-import {
-	hasValue,
-	toDate
-}
-from '../utils';
+import { hasValue, toDate } from '../utils';
+
+const { typeOf, run, assert, isPresent } = Ember;
 
 /**
  * Validator that checks if the Attribute value
@@ -49,11 +47,11 @@ export default Validator.extend({
 	_resolveBeforeDate: function(model) {
 		let before = this.get('before');
 
-		if(Ember.typeOf(before) === 'function') {
-			before = Ember.run(model, before);
+		if(typeOf(before) === 'function') {
+			before = run(model, before);
 		}
 
-		Ember.assert('You must define a `before` Date for DateBeforeValidator', Ember.isPresent(before));
+		assert('You must define a `before` Date for DateBeforeValidator', isPresent(before));
 
 		return toDate(before);
 	},

@@ -1,6 +1,8 @@
 import Ember from 'ember';
 import Validator from 'ember-attribute-validations/validator';
 
+const { isBlank } = Ember;
+
 /**
  * Validator that checks if the Attribute value
  * is a number.
@@ -11,7 +13,7 @@ import Validator from 'ember-attribute-validations/validator';
 
 export default Validator.extend({
   validate: function(name, value) {
-    if (!Ember.isBlank(value) && (isNaN(value) || (value < 0))) {
+    if (!isBlank(value) && (isNaN(value) || (value < 0))) {
       return this.format();
     }
   }

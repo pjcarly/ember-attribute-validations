@@ -1,5 +1,7 @@
 import Ember from 'ember';
 
+const { isPresent, isEmpty } = Ember;
+
 /**
  * Determines which type to use to validate attributes with
  *
@@ -25,7 +27,7 @@ export function getValidationType(type) {
  * @return {Boolean}
  */
 export function hasValue(value) {
-  return Ember.isPresent(value) || !Ember.isEmpty(value);
+  return isPresent(value) || !isEmpty(value);
 }
 
 /**
@@ -35,7 +37,7 @@ export function hasValue(value) {
  * @return {Boolean}
  */
 export function hasBelongsToValue(value) {
-  return Ember.isPresent(value) && value.hasOwnProperty('content') && !Ember.isEmpty(value.content);
+  return isPresent(value) && value.hasOwnProperty('content') && !isEmpty(value.content);
 }
 
 /**

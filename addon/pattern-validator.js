@@ -1,8 +1,8 @@
 import Ember from 'ember';
 import Validator from 'ember-attribute-validations/validator';
-import {
-	hasValue
-} from 'ember-attribute-validations/utils';
+import { hasValue } from 'ember-attribute-validations/utils';
+
+const { assert } = Ember;
 
 /**
  * Validator that uses a RegExp pattern to test
@@ -29,7 +29,7 @@ export default Validator.extend({
 	validate: function(name, value /*, attribute, model*/) {
 		const pattern = this.get('pattern');
 
-		Ember.assert('You must define a RegExp pattern in order to validate.', pattern instanceof RegExp);
+		assert('You must define a RegExp pattern in order to validate.', pattern instanceof RegExp);
 
 		if (hasValue(value) && !value.toString().match(pattern)) {
 			return this.format();

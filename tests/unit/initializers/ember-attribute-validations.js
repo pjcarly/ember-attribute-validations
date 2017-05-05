@@ -2,12 +2,14 @@ import Ember from 'ember';
 import { initialize } from '../../../initializers/ember-attribute-validations';
 import { module, test } from 'qunit';
 
+const { run, Application } = Ember;
+
 var container, application;
 
 module('Unit | Initializer | ember cli data validation', {
   beforeEach: function() {
-    Ember.run(function() {
-      application = Ember.Application.create();
+    run(function() {
+      application = Application.create();
       container = application.__container__;
       application.deferReadiness();
     });

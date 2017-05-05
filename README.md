@@ -180,8 +180,10 @@ And we have created our own implementation of the `MessageResolver` that we plac
 ```javascript
 import MessageResolver from 'ember-attribute-validations/message-resolver';
 
+const { computed, get } = Ember;
+
 export default MessageResolver.extend({
-    catalog: Ember.computed(function() {
+    catalog: computed(function() {
         return {
             'required': 'Field %@ is required',
             'min.string': 'String must have more than %@ characters',
@@ -195,7 +197,7 @@ export default MessageResolver.extend({
     resolveMessage: function(key) {
         var catalog = this.get('catalog');
 
-        return Ember.get(catalog, key);
+        return get(catalog, key);
     }
 });
 ```
@@ -239,14 +241,16 @@ You can also register the messages in the container, and they can be fetched fro
 ```javascript
 import MessageResolver from 'ember-attribute-validations/message-resolver';
 
+const { computed, get } = Ember;
+
 export default MessageResolver.extend({
-    catalog: Ember.computed(function() {
+    catalog: computed(function() {
         return this.container.lookup('i18n:messages');
     }),
     resolveMessage: function(key) {
         var catalog = this.get('catalog');
 
-        return Ember.get(catalog, key);
+        return get(catalog, key);
     }
 });
 ```
@@ -258,20 +262,22 @@ A simple example:
 ```javascript
 import MessageResolver from 'ember-attribute-validations/message-resolver';
 
+const { computed, observer, get } = Ember;
+
 export default MessageResolver.extend({
-    locale: Ember.computed(function() {
+    locale: computed(function() {
         return 'en_GB';
     }),
-    catalog: Ember.computed('locale', function() {
+    catalog: computed('locale', function() {
         return this.container.lookup('locale:' + this.get('locale'));
     }),
-    localeDidChange: Ember.observer('locale', function() {
+    localeDidChange: observer('locale', function() {
         this.clearCache();
     }),
     resolveMessage: function(key) {
         var catalog = this.get('catalog');
 
-        return Ember.get(catalog, key);
+        return get(catalog, key);
     }
 });
 ```

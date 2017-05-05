@@ -3,6 +3,8 @@ import defaultMessages from 'ember-attribute-validations/messages';
 import { getValidationType } from 'ember-attribute-validations/utils';
 import { getLabel } from 'ember-field-components/classes/model-utils';
 
+const { Object, isPresent, assert, get } = Ember;
+
 function dictionary() {
 	var dict = Object.create(null);
 	dict['_dict'] = null;
@@ -23,7 +25,7 @@ function dictionary() {
  * @class  MessageResolver
  * @extends {Ember.Object}
  */
-export default Ember.Object.extend({
+export default Object.extend({
 	init: function() {
 		this._cache = dictionary(null);
 	},
@@ -60,13 +62,13 @@ export default Ember.Object.extend({
 		let message;
 
 		lookupKeys.forEach((key) => {
-			if (Ember.isPresent(message)) {
+			if (isPresent(message)) {
 				return;
 			}
 
 			const name = parsedName[key];
 
-			Ember.assert(key + ' must be a string, you passed `' + typeof name + '`', typeof name === 'string');
+			assert(key + ' must be a string, you passed `' + typeof name + '`', typeof name === 'string');
 
 			message = this._cache[name];
 
@@ -75,8 +77,8 @@ export default Ember.Object.extend({
 			}
 		});
 
-		Ember.assert('Could not resolve message for `' + parsedName.validatorType +
-			'` Validator and  `' + parsedName.attributeType + '` ', Ember.isPresent(message));
+		assert('Could not resolve message for `' + parsedName.validatorType +
+			'` Validator and  `' + parsedName.attributeType + '` ', isPresent(message));
 
 		return message;
 	},
@@ -92,7 +94,7 @@ export default Ember.Object.extend({
 	 * @return {String}
 	 */
 	resolveMessage: function(key) {
-		return Ember.get(defaultMessages, key);
+		return get(defaultMessages, key);
 	},
 
 	/**

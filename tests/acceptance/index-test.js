@@ -2,6 +2,8 @@ import Ember from 'ember';
 import { module, test } from 'qunit';
 import startApp from '../helpers/start-app';
 
+const { run } = Ember;
+
 var application;
 
 module('Acceptance | index', {
@@ -10,7 +12,7 @@ module('Acceptance | index', {
   },
 
   afterEach: function() {
-    Ember.run(application, 'destroy');
+    run(application, 'destroy');
   }
 });
 

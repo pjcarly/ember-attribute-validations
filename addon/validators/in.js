@@ -1,8 +1,8 @@
 import Ember from 'ember';
 import Validator from 'ember-attribute-validations/validator';
-import {
-	hasValue
-} from '../utils';
+import { hasValue } from '../utils';
+
+const { assert, isPresent, isArray } = Ember;
 
 /**
  * Validator that is used to validate if the
@@ -24,8 +24,7 @@ export default Validator.extend({
 	validate: function(name, value) {
 		const values = this.get('values');
 
-		Ember.assert('You must define an array of Enum values in order to validate.',
-			Ember.isPresent(values) && Ember.isArray(values));
+		assert('You must define an array of Enum values in order to validate.', isPresent(values) && isArray(values));
 
 		if(hasValue(value) && values.indexOf(value) < 0) {
 			return this.format(values.join(', '));

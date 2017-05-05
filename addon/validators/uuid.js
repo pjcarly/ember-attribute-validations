@@ -1,6 +1,8 @@
 import Ember from 'ember';
 import PatternValidator from 'ember-attribute-validations/pattern-validator';
 
+const { computed, get, assert } = Ember;
+
 const uuid = {
 	'3': /^[0-9A-F]{8}-[0-9A-F]{4}-3[0-9A-F]{3}-[0-9A-F]{4}-[0-9A-F]{12}$/i,
 	'4': /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i,
@@ -23,11 +25,11 @@ export default PatternValidator.extend({
 	 */
 	version: 'all',
 
-	pattern: Ember.computed('version', function() {
-		const version = Ember.get(this, 'version');
+	pattern: computed('version', function() {
+		const version = get(this, 'version');
 		const pattern = uuid[version];
 
-		Ember.assert('Invalid UUID version `' + version + '`.', !!pattern);
+		assert('Invalid UUID version `' + version + '`.', !!pattern);
 
 		return pattern;
 	})

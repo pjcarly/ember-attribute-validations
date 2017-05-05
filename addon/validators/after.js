@@ -1,10 +1,8 @@
 import Ember from 'ember';
 import Validator from 'ember-attribute-validations/validator';
-import {
-	hasValue,
-	toDate
-}
-from '../utils';
+import { hasValue, toDate } from '../utils';
+
+const { typeOf, run, assert, isPresent } = Ember;
 
 /**
  * Validator that checks if the Attribute value
@@ -49,11 +47,11 @@ export default Validator.extend({
 	_resolveAfterDate: function(model) {
 		let after = this.get('after');
 
-		if(Ember.typeOf(after) === 'function') {
-			after = Ember.run(model, after);
+		if(typeOf(after) === 'function') {
+			after = run(model, after);
 		}
 
-		Ember.assert('You must define a `after` Date for DateAfterValidator', Ember.isPresent(after));
+		assert('You must define a `after` Date for DateAfterValidator', isPresent(after));
 
 		return toDate(after);
 	},

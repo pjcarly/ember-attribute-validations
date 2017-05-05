@@ -2,13 +2,17 @@ import Ember from 'ember';
 import ValidationError from '../error';
 import defaultMessages from '../messages';
 
+const { getOwner, isEmpty, isArray, get, assert, canInvoke, merge, String, Mixin, RSVP, run} = Ember;
+const { camelize } = String;
+const { reject } = RSVP;
+
 function createValidationError(model) {
-	const messageResolver = lookupMessageResolver(Ember.getOwner(model));
+	const messageResolver = lookupMessageResolver(getOwner(model));
 	const errors = model.get('errors');
 	let message = messageResolver.resolveMessage('error');
 
-	if(Ember.isEmpty(message)) {
-		message = Ember.get(defaultMessages, 'error');
+	if(isEmpty(message)) {
+		message = get(defaultMessages, 'error');
 	}
 
 	return new ValidationError(message, errors);
@@ -22,7 +26,7 @@ function lookupMessageResolver(container) {
 function lookupValidtorFactory(container, key) {
 	let lookupFactory;
 
-	if(Ember.canInvoke(container, '_lookupFactory')) {
+	if(canInvoke(container, '_lookupFactory')) {
 		lookupFactory = container._lookupFactory;
 	} else {
 		lookupFactory = container.lookupFactory;
@@ -36,7 +40,7 @@ function lookupValidator(container, obj) {
 	const typeKey = obj.type;
 	const validatorClass =lookupValidtorFactory(container, typeKey);
 
-	Ember.assert('Could not find Validator `' + typeKey + '`.', typeof validatorClass === 'function');
+	assert('Could not find Validator `' + typeKey + '`.', typeof validatorClass === 'function');
 
 	const messageResolver = lookupMessageResolver(container);
 	let value = obj.value;
@@ -47,12 +51,12 @@ function lookupValidator(container, obj) {
 		value[obj.type] = obj.value;
 	}
 
-	Ember.merge(value, {
+	merge(value, {
 		attribute: obj.attribute,
 		messageResolver: messageResolver
 	});
 
-	validatorClass.typeKey = Ember.String.camelize(typeKey);
+	validatorClass.typeKey = camelize(typeKey);
 
 	return validatorClass.create(value);
 }
@@ -64,7 +68,7 @@ function lookupValidator(container, obj) {
  *
  * @class ValidatorMixin
  */
-export default Ember.Mixin.create({
+export default Mixin.create({
 
 	/**
 	 * Resolves the List of Validators for a given attribute.
@@ -75,13 +79,13 @@ export default Ember.Mixin.create({
 	 */
 	validatorsFor(attribute) {
 		const meta = attribute.options;
-		let validations = Ember.get(meta, 'validation');
+		let validations = get(meta, 'validation');
 
-		if (Ember.isEmpty(validations)) {
+		if (isEmpty(validations)) {
 			return [];
 		}
 
-		if (!Ember.isArray(validations)) {
+		if (!isArray(validations)) {
 			validations = [validations];
 		}
 
@@ -100,7 +104,7 @@ export default Ember.Mixin.create({
 		});
 
 		return validators.map((validator) => {
-			return lookupValidator(Ember.getOwner(this), validator);
+			return lookupValidator(getOwner(this), validator);
 		});
 	},
 
@@ -131,7 +135,7 @@ export default Ember.Mixin.create({
 			const result = validator.validate(name, this.get(name), attribute, this);
 
 			if (typeof result === 'string') {
-				if(Ember.canInvoke(errors, '_add')) {
+				if(canInvoke(errors, '_add')) {
 					errors._add(name, result);
 				} else {
 					errors.add(name, result);
@@ -152,7 +156,7 @@ export default Ember.Mixin.create({
       const result = validator.validate(name, this.get(name), relationship, this);
 
       if (typeof result === 'string') {
-        if(Ember.canInvoke(errors, '_add')) {
+        if(canInvoke(errors, '_add')) {
           errors._add(name, result);
         } else {
           errors.add(name, result);
@@ -188,14 +192,14 @@ export default Ember.Mixin.create({
 		}
 
 		this.eachAttribute((key, attribute) => {
-			Ember.run(this, '_validateAttribute', attribute);
+			run(this, '_validateAttribute', attribute);
 		});
 
     this.eachRelationship((key, relationship) => {
-      Ember.run(this, '_validateRelationship', relationship);
+      run(this, '_validateRelationship', relationship);
     });
 
-		const isValid = Ember.get(errors, 'isEmpty');
+		const isValid = get(errors, 'isEmpty');
 
 		// Move the model into an 'invalid' state if the errors
 		// are not empty
@@ -215,6 +219,6 @@ export default Ember.Mixin.create({
 			return this._super();
 		}
 
-		return Ember.RSVP.reject(createValidationError(this));
+		return reject(createValidationError(this));
 	}
 });

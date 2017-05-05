@@ -2,6 +2,9 @@ import Ember from 'ember';
 import Validator from 'ember-attribute-validations/validator';
 import { getValidationType } from 'ember-attribute-validations/utils';
 
+const { assert, isPresent, canInvoke, run, String } = Ember;
+const { classify } = String;
+
 /**
  * Validator that could be used to validate Strings and Numbers.
  *
@@ -37,14 +40,14 @@ export default Validator.extend({
 		const fromValue = this.get('from');
 		const toValue = this.get('to');
 
-		Ember.assert('You must define a `from` for RangeValidator', Ember.isPresent(fromValue));
-		Ember.assert('You must define a `to` for RangeValidator', Ember.isPresent(toValue));
+		assert('You must define a `from` for RangeValidator', isPresent(fromValue));
+		assert('You must define a `to` for RangeValidator', isPresent(toValue));
 
-		const validatorName = 'validate' + Ember.String.classify(type);
+		const validatorName = 'validate' + String.classify(type);
 		let invalid = true;
 
-		if(Ember.canInvoke(this, validatorName)) {
-			invalid = Ember.run(this, validatorName, value, fromValue, toValue);
+		if(canInvoke(this, validatorName)) {
+			invalid = run(this, validatorName, value, fromValue, toValue);
 		}
 
 		if(invalid) {
