@@ -3,10 +3,10 @@ import defaultMessages from 'ember-attribute-validations/messages';
 import { getValidationType } from 'ember-attribute-validations/utils';
 import { getLabel } from 'ember-field-components/classes/model-utils';
 
-const { Object, isPresent, assert, get } = Ember;
+const { isPresent, assert, get } = Ember;
 
 function dictionary() {
-	var dict = Object.create(null);
+	var dict = Ember.Object.create(null);
 	dict['_dict'] = null;
 	delete dict['_dict'];
 	return dict;
@@ -25,7 +25,7 @@ function dictionary() {
  * @class  MessageResolver
  * @extends {Ember.Object}
  */
-export default Object.extend({
+export default Ember.Object.extend({
 	init: function() {
 		this._cache = dictionary(null);
 	},
