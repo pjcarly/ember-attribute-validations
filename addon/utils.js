@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import DS from 'ember-data';
 
 const { isPresent, isEmpty } = Ember;
 
@@ -37,7 +38,11 @@ export function hasValue(value) {
  * @return {Boolean}
  */
 export function hasBelongsToValue(value) {
-  return isPresent(value) && value.hasOwnProperty('content') && !isEmpty(value.content);
+  if(value instanceof DS.Model) { // an async:false relationship
+    return isPresent(value) && isPresent(value.get('id'));
+  } else if(value instanceof DS.PromiseObject) { // an async: true relationship
+    return isPresent(value) && value.hasOwnProperty('content') && !isEmpty(value.content);
+  }
 }
 
 /**

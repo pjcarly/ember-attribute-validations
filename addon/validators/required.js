@@ -1,8 +1,5 @@
 import Validator from 'ember-attribute-validations/validator';
-import {
-  hasValue, hasBelongsToValue
-}
-from 'ember-attribute-validations/utils';
+import { hasValue, hasBelongsToValue } from 'ember-attribute-validations/utils';
 /**
  * Validator that checks if the value is set.
  *
