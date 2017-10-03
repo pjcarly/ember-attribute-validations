@@ -13,7 +13,7 @@ function createValidationError(model) {
 
 	if(isEmpty(message)) {
 		message = get(defaultMessages, 'error');
-	}
+  }
 
 	return new ValidationError(message, errors);
 }
@@ -38,7 +38,7 @@ function lookupValidtorFactory(container, key) {
 
 function lookupValidator(container, obj) {
 	const typeKey = obj.type;
-	const validatorClass =lookupValidtorFactory(container, typeKey);
+	const validatorClass = lookupValidtorFactory(container, typeKey);
 
 	assert('Could not find Validator `' + typeKey + '`.', typeof validatorClass === 'function');
 
