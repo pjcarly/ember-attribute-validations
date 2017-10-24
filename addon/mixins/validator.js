@@ -2,7 +2,17 @@ import Ember from 'ember';
 import ValidationError from '../error';
 import defaultMessages from '../messages';
 
-const { getOwner, isEmpty, isArray, get, assert, canInvoke, merge, String, Mixin, RSVP, run} = Ember;
+const { getOwner } = Ember;
+const { isEmpty } = Ember;
+const { isArray } = Ember;
+const { get } = Ember;
+const { assert } = Ember;
+const { canInvoke } = Ember;
+const { merge } = Ember;
+const { String } = Ember;
+const { Mixin } = Ember;
+const { RSVP } = Ember;
+const { run } = Ember;
 const { camelize } = String;
 const { reject } = RSVP;
 
@@ -24,16 +34,7 @@ function lookupMessageResolver(container) {
 }
 
 function lookupValidtorFactory(container, key) {
-	let lookupFactory;
-
-	if(canInvoke(container, '_lookupFactory')) {
-		lookupFactory = container._lookupFactory;
-	} else {
-		lookupFactory = container.lookupFactory;
-	}
-
-	return lookupFactory.call(container, `validator:${key}`) ||
-		lookupFactory.call(container, `ember-attribute-validations@validator:${key}`);
+  return container.factoryFor(`validator:${key}`).class || container.factoryFor(`ember-attribute-validations@validator:${key}`).class;
 }
 
 function lookupValidator(container, obj) {
