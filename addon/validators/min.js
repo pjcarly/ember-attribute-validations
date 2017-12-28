@@ -14,50 +14,50 @@ const { classify } = String;
  * @extends {Validator}
  */
 export default Validator.extend({
-	/**
-	 * Min value for the validator.
-	 *
-	 * @property min
-	 * @type {Number}
-	 * @default null
-	 */
-	min: null,
+  /**
+   * Min value for the validator.
+   *
+   * @property min
+   * @type {Number}
+   * @default null
+   */
+  min: null,
 
-	validate: function(name, value, attribute) {
-		const type = getValidationType(attribute.type);
-		const minValue = this.get('min');
+  validate: function(name, value, attribute) {
+    const type = getValidationType(attribute.type);
+    const minValue = this.get('min');
 
-		assert('You must define a `min` for MinValidator', isPresent(minValue));
+    assert('You must define a `min` for MinValidator', isPresent(minValue));
 
-		const validatorName = 'validate' + classify(type);
-		let invalid = true;
+    const validatorName = 'validate' + classify(type);
+    let invalid = true;
 
-		if(canInvoke(this, validatorName)) {
-			invalid = run(this, validatorName, value, minValue);
-		}
+    if(canInvoke(this, validatorName)) {
+      invalid = run(this, validatorName, value, minValue);
+    }
 
-		if(invalid) {
-			return this.format(minValue);
-		}
-	},
+    if(invalid) {
+      return this.format(minValue);
+    }
+  },
 
-	validateString: function(value, min) {
-		if(typeof value !== 'string') {
-			return true;
-		}
+  validateString: function(value, min) {
+    if(typeof value !== 'string') {
+      return true;
+    }
 
-		var length = value && value.length || 0;
+    var length = value && value.length || 0;
 
-		return length < min;
-	},
+    return length < min;
+  },
 
-	validateNumber: function(value, min) {
-		value = parseInt(value, 10);
+  validateNumber: function(value, min) {
+    value = parseInt(value, 10);
 
-		if(isNaN(value)) {
-			return true;
-		}
+    if(isNaN(value)) {
+      return true;
+    }
 
-		return value < min;
-	}
+    return value < min;
+  }
 });

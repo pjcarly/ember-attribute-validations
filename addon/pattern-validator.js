@@ -16,23 +16,23 @@ const { assert } = Ember;
  */
 export default Validator.extend({
 
-	/**
-	 * RegExp like pattern that would be used to test
-	 * the Attribute value.
-	 *
-	 * @property pattern
-	 * @type {RegExp}
-	 * @default null
-	 */
-	pattern: null,
+  /**
+   * RegExp like pattern that would be used to test
+   * the Attribute value.
+   *
+   * @property pattern
+   * @type {RegExp}
+   * @default null
+   */
+  pattern: null,
 
-	validate: function(name, value /*, attribute, model*/) {
-		const pattern = this.get('pattern');
+  validate: function(name, value /*, attribute, model*/) {
+    const pattern = this.get('pattern');
 
-		assert('You must define a RegExp pattern in order to validate.', pattern instanceof RegExp);
+    assert('You must define a RegExp pattern in order to validate.', pattern instanceof RegExp);
 
-		if (hasValue(value) && !value.toString().match(pattern)) {
-			return this.format();
-		}
-	},
+    if (hasValue(value) && !value.toString().match(pattern)) {
+      return this.format();
+    }
+  },
 });

@@ -9,23 +9,23 @@
  * @param {DS.Errors} errors
  */
 function ValidationError(message, errors) {
-	Error.call(this, message);
+  Error.call(this, message);
 
-	if (Error.captureStackTrace) {
-		Error.captureStackTrace(this, ValidationError);
-	}
+  if (Error.captureStackTrace) {
+    Error.captureStackTrace(this, ValidationError);
+  }
 
-	this.message = message;
-	this.errors = errors;
+  this.message = message;
+  this.errors = errors;
 }
 
 ValidationError.prototype = Object.create(Error.prototype, {
-	constructor: {
-		value: ValidationError
-	},
-	name: {
-		value: 'ValidationError'
-	}
+  constructor: {
+    value: ValidationError
+  },
+  name: {
+    value: 'ValidationError'
+  }
 });
 
 export default ValidationError;

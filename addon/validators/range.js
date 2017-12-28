@@ -15,63 +15,63 @@ const { classify } = String;
  * @extends {Validator}
  */
 export default Validator.extend({
-	/**
-	 * Number representing the starting point
-	 * of the range validation.
-	 *
-	 * @property from
-	 * @type {Number}
-	 * @default null
-	 */
-	from: null,
+  /**
+   * Number representing the starting point
+   * of the range validation.
+   *
+   * @property from
+   * @type {Number}
+   * @default null
+   */
+  from: null,
 
-	/**
-	 * Number representing the ending point
-	 * of the range validation.
-	 *
-	 * @property to
-	 * @type {Number}
-	 * @default null
-	 */
-	to: null,
+  /**
+   * Number representing the ending point
+   * of the range validation.
+   *
+   * @property to
+   * @type {Number}
+   * @default null
+   */
+  to: null,
 
-	validate: function(name, value, attribute) {
-		const type = getValidationType(attribute.type);
-		const fromValue = this.get('from');
-		const toValue = this.get('to');
+  validate: function(name, value, attribute) {
+    const type = getValidationType(attribute.type);
+    const fromValue = this.get('from');
+    const toValue = this.get('to');
 
-		assert('You must define a `from` for RangeValidator', isPresent(fromValue));
-		assert('You must define a `to` for RangeValidator', isPresent(toValue));
+    assert('You must define a `from` for RangeValidator', isPresent(fromValue));
+    assert('You must define a `to` for RangeValidator', isPresent(toValue));
 
-		const validatorName = 'validate' + String.classify(type);
-		let invalid = true;
+    const validatorName = 'validate' + String.classify(type);
+    let invalid = true;
 
-		if(canInvoke(this, validatorName)) {
-			invalid = run(this, validatorName, value, fromValue, toValue);
-		}
+    if(canInvoke(this, validatorName)) {
+      invalid = run(this, validatorName, value, fromValue, toValue);
+    }
 
-		if(invalid) {
-			return this.format(fromValue, toValue);
-		}
-	},
+    if(invalid) {
+      return this.format(fromValue, toValue);
+    }
+  },
 
-	validateString: function(value, fromValue, toValue) {
-		if(typeof value !== 'string') {
-			return true;
-		}
+  validateString: function(value, fromValue, toValue) {
+    if(typeof value !== 'string') {
+      return true;
+    }
 
-		const length = value && value.length || 0;
+    const length = value && value.length || 0;
 
-		return length < fromValue || length > toValue;
-	},
+    return length < fromValue || length > toValue;
+  },
 
-	validateNumber: function(value, fromValue, toValue) {
-		value = parseInt(value, 10);
+  validateNumber: function(value, fromValue, toValue) {
+    value = parseInt(value, 10);
 
-		if(isNaN(value)) {
-			return true;
-		}
+    if(isNaN(value)) {
+      return true;
+    }
 
-		return value < fromValue || value > toValue;
-	}
+    return value < fromValue || value > toValue;
+  }
 });

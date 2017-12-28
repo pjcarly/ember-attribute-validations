@@ -3,9 +3,9 @@
 {{log model.errors}}
 
 {{#each error in model.errors.name}}
-	<p>{{error.message}}</p>
+  <p>{{error.message}}</p>
 {{/each}}
 
 <a href='#' {{action 'save'}}>
-	Save
+  Save
 </a>

@@ -15,54 +15,54 @@ const { classify } = String;
  */
 export default Validator.extend({
 
-	/**
-	 * Max value for the validator.
-	 *
-	 * @property max
-	 * @type {Number}
-	 * @default null
-	 */
-	max: null,
+  /**
+   * Max value for the validator.
+   *
+   * @property max
+   * @type {Number}
+   * @default null
+   */
+  max: null,
 
-	validate: function(name, value, attribute) {
-		const type = getValidationType(attribute.type);
-		const maxValue = this.get('max');
+  validate: function(name, value, attribute) {
+    const type = getValidationType(attribute.type);
+    const maxValue = this.get('max');
 
-		assert('You must define a `max` for MaxValidator', isPresent(maxValue));
+    assert('You must define a `max` for MaxValidator', isPresent(maxValue));
 
-		if(!hasValue(value)) {
-			return;
-		}
+    if(!hasValue(value)) {
+      return;
+    }
 
-		const validatorName = 'validate' + classify(type);
-		let invalid = true;
+    const validatorName = 'validate' + classify(type);
+    let invalid = true;
 
-		if(canInvoke(this, validatorName)) {
-			invalid = run(this, validatorName, value, maxValue);
-		}
+    if(canInvoke(this, validatorName)) {
+      invalid = run(this, validatorName, value, maxValue);
+    }
 
-		if(invalid) {
-			return this.format(maxValue);
-		}
-	},
+    if(invalid) {
+      return this.format(maxValue);
+    }
+  },
 
-	validateString: function(value, max) {
-		if(typeof value !== 'string') {
-			return true;
-		}
+  validateString: function(value, max) {
+    if(typeof value !== 'string') {
+      return true;
+    }
 
-		const length = value && value.length || 0;
+    const length = value && value.length || 0;
 
-		return length > max;
-	},
+    return length > max;
+  },
 
-	validateNumber: function(value, max) {
-		value = parseInt(value, 10);
+  validateNumber: function(value, max) {
+    value = parseInt(value, 10);
 
-		if(isNaN(value)) {
-			return true;
-		}
+    if(isNaN(value)) {
+      return true;
+    }
 
-		return value > max;
-	}
+    return value > max;
+  }
 });

@@ -13,59 +13,59 @@ const { typeOf, run, assert, isPresent } = Ember;
  */
 export default Validator.extend({
 
-	/**
-	 * Before Date to be compared
-	 *
-	 * @property before
-	 * @type {Date|Function}
-	 * @default null
-	 */
-	before: null,
+  /**
+   * Before Date to be compared
+   *
+   * @property before
+   * @type {Date|Function}
+   * @default null
+   */
+  before: null,
 
-	validate: function(name, value, attribute, model) {
-		if(hasValue(value)) {
-			const date = toDate(value);
-			const before = this._resolveBeforeDate(model);
+  validate: function(name, value, attribute, model) {
+    if(hasValue(value)) {
+      const date = toDate(value);
+      const before = this._resolveBeforeDate(model);
 
-			if(this._compareDates(date, before)) {
-				return this.format(date, before);
-			}
-		}
-	},
+      if(this._compareDates(date, before)) {
+        return this.format(date, before);
+      }
+    }
+  },
 
-	/**
-	 * Resolves the `before` property to a Valid Date.
-	 *
-	 * If the property is a function, it would be invoked
-	 * with a Model instance context.
-	 *
-	 * @method _resolveBeforeDate
-	 * @private
-	 * @param  {DS.Model} model
-	 * @return {Date}
-	 */
-	_resolveBeforeDate: function(model) {
-		let before = this.get('before');
+  /**
+   * Resolves the `before` property to a Valid Date.
+   *
+   * If the property is a function, it would be invoked
+   * with a Model instance context.
+   *
+   * @method _resolveBeforeDate
+   * @private
+   * @param  {DS.Model} model
+   * @return {Date}
+   */
+  _resolveBeforeDate: function(model) {
+    let before = this.get('before');
 
-		if(typeOf(before) === 'function') {
-			before = run(model, before);
-		}
+    if(typeOf(before) === 'function') {
+      before = run(model, before);
+    }
 
-		assert('You must define a `before` Date for DateBeforeValidator', isPresent(before));
+    assert('You must define a `before` Date for DateBeforeValidator', isPresent(before));
 
-		return toDate(before);
-	},
+    return toDate(before);
+  },
 
-	/**
-	 * Compares the two given Dates.
-	 *
-	 * @method _compareDates
-	 * @private
-	 * @param  {Date} date
-	 * @param  {Date} before
-	 * @return {Boolean}
-	 */
-	_compareDates: function(date, before) {
-		return !!(date && before && date > before);
-	}
+  /**
+   * Compares the two given Dates.
+   *
+   * @method _compareDates
+   * @private
+   * @param  {Date} date
+   * @param  {Date} before
+   * @return {Boolean}
+   */
+  _compareDates: function(date, before) {
+    return !!(date && before && date > before);
+  }
 });

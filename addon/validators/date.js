@@ -1,7 +1,7 @@
 import Validator from 'ember-attribute-validations/validator';
 import {
-	hasValue,
-	toDate
+  hasValue,
+  toDate
 } from '../utils';
 
 /**
@@ -11,13 +11,13 @@ import {
  * @extends {Validator}
  */
 export default Validator.extend({
-	validate: function(name, value) {
-		if(hasValue(value)) {
-			const date = toDate(value);
+  validate: function(name, value) {
+    if(hasValue(value)) {
+      const date = toDate(value);
 
-			if(isNaN(date) || date === null) {
-				return this.format(value);
-			}
-		}
-	}
+      if(isNaN(date) || date === null) {
+        return this.format(value);
+      }
+    }
+  }
 });

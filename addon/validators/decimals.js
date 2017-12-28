@@ -13,9 +13,9 @@ const { isBlank } = Ember;
  */
 
 export default Validator.extend({
-	validate: function(name, value, attributes) {
-		if (!isBlank(value) && !isNaN(value) && (decimalPlaces(value) > attributes.options.validation.decimals)) {
-			return this.format(attributes.options.validation.decimals);
-		}
-	}
+  validate: function(name, value, attributes) {
+    if (!isBlank(value) && !isNaN(value) && (decimalPlaces(value) > attributes.options.validation.decimals)) {
+      return this.format(attributes.options.validation.decimals);
+    }
+  }
 });

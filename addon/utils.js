@@ -98,15 +98,15 @@ export function amountOfDigits(num) {
  * @return {Date}
  */
 export function toDate(value) {
-	if (Object.prototype.toString.call(value) === '[object Date]') {
-		return value;
-	}
+  if (Object.prototype.toString.call(value) === '[object Date]') {
+    return value;
+  }
 
-	if (typeof value === 'number') {
-		value = new Date(value);
-	} else {
-		value = Date.parse(value);
-	}
+  if (typeof value === 'number') {
+    value = new Date(value);
+  } else {
+    value = Date.parse(value);
+  }
 
-	return !isNaN(value) ? new Date(value) : null;
+  return !isNaN(value) ? new Date(value) : null;
 }

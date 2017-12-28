@@ -12,10 +12,10 @@ const { isBlank } = Ember;
  */
 
 export default Validator.extend({
-	validate: function(name, value) {
+  validate: function(name, value) {
 
-		if (!isBlank(value) && isNaN(value)) {
-			return this.format();
-		}
-	}
+    if (!isBlank(value) && isNaN(value)) {
+      return this.format();
+    }
+  }
 });
