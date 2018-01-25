@@ -66,6 +66,16 @@ export function isNumeric(value) {
 }
 
 /**
+ * Determines if the value is Integer.
+ *
+ * @param  {*}  obj
+ * @return {Boolean}
+ */
+export function isInt(value){
+  return !isNaN(value) && (function(x) { return (x | 0) === x; })(parseFloat(value))
+}
+
+/**
  * Returns the amount of digits after the decimal
  *
  * @param  numeric value
