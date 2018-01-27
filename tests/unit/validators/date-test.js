@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import Validator from 'ember-cli-data-validation/validators/date';
+import Validator from 'ember-attribute-validation/validators/date';
 
 var attribute = {
   options: {},
