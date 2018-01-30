@@ -185,6 +185,7 @@ export default Mixin.create({
     }
 
     const errors = this.get('errors');
+    errors._clear();
 
     // Clear the errors from the model and set the model
     // into an `uncommitted` state if the model is invalid
