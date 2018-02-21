@@ -198,6 +198,7 @@ export default Mixin.create({
     });
 
     this.eachRelationship((key, relationship) => {
+      relationship.name = key; // Bugfix Ember-data
       run(this, '_validateRelationship', relationship);
     });
 
