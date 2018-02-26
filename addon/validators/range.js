@@ -43,7 +43,7 @@ export default Validator.extend({
     assert('You must define a `from` for RangeValidator', isPresent(fromValue));
     assert('You must define a `to` for RangeValidator', isPresent(toValue));
 
-    const validatorName = 'validate' + String.classify(type);
+    const validatorName = 'validate' + classify(type);
     let invalid = true;
 
     if(canInvoke(this, validatorName)) {
