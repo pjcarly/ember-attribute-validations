@@ -76,6 +76,26 @@ export function isInt(value){
 }
 
 /**
+ * Determines if the value is an Object.
+ *
+ * @param  {*}  obj
+ * @return {Boolean}
+ */
+export function isObject(value){
+  return (typeof value === "object") && (value !== null);
+}
+
+/**
+ * Determines if the value is an Array.
+ *
+ * @param  {*}  obj
+ * @return {Boolean}
+ */
+export function isArray(value){
+  return Array.isArray(value);
+}
+
+/**
  * Returns the amount of digits after the decimal
  *
  * @param  numeric value
