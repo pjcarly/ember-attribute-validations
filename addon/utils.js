@@ -65,6 +65,17 @@ export function isNumeric(value) {
   return !isNaN(parseFloat(value)) && isFinite(value);
 }
 
+
+/**
+ * Determines if the value is Numeric.
+ *
+ * @param  {*}  obj
+ * @return {Boolean}
+ */
+export function isString(value) {
+  return (typeof value === 'string' || value instanceof String);
+}
+
 /**
  * Determines if the value is Integer.
  *
