@@ -6,7 +6,7 @@ import { getLabel } from 'ember-field-components/classes/model-utils';
 const { isPresent, assert, get } = Ember;
 
 function dictionary() {
-  var dict = Ember.Object.create(null);
+  var dict = Ember.Object.create();
   dict['_dict'] = null;
   delete dict['_dict'];
   return dict;
