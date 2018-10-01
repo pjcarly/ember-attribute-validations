@@ -1,7 +1,5 @@
-import Ember from 'ember';
 import Validator from 'ember-attribute-validations/validator';
-
-const { isBlank } = Ember;
+import { isBlank } from '@ember/utils';
 
 /**
  * Validator that checks if the Attribute value

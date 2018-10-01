@@ -1,4 +1,3 @@
-import Ember from 'ember';
 import Validator from 'ember-attribute-validation/validators/after';
 
 var attribute = {

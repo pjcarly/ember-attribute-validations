@@ -1,9 +1,10 @@
-import Ember from 'ember';
 import Validator from 'ember-attribute-validations/validator';
 import { getValidationType } from 'ember-attribute-validations/utils';
-
-const { assert, isPresent, canInvoke, run, String } = Ember;
-const { classify } = String;
+import { assert } from '@ember/debug';
+import { isPresent } from '@ember/utils';
+import { canInvoke } from '@ember/utils';
+import { run } from '@ember/runloop';
+import { classify } from '@ember/string';
 
 /**
  * Validator that could be used to validate minimum length,

@@ -1,12 +1,13 @@
-import Ember from 'ember';
+import EmberObject from '@ember/object';
 import defaultMessages from 'ember-attribute-validations/messages';
 import { getValidationType } from 'ember-attribute-validations/utils';
 import { getLabel } from 'ember-field-components/classes/model-utils';
-
-const { isPresent, assert, get } = Ember;
+import { isPresent } from '@ember/utils';
+import { assert } from '@ember/debug';
+import { get } from '@ember/object';
 
 function dictionary() {
-  var dict = Ember.Object.create();
+  var dict = EmberObject.create();
   dict['_dict'] = null;
   delete dict['_dict'];
   return dict;
@@ -23,9 +24,9 @@ function dictionary() {
  * need to redefine this class.
  *
  * @class  MessageResolver
- * @extends {Ember.Object}
+ * @extends {EmberObject}
  */
-export default Ember.Object.extend({
+export default EmberObject.extend({
   init: function() {
     this._cache = dictionary(null);
   },

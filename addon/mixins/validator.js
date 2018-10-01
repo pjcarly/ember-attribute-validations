@@ -1,20 +1,16 @@
-import Ember from 'ember';
+import Mixin from '@ember/object/mixin';
 import ValidationError from '../error';
 import defaultMessages from '../messages';
-
-const { getOwner } = Ember;
-const { isEmpty } = Ember;
-const { isArray } = Ember;
-const { get } = Ember;
-const { assert } = Ember;
-const { canInvoke } = Ember;
-const { merge } = Ember;
-const { String } = Ember;
-const { Mixin } = Ember;
-const { RSVP } = Ember;
-const { run } = Ember;
-const { camelize } = String;
-const { reject } = RSVP;
+import { getOwner } from '@ember/application';
+import { isEmpty } from '@ember/utils';
+import { isArray } from '@ember/array';
+import { get } from '@ember/object';
+import { assert } from '@ember/debug';
+import { canInvoke } from '@ember/utils';
+import { merge } from '@ember/polyfills';
+import { run } from '@ember/runloop';
+import { camelize } from '@ember/string';
+import { reject } from 'rsvp';
 
 function createValidationError(model) {
   const messageResolver = lookupMessageResolver(getOwner(model));

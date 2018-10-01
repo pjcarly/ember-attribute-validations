@@ -1,8 +1,8 @@
-import Ember from 'ember';
 import Validator from 'ember-attribute-validations/validator';
 import { hasValue } from '../utils';
-
-const { assert, isPresent, isArray } = Ember;
+import { assert } from '@ember/debug';
+import { isPresent } from '@ember/utils';
+import { isArray } from '@ember/array';
 
 /**
  * Validator that is used to validate if the

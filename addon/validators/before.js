@@ -1,8 +1,9 @@
-import Ember from 'ember';
 import Validator from 'ember-attribute-validations/validator';
 import { hasValue, toDate } from '../utils';
-
-const { typeOf, run, assert, isPresent } = Ember;
+import { typeOf } from '@ember/utils';
+import { run } from '@ember/runloop';
+import { assert } from '@ember/debug';
+import { isPresent } from '@ember/utils';
 
 /**
  * Validator that checks if the Attribute value

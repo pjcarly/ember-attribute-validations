@@ -1,8 +1,6 @@
-import Ember from 'ember';
 import Validator from 'ember-attribute-validations/validator';
 import { hasValue } from 'ember-attribute-validations/utils';
-
-const { assert } = Ember;
+import { assert } from '@ember/debug';
 
 /**
  * Validator that uses a RegExp pattern to test

@@ -1,7 +1,7 @@
-import Ember from 'ember';
 import PatternValidator from 'ember-attribute-validations/pattern-validator';
-
-const { computed, get, assert } = Ember;
+import { computed } from '@ember/object';
+import { get } from '@ember/object';
+import { assert } from '@ember/debug';
 
 const uuid = {
   '3': /^[0-9A-F]{8}-[0-9A-F]{4}-3[0-9A-F]{3}-[0-9A-F]{4}-[0-9A-F]{12}$/i,
@@ -11,7 +11,6 @@ const uuid = {
 };
 
 export default PatternValidator.extend({
-
   /**
    * Version of the UUID format.
    *

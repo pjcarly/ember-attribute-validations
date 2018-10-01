@@ -1,8 +1,6 @@
-import Ember from 'ember';
 import { module, test } from 'qunit';
 import startApp from '../helpers/start-app';
-
-const { run } = Ember;
+import { run } from '@ember/runloop';
 
 var application;
 

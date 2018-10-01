@@ -1,8 +1,6 @@
 import Validator from 'ember-attribute-validations/validator';
-import Ember from 'ember';
 import { decimalPlaces } from 'ember-attribute-validations/utils';
-
-const { isBlank } = Ember;
+import { isBlank } from '@ember/utils';
 
 /**
  * Validator that checks if the Attribute value

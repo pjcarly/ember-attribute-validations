@@ -1,7 +1,7 @@
-import Ember from 'ember';
 import DS from 'ember-data';
 
-const { isPresent, isEmpty } = Ember;
+import { isPresent } from '@ember/utils';
+import { isEmpty } from '@ember/utils';
 
 /**
  * Determines which type to use to validate attributes with

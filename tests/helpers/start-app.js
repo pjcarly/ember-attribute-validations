@@ -1,9 +1,7 @@
-import Ember from 'ember';
 import Application from '../../app';
-import Router from '../../router';
 import config from '../../config/environment';
-
-const { merge, run } = Ember;
+import { merge } from '@ember/polyfills';
+import { run } from '@ember/runloop';
 
 export default function startApp(attrs) {
   var application;

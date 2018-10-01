@@ -1,8 +1,7 @@
-import Ember from 'ember';
+import Application from '@ember/application';
 import { initialize } from '../../../initializers/ember-attribute-validations';
 import { module, test } from 'qunit';
-
-const { run, Application } = Ember;
+import { run } from '@ember/runloop';
 
 var container, application;
 

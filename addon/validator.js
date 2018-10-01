@@ -1,10 +1,15 @@
-import Ember from 'ember';
+import EmberObject from '@ember/object';
+import EmberError from '@ember/error';
+import { assert } from '@ember/debug';
+import { isPresent } from '@ember/utils';
+import { isArray } from '@ember/array';
+import { inspect } from '@ember/debug';
+import { computed } from '@ember/object';
 
-// Implement Ember.String.fmt function, to avoid depreciation warnings
 function format(str, formats) {
   let cachedFormats = formats;
 
-  if (!Ember.isArray(cachedFormats) || arguments.length > 2) {
+  if (!isArray(cachedFormats) || arguments.length > 2) {
     cachedFormats = new Array(arguments.length - 1);
 
     for (let i = 1, l = arguments.length; i < l; i++) {
@@ -16,7 +21,7 @@ function format(str, formats) {
   return str.replace(/%@([0-9]+)?/g, function(s, argIndex) {
     argIndex = (argIndex) ? parseInt(argIndex, 10) - 1 : idx++;
     s = cachedFormats[argIndex];
-    return (s === null) ? '(null)' : (s === undefined) ? '' : Ember.inspect(s);
+    return (s === null) ? '(null)' : (s === undefined) ? '' : inspect(s);
   });
 }
 
@@ -25,9 +30,9 @@ function format(str, formats) {
  * Validation.
  *
  * @class Validator
- * @extends {Ember.Object}
+ * @extends {EmberObject}
  */
-export default Ember.Object.extend({
+export default EmberObject.extend({
 
   /**
    * Validation message that is returned when an
@@ -39,7 +44,7 @@ export default Ember.Object.extend({
    * @property message
    * @type String
    */
-  message: Ember.computed('attribute', function() {
+  message: computed('attribute', function() {
     const attribute = this.get('attribute');
 
     return this.messageResolver.resolve(this, attribute);
@@ -55,7 +60,7 @@ export default Ember.Object.extend({
    * @property attributeLabel
    * @type {String}
    */
-  attributeLabel: Ember.computed('attribute', function() {
+  attributeLabel: computed('attribute', function() {
     const attribute = this.get('attribute');
 
     return this.messageResolver.resolveLabel(this, attribute);
@@ -79,14 +84,13 @@ export default Ember.Object.extend({
    * @return {String|Boolean}
    */
   validate: function( /*attribute, value, meta, model*/ ) {
-    throw new Ember.Error('You must implement `validate` method on your Validator.');
+    throw new EmberError('You must implement `validate` method on your Validator.');
   },
 
   /**
    * Formats the validation error message.
    *
    * All arguments passed to this function would be used by the
-   * `Ember.String.fmt` method to format the message.
    *
    * @method format
    * @return {String}
@@ -95,7 +99,7 @@ export default Ember.Object.extend({
     const message = this.get('message');
     const label = this.get('attributeLabel');
 
-    Ember.assert('Message must be defined for this Validator', Ember.isPresent(message));
+    assert('Message must be defined for this Validator', isPresent(message));
 
     const args = Array.prototype.slice.call(arguments);
 

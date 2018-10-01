@@ -1,10 +1,6 @@
-import Ember from 'ember';
 import MessageResolver from 'ember-attribute-validations/message-resolver';
 import defaultMessages from 'ember-attribute-validations/messages';
-import {
-  module, test
-}
-from 'qunit';
+import { module, test } from 'qunit';
 
 module('Unit | MessageResolver');
 
