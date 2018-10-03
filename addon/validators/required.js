@@ -7,13 +7,13 @@ import { hasValue, hasBelongsToValue } from 'ember-attribute-validations/utils';
  * @extends {Validator}
  */
 export default Validator.extend({
-  validate: function(name, value, attribute) {
+  validate(name, value, attribute) {
     if (attribute.isAttribute) {
       if (!hasValue(value)) {
         return this.format();
       }
-    } else if (attribute.isRelationship) {
-      if (attribute.kind === 'belongsTo') {
+    } else if (attribute.meta.isRelationship) {
+      if (attribute.meta.kind === 'belongsTo') {
         if (!hasBelongsToValue(value)) {
           return this.format();
         }

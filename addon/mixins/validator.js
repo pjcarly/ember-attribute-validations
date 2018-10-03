@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import Mixin from '@ember/object/mixin';
 import ValidationError from '../error';
 import defaultMessages from '../messages';
@@ -6,11 +7,12 @@ import { isEmpty } from '@ember/utils';
 import { isArray } from '@ember/array';
 import { get } from '@ember/object';
 import { assert } from '@ember/debug';
-import { canInvoke } from '@ember/utils';
 import { merge } from '@ember/polyfills';
 import { run } from '@ember/runloop';
 import { camelize } from '@ember/string';
 import { reject } from 'rsvp';
+
+const { canInvoke } = Ember;
 
 function createValidationError(model) {
   const messageResolver = lookupMessageResolver(getOwner(model));
@@ -194,7 +196,7 @@ export default Mixin.create({
     });
 
     this.eachRelationship((key, relationship) => {
-      relationship.name = key; // Bugfix Ember-data
+      //relationship.name = key; // Bugfix Ember-data
       run(this, '_validateRelationship', relationship);
     });
 

@@ -1,10 +1,12 @@
+import Ember from 'ember';
 import Validator from 'ember-attribute-validations/validator';
 import { getValidationType } from 'ember-attribute-validations/utils';
 import { assert } from '@ember/debug';
 import { isPresent } from '@ember/utils';
-import { canInvoke } from '@ember/utils';
 import { run } from '@ember/runloop';
 import { classify } from '@ember/string';
+
+const { canInvoke } = Ember;
 
 /**
  * Validator that could be used to validate Strings and Numbers.
