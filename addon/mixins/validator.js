@@ -1,7 +1,7 @@
-import Ember from 'ember';
 import Mixin from '@ember/object/mixin';
 import ValidationError from '../error';
 import defaultMessages from '../messages';
+import { canInvoke } from '../utils';
 import { getOwner } from '@ember/application';
 import { isEmpty } from '@ember/utils';
 import { isArray } from '@ember/array';
@@ -11,8 +11,6 @@ import { merge } from '@ember/polyfills';
 import { run } from '@ember/runloop';
 import { camelize } from '@ember/string';
 import { reject } from 'rsvp';
-
-const { canInvoke } = Ember;
 
 function createValidationError(model) {
   const messageResolver = lookupMessageResolver(getOwner(model));
