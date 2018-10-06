@@ -93,7 +93,7 @@ import Validator from 'ember-attribute-validations/validator';
 export default Validator.extend({
     message: 'something is wrong with %@',
 
-    validate: function(name, value, attribute, model) {
+    validate(name, value, attribute, model) {
         if(this.get('optionForYourValidator' && name) {
             // this would format the Error message
             return this.format();
@@ -194,7 +194,7 @@ export default MessageResolver.extend({
             }
         };
     }),
-    resolveMessage: function(key) {
+    resolveMessage(key) {
         var catalog = this.get('catalog');
 
         return get(catalog, key);
@@ -247,7 +247,7 @@ export default MessageResolver.extend({
     catalog: computed(function() {
         return this.container.lookup('i18n:messages');
     }),
-    resolveMessage: function(key) {
+    resolveMessage(key) {
         var catalog = this.get('catalog');
 
         return get(catalog, key);
@@ -274,7 +274,7 @@ export default MessageResolver.extend({
     localeDidChange: observer('locale', function() {
         this.clearCache();
     }),
-    resolveMessage: function(key) {
+    resolveMessage(key) {
         var catalog = this.get('catalog');
 
         return get(catalog, key);
@@ -370,7 +370,7 @@ import DS from 'ember-data';
 export default DS.Model.extend({
     dateOfBirth: DS.attr('date', {
         validation: {
-            before: function() {
+            before() {
                 return moment().startOf('d').toDate();
             }
         }
@@ -403,7 +403,7 @@ import DS from 'ember-data';
 export default DS.Model.extend({
     dateOfBirth: DS.attr('date', {
         validation: {
-            after: function() {
+            after() {
                 return moment().startOf('d').toDate();
             }
         }

@@ -27,7 +27,7 @@ function dictionary() {
  * @extends {EmberObject}
  */
 export default EmberObject.extend({
-  init: function() {
+  init() {
     this._cache = dictionary(null);
   },
 
@@ -56,7 +56,7 @@ export default EmberObject.extend({
    * @param  {Attribute} attribute
    * @return {String}
    */
-  resolve: function(validator, attribute) {
+  resolve(validator, attribute) {
     const parsedName = this.parseName(validator, attribute);
     const lookupKeys = ['modelPath', 'validatorPath', 'validatorType'];
 
@@ -94,7 +94,7 @@ export default EmberObject.extend({
    * @param  {String} key The validation Message key
    * @return {String}
    */
-  resolveMessage: function(key) {
+  resolveMessage(key) {
     return get(defaultMessages, key);
   },
 
@@ -114,7 +114,7 @@ export default EmberObject.extend({
    * @param  {Attribute} attribute
    * @return {String}
    */
-  resolveLabel: function(validator, attribute) {
+  resolveLabel(validator, attribute) {
     return getLabel(attribute.parentType, attribute.name);
   },
 
@@ -126,7 +126,7 @@ export default EmberObject.extend({
    * @param  {Attribute} attribute
    * @return {String}
    */
-  parseName: function(validator, attribute) {
+  parseName(validator, attribute) {
     const attributeType = this._parseAttributeType(attribute);
     const modelType = this._parseModelType(attribute);
     const validatorType = this._parseValidatorType(validator);
@@ -148,7 +148,7 @@ export default EmberObject.extend({
    * @param  {Attribute} attribute
    * @return {String}
    */
-  _parseModelType: function(attribute) {
+  _parseModelType(attribute) {
     return attribute.parentTypeKey;
   },
 
@@ -163,7 +163,7 @@ export default EmberObject.extend({
    * @param  {Validator} validator
    * @return {String}
    */
-  _parseValidatorType: function(validator) {
+  _parseValidatorType(validator) {
     return validator.typeKey ||
       validator.constructor && validator.constructor.typeKey || '';
   },
@@ -181,7 +181,7 @@ export default EmberObject.extend({
    * @param  {Attribute} attribute
    * @return {String}
    */
-  _parseAttributeType: function(attribute) {
+  _parseAttributeType(attribute) {
     return getValidationType(attribute.type);
   },
 
@@ -190,7 +190,7 @@ export default EmberObject.extend({
    *
    * @method clearCache
    */
-  clearCache: function() {
+  clearCache() {
     this._cache = dictionary(null);
   }
 

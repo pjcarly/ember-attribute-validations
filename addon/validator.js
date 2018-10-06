@@ -83,7 +83,7 @@ export default EmberObject.extend({
    * @param  {DS.Model}  model     Model instance
    * @return {String|Boolean}
    */
-  validate: function( /*attribute, value, meta, model*/ ) {
+  validate( /*attribute, value, meta, model*/ ) {
     throw new EmberError('You must implement `validate` method on your Validator.');
   },
 
@@ -95,7 +95,7 @@ export default EmberObject.extend({
    * @method format
    * @return {String}
    */
-  format: function() {
+  format() {
     const message = this.get('message');
     const label = this.get('attributeLabel');
 

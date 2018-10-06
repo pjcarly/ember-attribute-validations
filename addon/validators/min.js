@@ -26,7 +26,7 @@ export default Validator.extend({
    */
   min: null,
 
-  validate: function(name, value, attribute) {
+  validate(name, value, attribute) {
     const type = getValidationType(attribute.type);
     const minValue = this.get('min');
 
@@ -44,7 +44,7 @@ export default Validator.extend({
     }
   },
 
-  validateString: function(value, min) {
+  validateString(value, min) {
     if(typeof value !== 'string') {
       return true;
     }
@@ -54,7 +54,7 @@ export default Validator.extend({
     return length < min;
   },
 
-  validateNumber: function(value, min) {
+  validateNumber(value, min) {
     value = parseInt(value, 10);
 
     if(isNaN(value)) {

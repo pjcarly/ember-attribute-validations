@@ -10,7 +10,7 @@ import { isBlank } from '@ember/utils';
  * @extends {Validator}
  */
 export default Validator.extend({
-  validate: function(name, value, attributes) {
+  validate(name, value, attributes) {
     if (!isBlank(value) && !isNaN(value) && (amountOfDigits(value) > attributes.options.validation.precision)) {
       return this.format(attributes.options.validation.precision);
     }

@@ -3,7 +3,7 @@
 
 module.exports = {
   name: 'ember-attribute-validations',
-  isDevelopingAddon: function () {
+  isDevelopingAddon() {
     return true;
   }
 };

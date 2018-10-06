@@ -7,7 +7,7 @@ var attribute = {
 
 var validator = Validator.create({
   message: '%@ must be before the set date',
-  before: function() {
+  before() {
     return new Date();
   },
   attribute: attribute

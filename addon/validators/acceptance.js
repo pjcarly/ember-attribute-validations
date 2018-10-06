@@ -11,7 +11,7 @@ import {
  * @extends {Validator}
  */
 export default Validator.extend({
-  validate: function(name, value) {
+  validate(name, value) {
     if (value !== 'true' && (!isBoolean(value) || value === false)) {
       return this.format();
     }

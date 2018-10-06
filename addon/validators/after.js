@@ -23,7 +23,7 @@ export default Validator.extend({
    */
   after: null,
 
-  validate: function(name, value, attribute, model) {
+  validate(name, value, attribute, model) {
     if(hasValue(value)) {
       const date = toDate(value);
       const after = this._resolveAfterDate(model);
@@ -45,7 +45,7 @@ export default Validator.extend({
    * @param  {DS.Model} model
    * @return {Date}
    */
-  _resolveAfterDate: function(model) {
+  _resolveAfterDate(model) {
     let after = this.get('after');
 
     if(typeOf(after) === 'function') {
@@ -66,7 +66,7 @@ export default Validator.extend({
    * @param  {Date} after
    * @return {Boolean}
    */
-  _compareDates: function(date, after) {
+  _compareDates(date, after) {
     return !!(date && after && date < after);
   }
 });

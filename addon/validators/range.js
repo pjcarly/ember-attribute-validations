@@ -38,7 +38,7 @@ export default Validator.extend({
    */
   to: null,
 
-  validate: function(name, value, attribute) {
+  validate(name, value, attribute) {
     const type = getValidationType(attribute.type);
     const fromValue = this.get('from');
     const toValue = this.get('to');
@@ -58,7 +58,7 @@ export default Validator.extend({
     }
   },
 
-  validateString: function(value, fromValue, toValue) {
+  validateString(value, fromValue, toValue) {
     if(typeof value !== 'string') {
       return true;
     }
@@ -68,7 +68,7 @@ export default Validator.extend({
     return length < fromValue || length > toValue;
   },
 
-  validateNumber: function(value, fromValue, toValue) {
+  validateNumber(value, fromValue, toValue) {
     value = parseInt(value, 10);
 
     if(isNaN(value)) {

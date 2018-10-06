@@ -5,11 +5,11 @@ import { run } from '@ember/runloop';
 var application;
 
 module('Acceptance | index', {
-  beforeEach: function() {
+  beforeEach() {
     application = startApp();
   },
 
-  afterEach: function() {
+  afterEach() {
     run(application, 'destroy');
   }
 });

@@ -21,7 +21,7 @@ export default Validator.extend({
    */
   values: null,
 
-  validate: function(name, value) {
+  validate(name, value) {
     const values = this.get('values');
 
     assert('You must define an array of Enum values in order to validate.', isPresent(values) && isArray(values));

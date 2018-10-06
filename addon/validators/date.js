@@ -11,7 +11,7 @@ import {
  * @extends {Validator}
  */
 export default Validator.extend({
-  validate: function(name, value) {
+  validate(name, value) {
     if(hasValue(value)) {
       const date = toDate(value);
 

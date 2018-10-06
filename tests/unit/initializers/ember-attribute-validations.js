@@ -6,7 +6,7 @@ import { run } from '@ember/runloop';
 var container, application;
 
 module('Unit | Initializer | ember cli data validation', {
-  beforeEach: function() {
+  beforeEach() {
     run(function() {
       application = Application.create();
       container = application.__container__;

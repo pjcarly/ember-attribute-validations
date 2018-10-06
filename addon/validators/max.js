@@ -27,7 +27,7 @@ export default Validator.extend({
    */
   max: null,
 
-  validate: function(name, value, attribute) {
+  validate(name, value, attribute) {
     const type = getValidationType(attribute.type);
     const maxValue = this.get('max');
 
@@ -49,7 +49,7 @@ export default Validator.extend({
     }
   },
 
-  validateString: function(value, max) {
+  validateString(value, max) {
     if(typeof value !== 'string') {
       return true;
     }
@@ -59,7 +59,7 @@ export default Validator.extend({
     return length > max;
   },
 
-  validateNumber: function(value, max) {
+  validateNumber(value, max) {
     value = parseInt(value, 10);
 
     if(isNaN(value)) {

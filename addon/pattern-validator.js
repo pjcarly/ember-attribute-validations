@@ -24,7 +24,7 @@ export default Validator.extend({
    */
   pattern: null,
 
-  validate: function(name, value /*, attribute, model*/) {
+  validate(name, value /*, attribute, model*/) {
     const pattern = this.get('pattern');
 
     assert('You must define a RegExp pattern in order to validate.', pattern instanceof RegExp);

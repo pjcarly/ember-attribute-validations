@@ -2,7 +2,7 @@ import Controller from '@ember/controller';
 
 export default Controller.extend({
   actions: {
-    save: function() {
+    save() {
       var model = this.get('model');
 
       model.save().catch(function(e) {
