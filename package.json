@@ -13,7 +13,7 @@
   },
   "repository": "https://gitlab.com/getflights/ember-attribute-validations",
   "engines": {
-    "node": ">= 0.10.0"
+    "node": "6.* || 8.* || >= 10.*"
   },
   "author": "",
   "license": "MIT",
