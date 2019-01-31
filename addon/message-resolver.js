@@ -58,8 +58,6 @@ export default EmberObject.extend({
 
     lookupKeys.some((key) => {
 
-      console.log(`ember-attribute-validations.${parsedName[key]}`);
-
       if(intl.exists(`ember-attribute-validations.${parsedName[key]}`)){
         message = intl.t(`ember-attribute-validations.${parsedName[key]}`);
       }
