@@ -5,6 +5,7 @@ import { isPresent } from '@ember/utils';
 import { isArray } from '@ember/array';
 import { inspect } from '@ember/debug';
 import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 
 function format(str, formats) {
   let cachedFormats = formats;
@@ -33,6 +34,7 @@ function format(str, formats) {
  * @extends {EmberObject}
  */
 export default EmberObject.extend({
+  intl: service(),
 
   /**
    * Validation message that is returned when an
@@ -60,7 +62,7 @@ export default EmberObject.extend({
    * @property attributeLabel
    * @type {String}
    */
-  attributeLabel: computed('attribute', function() {
+  attributeLabel: computed('attribute', 'intl.locale', function() {
     const attribute = this.get('attribute');
 
     return this.messageResolver.resolveLabel(this, attribute);
@@ -106,7 +108,9 @@ export default EmberObject.extend({
     args.unshift(label);
     args.unshift(message);
 
-    return format.apply(null, args);
+    const formatted = format.apply(null, args);
+
+    return formatted;
   }
 
 });

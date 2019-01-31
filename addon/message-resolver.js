@@ -1,10 +1,12 @@
 import EmberObject from '@ember/object';
 import defaultMessages from 'ember-attribute-validations/messages';
 import { getValidationType } from 'ember-attribute-validations/utils';
-import { getLabel } from 'ember-field-components/classes/model-utils';
 import { isPresent } from '@ember/utils';
 import { assert } from '@ember/debug';
 import { get } from '@ember/object';
+
+import { inject as service } from '@ember/service';
+import { capitalize } from '@ember/string';
 
 function dictionary() {
   var dict = EmberObject.create();
@@ -27,6 +29,8 @@ function dictionary() {
  * @extends {EmberObject}
  */
 export default EmberObject.extend({
+  intl: service(),
+
   init() {
     this._cache = dictionary(null);
   },
@@ -115,7 +119,20 @@ export default EmberObject.extend({
    * @return {String}
    */
   resolveLabel(validator, attribute) {
-    return getLabel(attribute.parentType, attribute.name);
+    const intl = this.get('intl');
+    const modelType = attribute.parentType.modelName;
+    const field = attribute.name;
+
+    let message = '';
+    if(intl.exists(`ember-field-components.${modelType}.fields.${field}`)) {
+      message = intl.t(`ember-field-components.${modelType}.fields.${field}`);
+    } else if(intl.exists(`ember-field-components.global.fields.${field}`)) {
+      message = intl.t(`ember-field-components.global.fields.${field}`);
+    } else {
+      message = capitalize(field);
+    }
+
+    return message;
   },
 
   /**
