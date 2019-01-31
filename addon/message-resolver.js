@@ -8,13 +8,6 @@ import { get } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { capitalize } from '@ember/string';
 
-function dictionary() {
-  var dict = EmberObject.create();
-  dict['_dict'] = null;
-  delete dict['_dict'];
-  return dict;
-}
-
 /**
  * Resolver used to resolve and locate the validation messages
  * for Validators.
@@ -30,10 +23,6 @@ function dictionary() {
  */
 export default EmberObject.extend({
   intl: service(),
-
-  init() {
-    this._cache = dictionary(null);
-  },
 
   /**
    * Resolve the Message for the given Validator and Attribute.
@@ -61,30 +50,24 @@ export default EmberObject.extend({
    * @return {String}
    */
   resolve(validator, attribute) {
+    const intl = this.get('intl');
     const parsedName = this.parseName(validator, attribute);
     const lookupKeys = ['modelPath', 'validatorPath', 'validatorType'];
 
     let message;
 
-    lookupKeys.forEach((key) => {
-      if (isPresent(message)) {
-        return;
+    lookupKeys.some((key) => {
+
+      console.log(`ember-attribute-validations.${parsedName[key]}`);
+
+      if(intl.exists(`ember-attribute-validations.${parsedName[key]}`)){
+        message = intl.t(`ember-attribute-validations.${parsedName[key]}`);
       }
 
-      const name = parsedName[key];
-
-      assert(key + ' must be a string, you passed `' + typeof name + '`', typeof name === 'string');
-
-      message = this._cache[name];
-
-      if(!message) {
-        message = this._cache[name] = this.resolveMessage(name);
-      }
+      return isPresent(message);
     });
 
-    assert('Could not resolve message for `' + parsedName.validatorType +
-      '` Validator and  `' + parsedName.attributeType + '` ', isPresent(message));
-
+    assert('Could not resolve message for `' + parsedName.validatorType + '` Validator and  `' + parsedName.attributeType + '` ', isPresent(message));
     return message;
   },
 
@@ -120,7 +103,7 @@ export default EmberObject.extend({
    */
   resolveLabel(validator, attribute) {
     const intl = this.get('intl');
-    const modelType = attribute.parentType.modelName;
+    const modelType = this._parseModelType(attribute);
     const field = attribute.name;
 
     let message = '';
@@ -200,15 +183,5 @@ export default EmberObject.extend({
    */
   _parseAttributeType(attribute) {
     return getValidationType(attribute.type);
-  },
-
-  /**
-   * Clears the Message cache
-   *
-   * @method clearCache
-   */
-  clearCache() {
-    this._cache = dictionary(null);
   }
-
 });

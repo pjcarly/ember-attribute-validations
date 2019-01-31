@@ -1,0 +1,27 @@
+ember-attribute-validations:
+  error: 'Sommige vereiste informatie ontbreekt of is onvolledig. Corrigeer uw invoer en probeer het opnieuw.'
+  acceptance: '%@ moet gecontroleerd worden'
+  digit: '%@ moet een cijfer zijn'
+  number: '%@ moet een nummer zijn'
+  wholenumber: '%@ moet een heel getal zijn'
+  negative: '%@ moet een negatief getal zijn'
+  positive: '%@ moet een positief getal zijn'
+  decimals: '%@ kan niet meer dan %@ decimalen hebben'
+  precision: '%@ kan niet meer dan %@ cijfers hebben'
+  email: '%@ is een onjuist email adres'
+  url: '%@ is een ongeldige URL'
+  required: '%@ is verplicht'
+  max:
+    string: '%@ mag maximum %@ karakters bevatten'
+    number: '%@ mag niet groter zijn dan %@'
+  min:
+    string: '%@ mag niet meer dan %@ karakters bevatten'
+    number: '%@ moet groter of gelijk zijn aan %@'
+  range:
+    string: '%@ moet tussen %@ en %@ aantal karakters zijn'
+    number: '%@ moet tussen %@ en %@ liggen'
+  pattern: '%@ onjuist'
+  test:
+    name:
+      range: 'Tesint tange'
+      min: 'MINNNNNN'

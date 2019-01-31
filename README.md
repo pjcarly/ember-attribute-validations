@@ -255,33 +255,6 @@ export default MessageResolver.extend({
 });
 ```
 
-Keep in mind that `MessageResolver` is caching the messages for each key that returned a value. If you have a Message catalog that is based on a locale, you must clear the cache when the locale changes.
-
-A simple example:
-
-```javascript
-import MessageResolver from 'ember-attribute-validations/message-resolver';
-
-const { computed, observer, get } = Ember;
-
-export default MessageResolver.extend({
-    locale: computed(function() {
-        return 'en_GB';
-    }),
-    catalog: computed('locale', function() {
-        return this.container.lookup('locale:' + this.get('locale'));
-    }),
-    localeDidChange: observer('locale', function() {
-        this.clearCache();
-    }),
-    resolveMessage(key) {
-        var catalog = this.get('catalog');
-
-        return get(catalog, key);
-    }
-});
-```
-
 ## Validators
 
 Examples on how to use validators.
