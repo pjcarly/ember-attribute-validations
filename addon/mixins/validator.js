@@ -7,7 +7,7 @@ import { isEmpty } from '@ember/utils';
 import { isArray } from '@ember/array';
 import { get } from '@ember/object';
 import { assert } from '@ember/debug';
-import { merge } from '@ember/polyfills';
+import { assign } from '@ember/polyfills';
 import { run } from '@ember/runloop';
 import { camelize } from '@ember/string';
 import { reject } from 'rsvp';
@@ -48,7 +48,7 @@ function lookupValidator(container, obj) {
     value[obj.type] = obj.value;
   }
 
-  merge(value, {
+  assign(value, {
     attribute: obj.attribute,
     messageResolver: messageResolver
   });
