@@ -1,6 +1,6 @@
 import Route from '@ember/routing/route';
 
-export default Route.extend({
+export default class IndexRoute extends Route {
   model() {
     this.store.push({
       data: {
@@ -10,6 +10,6 @@ export default Route.extend({
       }
     });
 
-    return this.store.recordForId('test', 1);
+    return this.store.peekRecord('test', 1);
   }
-});
+}
