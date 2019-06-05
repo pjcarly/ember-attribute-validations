@@ -7,6 +7,7 @@ import PatternValidator from 'ember-attribute-validations/pattern-validator';
  * @class DigitValidator
  * @extends {PatternValidator}
  */
-export default PatternValidator.extend({
-  pattern: /^\d+$/
-});
+export default class DigitValidator extends PatternValidator {
+  name = 'digit';
+  pattern = /^\d+$/;
+}

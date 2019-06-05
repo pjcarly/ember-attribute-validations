@@ -1,4 +1,5 @@
 import Validator from 'ember-attribute-validations/validator';
+import Model from 'ember-data/model';
 import { hasValue } from 'ember-attribute-validations/utils';
 import { assert } from '@ember/debug';
 
@@ -12,7 +13,7 @@ import { assert } from '@ember/debug';
  * @class PatternValidator
  * @extends {Validator}
  */
-export default Validator.extend({
+export default abstract class PatternValidator extends Validator {
 
   /**
    * RegExp like pattern that would be used to test
@@ -22,15 +23,15 @@ export default Validator.extend({
    * @type {RegExp}
    * @default null
    */
-  pattern: null,
+  pattern !: RegExp;
 
-  validate(name, value /*, attribute, model*/) {
-    const pattern = this.get('pattern');
+  validate(_: string, value: any, _2: any, _3 : Model) {
+    assert('You must define a RegExp pattern in order to validate.', this.pattern instanceof RegExp);
 
-    assert('You must define a RegExp pattern in order to validate.', pattern instanceof RegExp);
-
-    if (hasValue(value) && !value.toString().match(pattern)) {
+    if (hasValue(value) && !value.toString().match(this.pattern)) {
       return this.format();
     }
-  },
-});
+
+    return false;
+  }
+}

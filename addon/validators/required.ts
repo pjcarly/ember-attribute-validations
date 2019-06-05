@@ -1,13 +1,17 @@
 import Validator from 'ember-attribute-validations/validator';
-import { hasValue, hasBelongsToValue } from 'ember-attribute-validations/utils';
+import Model from 'ember-data/model';
+import { hasValue, hasBelongsToValue } from '../utils';
+
 /**
  * Validator that checks if the value is set.
  *
  * @class  RequiredValidator
  * @extends {Validator}
  */
-export default Validator.extend({
-  validate(name, value, attribute) {
+export default class RequiredValidator extends Validator {
+  name = 'required';
+
+  validate(_: string, value: any, attribute: any, _2: Model) : string | boolean {
     if (attribute.isAttribute) {
       if (!hasValue(value)) {
         return this.format();
@@ -19,5 +23,7 @@ export default Validator.extend({
         }
       }
     }
+
+    return false;
   }
-});
+}

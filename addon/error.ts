@@ -1,3 +1,5 @@
+import DS from 'ember-data';
+
 /**
  * Error thrown when a Model validation fails.
  *
@@ -8,7 +10,7 @@
  * @param {Srting}    message
  * @param {DS.Errors} errors
  */
-function ValidationError(message, errors) {
+function ValidationError(this: any, message: string, errors : DS.Errors) {
   Error.call(this, message);
 
   if (Error.captureStackTrace) {

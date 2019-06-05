@@ -1,16 +1,12 @@
 import Model from 'ember-data/model';
-import ValidatorMixin from 'ember-attribute-validations/mixins/validator';
 import { attr } from '@ember-decorators/data';
+import { validationModel } from 'ember-attribute-validations/decorators/validation-model';
 
-export default class TestModel extends Model.extend(ValidatorMixin) {
+@validationModel
+export default class CompanyModel extends Model {
   @attr('string', {
     validation: {
-      required: true,
-      min: 5,
-      range: {
-        from: 3,
-        to: 10
-      }
+      required: true
     }
   })
   name !: string;
@@ -19,6 +15,6 @@ export default class TestModel extends Model.extend(ValidatorMixin) {
 
 declare module 'ember-data/types/registries/model' {
   export default interface ModelRegistry {
-    'test' : TestModel
+    'company' : CompanyModel
   }
 }

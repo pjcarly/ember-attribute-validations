@@ -1,15 +1,22 @@
 import Controller from '@ember/controller';
 import { action } from '@ember-decorators/object';
-import TestModel from '../models/test';
+import CompanyModel from '../models/company';
+import ContactModel from '../models/contact';
 
 export default class IndexController extends Controller {
-  model !: TestModel;
+  company !: CompanyModel;
+  contact !: ContactModel;
 
   @action
   save() {
-    this.model.save()
+    this.company.save()
     .catch((e: any) => {
-      console.error(e.stack);
+      console.error(e);
+    });
+
+    this.contact.save()
+    .catch((e: any) => {
+      console.error(e);
     });
   }
 }

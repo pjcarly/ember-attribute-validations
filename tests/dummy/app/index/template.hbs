@@ -1,11 +1,29 @@
-{{input value=model.name}}
-
-{{log model.errors}}
-
-{{#each error in model.errors.name}}
-  <p>{{error.message}}</p>
+<h2>Company</h2>
+{{#each this.company.errors as |error|}}
+  <p style="color: red;"><strong>({{error.attribute}})</strong> {{error.message}}</p>
 {{/each}}
 
-<a href='#' {{action 'save'}}>
-  Save
-</a>
+<div>
+  <label for="name">Name</label>
+  {{input id="name" value=this.company.name}}
+</div>
+
+<h2>Contact</h2>
+{{#each this.contact.errors as |error|}}
+  <p style="color: red;"><strong>({{error.attribute}})</strong> {{error.message}}</p>
+{{/each}}
+
+<div>
+  <label for="firstName">First Name</label>
+  {{input id="firstName" value=this.contact.firstName}}
+</div>
+<div>
+  <label for="lastName">Last Name</label>
+  {{input id="lastName" value=this.contact.lastName}}
+</div>
+<div>
+  <label for="email">Email</label>
+  {{input id="email" value=this.contact.email}}
+</div>
+
+<button onclick={{action 'save'}}>Save</button>

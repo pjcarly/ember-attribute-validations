@@ -9,7 +9,7 @@ import { isEmpty } from '@ember/utils';
  * @param  {*}  value
  * @return {Boolean}
  */
-export function getValidationType(type) {
+export function getValidationType(type: string) : string {
   // TODO: find a better way for this, at the moment this module depends on the type of the attribute
   // once we have custom data types, we should be able to switch on something else (perhaps the transform?)
   const numberTypes = ['number', 'percent', 'price'];
@@ -35,7 +35,7 @@ export function getValidationType(type) {
   @return {Boolean}
   @private
 */
-export function canInvoke(obj, methodName) {
+export function canInvoke(obj: any, methodName: string) : boolean {
   return obj !== null && obj !== undefined && typeof obj[methodName] === 'function';
 }
 
@@ -45,7 +45,7 @@ export function canInvoke(obj, methodName) {
  * @param  {*}  value
  * @return {Boolean}
  */
-export function hasValue(value) {
+export function hasValue(value: any) : boolean {
   return isPresent(value) || !isEmpty(value);
 }
 
@@ -55,12 +55,14 @@ export function hasValue(value) {
  * @param  {*}  value
  * @return {Boolean}
  */
-export function hasBelongsToValue(value) {
+export function hasBelongsToValue(value: DS.Model | DS.PromiseObject<any>) : boolean | undefined {
   if(value instanceof DS.Model) { // an async:false relationship
     return isPresent(value) && isPresent(value.get('id'));
   } else if(value instanceof DS.PromiseObject) { // an async: true relationship
     return isPresent(value) && value.hasOwnProperty('content') && !isEmpty(value.content);
   }
+
+  return;
 }
 
 /**
@@ -69,7 +71,7 @@ export function hasBelongsToValue(value) {
  * @param  {*}  obj
  * @return {Boolean}
  */
-export function isBoolean(obj) {
+export function isBoolean(obj: any) : boolean {
   return obj === true || obj === false || Object.prototype.toString.call(obj) === '[object Boolean]';
 }
 
@@ -79,7 +81,7 @@ export function isBoolean(obj) {
  * @param  {*}  obj
  * @return {Boolean}
  */
-export function isNumeric(value) {
+export function isNumeric(value: any) : boolean {
   return !isNaN(parseFloat(value)) && isFinite(value);
 }
 
@@ -90,7 +92,7 @@ export function isNumeric(value) {
  * @param  {*}  obj
  * @return {Boolean}
  */
-export function isString(value) {
+export function isString(value: any) : boolean {
   return (typeof value === 'string' || value instanceof String);
 }
 
@@ -100,7 +102,7 @@ export function isString(value) {
  * @param  {*}  obj
  * @return {Boolean}
  */
-export function isInt(value){
+export function isInt(value: any) : boolean {
   return !isNaN(value) && (function(x) { return (x | 0) === x; })(parseFloat(value))
 }
 
@@ -110,7 +112,7 @@ export function isInt(value){
  * @param  {*}  obj
  * @return {Boolean}
  */
-export function isObject(value){
+export function isObject(value: any) : boolean {
   return (typeof value === "object") && (value !== null);
 }
 
@@ -120,7 +122,7 @@ export function isObject(value){
  * @param  {*}  obj
  * @return {Boolean}
  */
-export function isArray(value){
+export function isArray(value: any) : boolean {
   return Array.isArray(value);
 }
 
@@ -130,7 +132,7 @@ export function isArray(value){
  * @param  numeric value
  * @return integer
  */
-export function decimalPlaces(num) {
+export function decimalPlaces(num: number) : number {
   var match = ('' + num).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
   if (!match) {
     return 0;
@@ -144,7 +146,7 @@ export function decimalPlaces(num) {
  * @param  numeric value
  * @return integer
  */
-export function amountOfDigits(num) {
+export function amountOfDigits(num: number) : number {
   return (num + '').replace('.', '').replace(',', '').length;
 }
 
@@ -156,7 +158,7 @@ export function amountOfDigits(num) {
  * @param  {*} value
  * @return {Date}
  */
-export function toDate(value) {
+export function toDate(value: any) : Date | null {
   if (Object.prototype.toString.call(value) === '[object Date]') {
     return value;
   }
