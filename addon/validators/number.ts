@@ -1,4 +1,5 @@
 import Validator from 'ember-attribute-validations/validator';
+import Model from 'ember-data/model';
 import { isBlank } from '@ember/utils';
 
 /**
@@ -9,10 +10,15 @@ import { isBlank } from '@ember/utils';
  * @extends {Validator}
  */
 
-export default Validator.extend({
-  validate(name, value) {
-    if (!isBlank(value) && (isNaN(value) || (value < 0))) {
+export default class NumberValidator extends Validator {
+  name = 'number';
+
+  validate(_: string, value: any, _2: any, _3: Model) : string | boolean {
+
+    if (!isBlank(value) && isNaN(value)) {
       return this.format();
     }
+
+    return false;
   }
-});
+}

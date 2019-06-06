@@ -1,4 +1,5 @@
 import Validator from 'ember-attribute-validations/validator';
+import Model from 'ember-data/model';
 import { hasValue, toDate } from '../utils';
 import { typeOf } from '@ember/utils';
 import { run } from '@ember/runloop';
@@ -12,27 +13,35 @@ import { isPresent } from '@ember/utils';
  * @class DateBeforeValidator
  * @extends {Validator}
  */
-export default Validator.extend({
+export default class DateBeforeValidator extends Validator {
+  name = 'beforeDate';
 
   /**
-   * Before Date to be compared
+   * before Date to be compared
    *
    * @property before
    * @type {Date|Function}
    * @default null
    */
-  before: null,
 
-  validate(name, value, attribute, model) {
+  validate(_: string, value: any, attribute: any, _2: Model) : string | boolean {
     if(hasValue(value)) {
+      assert('You must define a `before` Date on your model', isPresent(attribute.options.validation.before));
+
       const date = toDate(value);
-      const before = this._resolveBeforeDate(model);
+      const before = this._resolveBeforeDate(attribute.options.validation.before);
+
+      if(!date || !before) {
+        return this.format();
+      }
 
       if(this._compareDates(date, before)) {
-        return this.format(date, before);
+        return this.format({ date: before.toString() });
       }
     }
-  },
+
+    return false;
+  }
 
   /**
    * Resolves the `before` property to a Valid Date.
@@ -45,17 +54,16 @@ export default Validator.extend({
    * @param  {DS.Model} model
    * @return {Date}
    */
-  _resolveBeforeDate(model) {
-    let before = this.get('before');
-
+  _resolveBeforeDate(before: () => Date | Date) {
     if(typeOf(before) === 'function') {
-      before = run(model, before);
+      // @ts-ignore
+      before = run(before);
     }
 
-    assert('You must define a `before` Date for DateBeforeValidator', isPresent(before));
+    assert('You must define a `before` Date on your model', isPresent(before));
 
     return toDate(before);
-  },
+  }
 
   /**
    * Compares the two given Dates.
@@ -66,7 +74,7 @@ export default Validator.extend({
    * @param  {Date} before
    * @return {Boolean}
    */
-  _compareDates(date, before) {
+  _compareDates(date: Date, before: Date) {
     return !!(date && before && date > before);
   }
-});
+}

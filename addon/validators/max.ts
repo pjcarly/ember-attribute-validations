@@ -1,12 +1,8 @@
-import Ember from 'ember';
 import Validator from 'ember-attribute-validations/validator';
+import Model from 'ember-data/model';
 import { hasValue, getValidationType } from 'ember-attribute-validations/utils';
 import { assert } from '@ember/debug';
 import { isPresent } from '@ember/utils';
-import { run } from '@ember/runloop';
-import { classify } from '@ember/string';
-
-const { canInvoke } = Ember;
 
 /**
  * Validator that could be used to validate maximum length,
@@ -16,7 +12,9 @@ const { canInvoke } = Ember;
  * @class  MaxValidator
  * @extends {Validator}
  */
-export default Validator.extend({
+export default class MaxValidator extends Validator {
+
+  name = 'max';
 
   /**
    * Max value for the validator.
@@ -25,47 +23,50 @@ export default Validator.extend({
    * @type {Number}
    * @default null
    */
-  max: null,
+  max !: number;
 
-  validate(name, value, attribute) {
+  validate(_: string, value: any, attribute: any, _2: Model) : string | boolean {
+
     const type = getValidationType(attribute.type);
-    const maxValue = this.get('max');
 
-    assert('You must define a `max` for MaxValidator', isPresent(maxValue));
+    assert('You must define a `max` for MaxValidator', isPresent(this.max));
 
     if(!hasValue(value)) {
-      return;
+      return false;
     }
 
-    const validatorName = 'validate' + classify(type);
     let invalid = true;
 
-    if(canInvoke(this, validatorName)) {
-      invalid = run(this, validatorName, value, maxValue);
+    if(type === 'string') {
+      invalid = this.validateString(value);
+    } else if(type === 'number') {
+      invalid = this.validateNumber(value);
     }
 
     if(invalid) {
-      return this.format(maxValue);
+      return this.format({ max: this.max+'' });
     }
-  },
 
-  validateString(value, max) {
+    return false;
+  }
+
+  validateString(value: string) {
     if(typeof value !== 'string') {
       return true;
     }
 
     const length = value && value.length || 0;
 
-    return length > max;
-  },
+    return length > this.max;
+  }
 
-  validateNumber(value, max) {
-    value = parseInt(value, 10);
+  validateNumber(value: string) {
+    const testValue = parseInt(value, 10);
 
-    if(isNaN(value)) {
+    if(isNaN(testValue)) {
       return true;
     }
 
-    return value > max;
+    return testValue > this.max;
   }
-});
+}

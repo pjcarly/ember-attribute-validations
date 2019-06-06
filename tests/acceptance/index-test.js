@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import startApp from '../helpers/start-app';
 import { run } from '@ember/runloop';
+import { visit, andThen } from '@ember/test-helpers';
 
 var application;
 

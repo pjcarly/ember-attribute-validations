@@ -1,12 +1,8 @@
-import Ember from 'ember';
+import Model from 'ember-data/model';
 import Validator from 'ember-attribute-validations/validator';
 import { getValidationType } from 'ember-attribute-validations/utils';
 import { assert } from '@ember/debug';
 import { isPresent } from '@ember/utils';
-import { run } from '@ember/runloop';
-import { classify } from '@ember/string';
-
-const { canInvoke } = Ember;
 
 /**
  * Validator that could be used to validate Strings and Numbers.
@@ -17,7 +13,9 @@ const { canInvoke } = Ember;
  * @class  RangeValidator
  * @extends {Validator}
  */
-export default Validator.extend({
+export default class RangeValidator extends Validator {
+  name = 'range';
+
   /**
    * Number representing the starting point
    * of the range validation.
@@ -26,7 +24,7 @@ export default Validator.extend({
    * @type {Number}
    * @default null
    */
-  from: null,
+  from !: number;
 
   /**
    * Number representing the ending point
@@ -36,9 +34,9 @@ export default Validator.extend({
    * @type {Number}
    * @default null
    */
-  to: null,
+  to !: number;
 
-  validate(name, value, attribute) {
+  validate(_: string, value: any, attribute: any, _2: Model) : string | boolean {
     const type = getValidationType(attribute.type);
     const fromValue = this.get('from');
     const toValue = this.get('to');
@@ -46,35 +44,38 @@ export default Validator.extend({
     assert('You must define a `from` for RangeValidator', isPresent(fromValue));
     assert('You must define a `to` for RangeValidator', isPresent(toValue));
 
-    const validatorName = 'validate' + classify(type);
     let invalid = true;
 
-    if(canInvoke(this, validatorName)) {
-      invalid = run(this, validatorName, value, fromValue, toValue);
+    if(type === 'string') {
+      invalid = this.validateString(value);
+    } else if(type === 'number') {
+      invalid = this.validateNumber(value);
     }
 
     if(invalid) {
-      return this.format(fromValue, toValue);
+      return this.format({ start: fromValue+'', end: toValue+'' });
     }
-  },
 
-  validateString(value, fromValue, toValue) {
+    return false;
+  }
+
+  validateString(value: string) {
     if(typeof value !== 'string') {
       return true;
     }
 
     const length = value && value.length || 0;
 
-    return length < fromValue || length > toValue;
-  },
+    return length < this.from || length > this.to;
+  }
 
-  validateNumber(value, fromValue, toValue) {
-    value = parseInt(value, 10);
+  validateNumber(value: string) {
+    const testValue = parseInt(value, 10);
 
-    if(isNaN(value)) {
+    if(isNaN(testValue)) {
       return true;
     }
 
-    return value < fromValue || value > toValue;
+    return testValue < this.from || testValue > this.to;
   }
-});
+}

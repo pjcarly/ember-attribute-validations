@@ -1,12 +1,8 @@
-import Ember from 'ember';
 import Validator from 'ember-attribute-validations/validator';
 import { getValidationType } from 'ember-attribute-validations/utils';
 import { assert } from '@ember/debug';
 import { isPresent } from '@ember/utils';
-import { run } from '@ember/runloop';
-import { classify } from '@ember/string';
-
-const { canInvoke } = Ember;
+import Model from 'ember-data/model';
 
 /**
  * Validator that could be used to validate minimum length,
@@ -16,7 +12,9 @@ const { canInvoke } = Ember;
  * @class  MinValidator
  * @extends {Validator}
  */
-export default Validator.extend({
+export default class MinValidator extends Validator {
+  name = 'min';
+
   /**
    * Min value for the validator.
    *
@@ -24,43 +22,46 @@ export default Validator.extend({
    * @type {Number}
    * @default null
    */
-  min: null,
+  min !: number;
 
-  validate(name, value, attribute) {
+  validate(_: string, value: any, attribute: any, _2: Model) : string | boolean {
     const type = getValidationType(attribute.type);
     const minValue = this.get('min');
 
     assert('You must define a `min` for MinValidator', isPresent(minValue));
 
-    const validatorName = 'validate' + classify(type);
     let invalid = true;
 
-    if(canInvoke(this, validatorName)) {
-      invalid = run(this, validatorName, value, minValue);
+    if(type === 'string') {
+      invalid = this.validateString(value);
+    } else if(type === 'number') {
+      invalid = this.validateNumber(value);
     }
 
     if(invalid) {
-      return this.format(minValue);
+      return this.format({ min: minValue+'' });
     }
-  },
 
-  validateString(value, min) {
+    return false;
+  }
+
+  validateString(value: string) {
     if(typeof value !== 'string') {
       return true;
     }
 
     var length = value && value.length || 0;
 
-    return length < min;
-  },
+    return length < this.min;
+  }
 
-  validateNumber(value, min) {
-    value = parseInt(value, 10);
+  validateNumber(value: string) {
+    const testValue = parseInt(value, 10);
 
-    if(isNaN(value)) {
+    if(isNaN(testValue)) {
       return true;
     }
 
-    return value < min;
+    return testValue < this.min;
   }
-});
+}

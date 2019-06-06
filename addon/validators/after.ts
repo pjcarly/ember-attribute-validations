@@ -1,4 +1,5 @@
 import Validator from 'ember-attribute-validations/validator';
+import Model from 'ember-data/model';
 import { hasValue, toDate } from '../utils';
 import { typeOf } from '@ember/utils';
 import { run } from '@ember/runloop';
@@ -12,7 +13,8 @@ import { isPresent } from '@ember/utils';
  * @class DateAfterValidator
  * @extends {Validator}
  */
-export default Validator.extend({
+export default class DateAfterValidator extends Validator {
+  name = 'afterDate';
 
   /**
    * after Date to be compared
@@ -21,18 +23,25 @@ export default Validator.extend({
    * @type {Date|Function}
    * @default null
    */
-  after: null,
 
-  validate(name, value, attribute, model) {
+  validate(_: string, value: any, attribute: any, _2: Model) : string | boolean {
     if(hasValue(value)) {
+      assert('You must define a `after` Date on your model', isPresent(attribute.options.validation.after));
+
       const date = toDate(value);
-      const after = this._resolveAfterDate(model);
+      const after = this._resolveAfterDate(attribute.options.validation.after);
+
+      if(!date || !after) {
+        return this.format();
+      }
 
       if(this._compareDates(date, after)) {
-        return this.format(date, after);
+        return this.format({ date: after.toString() });
       }
     }
-  },
+
+    return false;
+  }
 
   /**
    * Resolves the `after` property to a Valid Date.
@@ -45,17 +54,16 @@ export default Validator.extend({
    * @param  {DS.Model} model
    * @return {Date}
    */
-  _resolveAfterDate(model) {
-    let after = this.get('after');
-
+  _resolveAfterDate(after: () => Date | Date) {
     if(typeOf(after) === 'function') {
-      after = run(model, after);
+      // @ts-ignore
+      after = run(after);
     }
 
-    assert('You must define a `after` Date for DateAfterValidator', isPresent(after));
+    assert('You must define a `after` Date on your model', isPresent(after));
 
     return toDate(after);
-  },
+  }
 
   /**
    * Compares the two given Dates.
@@ -66,7 +74,7 @@ export default Validator.extend({
    * @param  {Date} after
    * @return {Boolean}
    */
-  _compareDates(date, after) {
+  _compareDates(date: Date, after: Date) {
     return !!(date && after && date < after);
   }
-});
+}

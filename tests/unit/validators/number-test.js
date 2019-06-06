@@ -1,4 +1,5 @@
 import Validator from 'ember-attribute-validations/validators/number';
+import { module, test } from 'qunit';
 
 var attribute = {
   options: {},
@@ -12,19 +13,19 @@ var validator = Validator.create({
 
 module('Number Validator test');
 
-test('validate', function() {
-  deepEqual(validator.validate('stars', '100.000', attribute, {}), undefined);
-  deepEqual(validator.validate('stars', 9, attribute, {}), undefined);
-  deepEqual(validator.validate('stars', 0, attribute, {}), undefined);
-  deepEqual(validator.validate('stars', '12345', attribute, {}), undefined);
-  deepEqual(validator.validate('stars', '78.98', attribute, {}), undefined);
+test('validate', function(assert) {
+  assert.deepEqual(validator.validate('stars', '100.000', attribute, {}), undefined);
+  assert.deepEqual(validator.validate('stars', 9, attribute, {}), undefined);
+  assert.deepEqual(validator.validate('stars', 0, attribute, {}), undefined);
+  assert.deepEqual(validator.validate('stars', '12345', attribute, {}), undefined);
+  assert.deepEqual(validator.validate('stars', '78.98', attribute, {}), undefined);
 
   // Should not validate empty values
-  deepEqual(validator.validate('url', undefined, attribute, {}), undefined);
-  deepEqual(validator.validate('url', null, attribute, {}), undefined);
-  deepEqual(validator.validate('url', '', attribute, {}), undefined);
+  assert.deepEqual(validator.validate('url', undefined, attribute, {}), undefined);
+  assert.deepEqual(validator.validate('url', null, attribute, {}), undefined);
+  assert.deepEqual(validator.validate('url', '', attribute, {}), undefined);
 
-  deepEqual(validator.validate('stars', '78.98,00', attribute, {}), 'Stars must be a number');
-  deepEqual(validator.validate('stars', false, attribute, {}), 'Stars must be a number');
-  deepEqual(validator.validate('stars', 'some value', attribute, {}), 'Stars must be a number');
+  assert.deepEqual(validator.validate('stars', '78.98,00', attribute, {}), 'Stars must be a number');
+  assert.deepEqual(validator.validate('stars', false, attribute, {}), 'Stars must be a number');
+  assert.deepEqual(validator.validate('stars', 'some value', attribute, {}), 'Stars must be a number');
 });

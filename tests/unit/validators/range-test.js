@@ -1,8 +1,9 @@
 import Validator from 'ember-attribute-validations/validators/range';
+import { module, test } from 'qunit';
 
 module('Range Validator test');
 
-test('test missing from value', function() {
+test('test missing from value', function(assert) {
   var attribute = {
     type: 'string',
     options: {},
@@ -13,14 +14,14 @@ test('test missing from value', function() {
     attribute
   });
 
-  throws(function() {
+  assert.throws(function() {
     validator.validate('email', 'value', attribute);
   }, function(err) {
     return err.message === "Assertion Failed: You must define a `from` for RangeValidator";
   });
 });
 
-test('test missing to value', function() {
+test('test missing to value', function(assert) {
   var attribute = {
     type: 'string',
     options: {},
@@ -32,14 +33,14 @@ test('test missing to value', function() {
     attribute: attribute
   });
 
-  throws(function() {
+  assert.throws(function() {
     validator.validate('email', 'value', attribute);
   }, function(err) {
     return err.message === "Assertion Failed: You must define a `to` for RangeValidator";
   });
 });
 
-test('validate string', function() {
+test('validate string', function(assert) {
   var attribute = {
     type: 'string',
     options: {},
@@ -53,19 +54,19 @@ test('validate string', function() {
     attribute: attribute
   });
 
-  deepEqual(validator.validate('email', 'vladimir', attribute, {}), undefined);
-  deepEqual(validator.validate('email', 'vlada', attribute, {}), undefined);
-  deepEqual(validator.validate('email', 'some email', attribute, {}), undefined);
+  assert.deepEqual(validator.validate('email', 'vladimir', attribute, {}), undefined);
+  assert.deepEqual(validator.validate('email', 'vlada', attribute, {}), undefined);
+  assert.deepEqual(validator.validate('email', 'some email', attribute, {}), undefined);
 
-  deepEqual(validator.validate('email', '', attribute, {}), 'Email must not be smaller than 3 and bigger than 10');
-  deepEqual(validator.validate('email', 'fo', attribute, {}), 'Email must not be smaller than 3 and bigger than 10');
-  deepEqual(validator.validate('email', null, attribute, {}), 'Email must not be smaller than 3 and bigger than 10');
-  deepEqual(validator.validate('email', false, attribute, {}), 'Email must not be smaller than 3 and bigger than 10');
-  deepEqual(validator.validate('email', undefined, attribute, {}), 'Email must not be smaller than 3 and bigger than 10');
+  assert.deepEqual(validator.validate('email', '', attribute, {}), 'Email must not be smaller than 3 and bigger than 10');
+  assert.deepEqual(validator.validate('email', 'fo', attribute, {}), 'Email must not be smaller than 3 and bigger than 10');
+  assert.deepEqual(validator.validate('email', null, attribute, {}), 'Email must not be smaller than 3 and bigger than 10');
+  assert.deepEqual(validator.validate('email', false, attribute, {}), 'Email must not be smaller than 3 and bigger than 10');
+  assert.deepEqual(validator.validate('email', undefined, attribute, {}), 'Email must not be smaller than 3 and bigger than 10');
 
 });
 
-test('validate number', function() {
+test('validate number', function(assert) {
   var attribute = {
     type: 'number',
     options: {},
@@ -79,14 +80,14 @@ test('validate number', function() {
     attribute: attribute
   });
 
-  deepEqual(validator.validate('attribute', '3', attribute, {}), undefined);
-  deepEqual(validator.validate('attribute', '9', attribute, {}), undefined);
-  deepEqual(validator.validate('attribute', 8, attribute, {}), undefined);
-  deepEqual(validator.validate('attribute', 4, attribute, {}), undefined);
+  assert.deepEqual(validator.validate('attribute', '3', attribute, {}), undefined);
+  assert.deepEqual(validator.validate('attribute', '9', attribute, {}), undefined);
+  assert.deepEqual(validator.validate('attribute', 8, attribute, {}), undefined);
+  assert.deepEqual(validator.validate('attribute', 4, attribute, {}), undefined);
 
-  deepEqual(validator.validate('attribute', 11, attribute, {}), 'Attribute must not be smaller than 3 and bigger than 10');
-  deepEqual(validator.validate('attribute', '2', attribute, {}), 'Attribute must not be smaller than 3 and bigger than 10');
-  deepEqual(validator.validate('attribute', null, attribute, {}), 'Attribute must not be smaller than 3 and bigger than 10');
-  deepEqual(validator.validate('attribute', false, attribute, {}), 'Attribute must not be smaller than 3 and bigger than 10');
-  deepEqual(validator.validate('attribute', undefined, attribute, {}), 'Attribute must not be smaller than 3 and bigger than 10');
+  assert.deepEqual(validator.validate('attribute', 11, attribute, {}), 'Attribute must not be smaller than 3 and bigger than 10');
+  assert.deepEqual(validator.validate('attribute', '2', attribute, {}), 'Attribute must not be smaller than 3 and bigger than 10');
+  assert.deepEqual(validator.validate('attribute', null, attribute, {}), 'Attribute must not be smaller than 3 and bigger than 10');
+  assert.deepEqual(validator.validate('attribute', false, attribute, {}), 'Attribute must not be smaller than 3 and bigger than 10');
+  assert.deepEqual(validator.validate('attribute', undefined, attribute, {}), 'Attribute must not be smaller than 3 and bigger than 10');
 });

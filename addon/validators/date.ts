@@ -1,8 +1,7 @@
 import Validator from 'ember-attribute-validations/validator';
-import {
-  hasValue,
-  toDate
-} from '../utils';
+import Model from 'ember-data/model';
+import { hasValue, toDate } from '../utils';
+
 
 /**
  * Validator that checks if the Attribute value is a valid Date.
@@ -10,14 +9,20 @@ import {
  * @class DateValidator
  * @extends {Validator}
  */
-export default Validator.extend({
-  validate(name, value) {
+export default class DateValidator extends Validator {
+  name = 'date';
+
+  validate(_: string, value: any, _2: any, _3: Model) : string | boolean {
+
     if(hasValue(value)) {
       const date = toDate(value);
 
+      //@ts-ignore
       if(isNaN(date) || date === null) {
-        return this.format(value);
+        return this.format();
       }
     }
+
+    return false;
   }
-});
+}

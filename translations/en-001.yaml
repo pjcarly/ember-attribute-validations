@@ -1,6 +1,9 @@
 ember-attribute-validations:
   error: 'Some required information is missing or incomplete. Please correct your entries and try again.'
   acceptance: '{label} must be checked'
+  date: '{label} must be a valid date'
+  afterDate: '{label} must be after {date}'
+  beforeDate: '{label} must be before {date}'
   digit: '{label} must be a digit'
   number: '{label} must be a number'
   wholenumber: '{label} must be a whole number'
@@ -10,6 +13,7 @@ ember-attribute-validations:
   precision: '{label} cannot have more than {digits} digits'
   email: '{label} is an invalid email address'
   url: '{label} is an invalid URL'
+  in: '{label} is not in the allowed values of: {values}'
   required: '{label} is required'
   max:
     string: '{label} must be at most {max} characters'

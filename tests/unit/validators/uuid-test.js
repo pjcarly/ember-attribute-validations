@@ -1,4 +1,5 @@
 import Validator from 'ember-attribute-validations/validators/uuid';
+import { module, test } from 'qunit';
 
 var attribute = {
   options: {},
@@ -7,30 +8,29 @@ var attribute = {
 
 module('uuid Validator test');
 
-function validate(validator, valid, invalid) {
+function validate(assert, validator, valid, invalid) {
 
   valid.forEach(function(uuid) {
-    deepEqual(validator.validate('uuid', uuid, attribute, {}), undefined);
+    assert.deepEqual(validator.validate('uuid', uuid, attribute, {}), undefined);
   });
 
   invalid.forEach(function(uuid) {
-    deepEqual(validator.validate('uuid', uuid, attribute, {}), 'Uuid must be a valid UUID');
+    assert.deepEqual(validator.validate('uuid', uuid, attribute, {}), 'Uuid must be a valid UUID');
   });
 
   // Should not validate empty values
-  deepEqual(validator.validate('uuid', undefined, attribute, {}), undefined);
-  deepEqual(validator.validate('uuid', null, attribute, {}), undefined);
-  deepEqual(validator.validate('uuid', '', attribute, {}), undefined);
-
+  assert.deepEqual(validator.validate('uuid', undefined, attribute, {}), undefined);
+  assert.deepEqual(validator.validate('uuid', null, attribute, {}), undefined);
+  assert.deepEqual(validator.validate('uuid', '', attribute, {}), undefined);
 }
 
-test('validate all', function() {
+test('validate all', function(assert) {
   var validator = Validator.create({
     message: '%@ must be a valid UUID',
     attribute: attribute
   });
 
-  validate(validator, [
+  validate(assert, validator, [
     'A987FBC9-4BED-3078-CF07-9141BA07C9F3',
     'A987FBC9-4BED-4078-8F07-9141BA07C9F3',
     'A987FBC9-4BED-5078-AF07-9141BA07C9F3'
@@ -45,14 +45,14 @@ test('validate all', function() {
   ]);
 });
 
-test('validate v3', function() {
+test('validate v3', function(assert) {
   var validator = Validator.create({
     version: 3,
     message: '%@ must be a valid UUID',
     attribute: attribute
   });
 
-  validate(validator, [
+  validate(assert, validator, [
     'A987FBC9-4BED-3078-CF07-9141BA07C9F3'
   ], [
     false,
@@ -63,14 +63,14 @@ test('validate v3', function() {
   ]);
 });
 
-test('validate v4', function() {
+test('validate v4', function(assert) {
   var validator = Validator.create({
     version: 4,
     message: '%@ must be a valid UUID',
     attribute: attribute
   });
 
-  validate(validator, [
+  validate(assert, validator, [
     '713ae7e3-cb32-45f9-adcb-7c4fa86b90c1',
     '625e63f3-58f5-40b7-83a1-a72ad31acffb',
     '57b73598-8764-4ad0-a76a-679bb6640eb1',
@@ -85,14 +85,14 @@ test('validate v4', function() {
   ]);
 });
 
-test('validate v5', function() {
+test('validate v5', function(assert) {
   var validator = Validator.create({
     version: 5,
     message: '%@ must be a valid UUID',
     attribute: attribute
   });
 
-  validate(validator, [
+  validate(assert, validator, [
     '987FBC97-4BED-5078-AF07-9141BA07C9F3',
     '987FBC97-4BED-5078-BF07-9141BA07C9F3',
     '987FBC97-4BED-5078-8F07-9141BA07C9F3',

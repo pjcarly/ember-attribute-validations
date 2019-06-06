@@ -1,5 +1,6 @@
 import Validator from 'ember-attribute-validations/validator';
 import { isBlank } from '@ember/utils';
+import Model from 'ember-data/model';
 
 /**
  * Validator that checks if the Attribute value
@@ -9,11 +10,15 @@ import { isBlank } from '@ember/utils';
  * @extends {Validator}
  */
 
-export default Validator.extend({
-  validate(name, value) {
+export default class WholeNumberValidator extends Validator {
+  name = 'wholenumber';
+
+  validate(_: string, value: any, _2: any, _3: Model) : string | boolean {
 
     if (!isBlank(value) && (isNaN(value) || (value % 1 !== 0))) {
       return this.format();
     }
+
+    return false;
   }
-});
+}
