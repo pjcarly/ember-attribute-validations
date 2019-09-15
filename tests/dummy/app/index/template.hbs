@@ -1,0 +1,73 @@
+<h2>Company</h2>
+{{#each this.company.errors as |error|}}
+  <p style="color: red;"><strong>({{error.attribute}})</strong> {{error.message}}</p>
+{{/each}}
+
+<div>
+  <label for="name">Name</label>
+  {{input id="name" value=this.company.name}}
+  <small>Required</small>
+</div>
+<div>
+  <label for="vatNumber">VAT Number</label>
+  {{input id="vatNumber" value=this.company.vatNumber}}
+  <small>Max: 10</small>
+</div>
+<div>
+  <label for="rating">Rating</label>
+  {{input id="rating" value=this.company.rating}}
+  <small>Range: 0-5</small>
+</div>
+<div>
+  <label for="score">Score</label>
+  {{input id="score" value=this.company.score}}
+  <small>Precision: 2, Decimals: 1</small>
+</div>
+<div>
+  <label for="debit">Debit</label>
+  {{input id="debit" value=this.company.debit}}
+  <small>Positive, Number</small>
+</div>
+<div>
+  <label for="credit">Credit</label>
+  {{input id="credit" value=this.company.credit}}
+  <small>Negative, Number</small>
+</div>
+
+<h2>Contact</h2>
+{{#each this.contact.errors as |error|}}
+  <p style="color: red;"><strong>({{error.attribute}})</strong> {{error.message}}</p>
+{{/each}}
+
+<div>
+  <label for="salutation">Salutation</label>
+  {{input id="salutation" value=this.contact.salutation}}
+  <small>In "MR, MS"</small>
+</div>
+<div>
+  <label for="firstName">First Name</label>
+  {{input id="firstName" value=this.contact.firstName}}
+  <small>Required, Range 2-20</small>
+</div>
+<div>
+  <label for="lastName">Last Name</label>
+  {{input id="lastName" value=this.contact.lastName}}
+  <small>Required</small>
+</div>
+<div>
+  <label for="email">Email</label>
+  {{input id="email" value=this.contact.email}}
+  <small>email</small>
+</div>
+<div>
+  <label for="age">Age</label>
+  {{input id="age" value=this.contact.age}}
+  <small>Wholenumber, min: 0, max: 150</small>
+</div>
+<div>
+  <label for="birthdate">Birthdate</label>
+  {{input id="birthdate" value=this.contact.birthdate}}
+  <small>Date, After "2000-01-01", Before "today"</small>
+</div>
+
+<button onclick={{action 'save'}}>Save</button>
