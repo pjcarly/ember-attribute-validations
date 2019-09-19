@@ -1,10 +1,10 @@
-import EmberObject from '@ember/object';
-import Model from 'ember-data/model';
-import { computed } from '@ember-decorators/object';
-import { inject as service } from '@ember-decorators/service';
-import { assert } from '@ember/debug';
-import { isPresent } from '@ember/utils';
-import { capitalize } from '@ember/string';
+import EmberObject from "@ember/object";
+import Model from "ember-data/model";
+import { computed } from "@ember/object";
+import { inject as service } from "@ember/service";
+import { assert } from "@ember/debug";
+import { isPresent } from "@ember/utils";
+import { capitalize } from "@ember/string";
 
 /**
  * Validator Class used to perform specific Attribute
@@ -14,10 +14,10 @@ import { capitalize } from '@ember/string';
  * @extends {EmberObject}
  */
 export default abstract class Validator extends EmberObject {
-  @service intl !: any;
+  @service intl!: any;
 
-  attribute !: any;
-  name !: string;
+  attribute!: any;
+  name!: string;
 
   /**
    * This Property returns the intlKey that can be used to resolve a validation message
@@ -25,9 +25,12 @@ export default abstract class Validator extends EmberObject {
    * @property message
    * @type String
    */
-  @computed('attribute', 'name')
-  get intlKey() : string {
-    assert(`Your validator is missing a name. You must add the property "name" to your validator class, which contains a string name of the validator.`, isPresent(this.name));
+  @computed("attribute", "name")
+  get intlKey(): string {
+    assert(
+      `Your validator is missing a name. You must add the property "name" to your validator class, which contains a string name of the validator.`,
+      isPresent(this.name)
+    );
 
     const attributeType = this.attribute.type;
     const modelName = this.attribute.parentTypeKey;
@@ -35,17 +38,34 @@ export default abstract class Validator extends EmberObject {
 
     let intlKey;
 
-    if(this.intl.exists(`ember-attribute-validations.${modelName}.${validatorName}.${attributeType}`)) {
+    if (
+      this.intl.exists(
+        `ember-attribute-validations.${modelName}.${validatorName}.${attributeType}`
+      )
+    ) {
       intlKey = `ember-attribute-validations.${modelName}.${validatorName}.${attributeType}`;
-    } else if(this.intl.exists(`ember-attribute-validations.${modelName}.${validatorName}`)) {
+    } else if (
+      this.intl.exists(
+        `ember-attribute-validations.${modelName}.${validatorName}`
+      )
+    ) {
       intlKey = `ember-attribute-validations.${modelName}.${validatorName}`;
-    } else if(this.intl.exists(`ember-attribute-validations.${validatorName}.${attributeType}`)) {
+    } else if (
+      this.intl.exists(
+        `ember-attribute-validations.${validatorName}.${attributeType}`
+      )
+    ) {
       intlKey = `ember-attribute-validations.${validatorName}.${attributeType}`;
-    } else if(this.intl.exists(`ember-attribute-validations.${validatorName}`)) {
+    } else if (
+      this.intl.exists(`ember-attribute-validations.${validatorName}`)
+    ) {
       intlKey = `ember-attribute-validations.${validatorName}`;
     }
 
-    assert(`No validator message found for validator: '${validatorName}', attributeType: '${attributeType}', modelName: '${modelName}'`, isPresent(intlKey));
+    assert(
+      `No validator message found for validator: '${validatorName}', attributeType: '${attributeType}', modelName: '${modelName}'`,
+      isPresent(intlKey)
+    );
 
     // @ts-ignore
     return intlKey;
@@ -71,15 +91,21 @@ export default abstract class Validator extends EmberObject {
    * @property attributeLabel
    * @type {String}
    */
-  @computed('attribute', 'intl.locale')
-  get attributeLabel() : string {
+  @computed("attribute", "intl.locale")
+  get attributeLabel(): string {
     const modelName = this.attribute.parentTypeKey;
     const field = this.attribute.name;
 
-    let label = '';
-    if(this.intl.exists(`ember-field-components.${modelName}.fields.${field}`)) {
-      label = this.intl.t(`ember-field-components.${modelName}.fields.${field}`);
-    } else if(this.intl.exists(`ember-field-components.global.fields.${field}`)) {
+    let label = "";
+    if (
+      this.intl.exists(`ember-field-components.${modelName}.fields.${field}`)
+    ) {
+      label = this.intl.t(
+        `ember-field-components.${modelName}.fields.${field}`
+      );
+    } else if (
+      this.intl.exists(`ember-field-components.global.fields.${field}`)
+    ) {
       label = this.intl.t(`ember-field-components.global.fields.${field}`);
     } else {
       label = capitalize(field);
@@ -105,7 +131,12 @@ export default abstract class Validator extends EmberObject {
    * @param  {DS.Model}  model     Model instance
    * @return {String|Boolean}
    */
-  abstract validate(attribute: string, value: any, meta: any, model: Model) : string | boolean;
+  abstract validate(
+    attribute: string,
+    value: any,
+    meta: any,
+    model: Model
+  ): string | boolean;
 
   /**
    * Formats the validation error message.
@@ -116,10 +147,10 @@ export default abstract class Validator extends EmberObject {
    * @param {*} messageParameters Key value parameters that will be passed into the intl.t() function
    * @return {String}
    */
-  format(messageParameters : {[key: string]: string} = {}) : string {
+  format(messageParameters: { [key: string]: string } = {}): string {
     const intlKey = this.intlKey;
 
-    if(!messageParameters.hasOwnProperty('label')) {
+    if (!messageParameters.hasOwnProperty("label")) {
       messageParameters.label = this.attributeLabel;
     }
 
