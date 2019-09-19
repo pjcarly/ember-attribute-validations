@@ -46,6 +46,8 @@
         "ember-moment": "^7.8.1",
         "ember-resolver": "^5.2.1",
         "ember-source": "^3.12.0",
+        "eslint-plugin-ember": "^7.1.0",
+        "eslint-plugin-node": "^10.0.0",
         "ember-try": "^1.2.1",
         "loader.js": "^4.7.0",
         "typescript": "^3.6.3"
@@ -61,8 +63,7 @@
         "ember-cli-htmlbars": "^3.0.1",
         "ember-cli-typescript": "^3.0.0",
         "ember-data": "^3.12.2",
-        "ember-decorators": "^6.1.1",
-        "eslint-plugin-node": "^10.0.0"
+        "ember-decorators": "^6.1.1"
     },
     "ember-addon": {
         "configPath": "tests/dummy/config"
