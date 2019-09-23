@@ -6,9 +6,12 @@ Ember addon for adding validation functionality to your Ember Data Models.
 
 ## Installation
 
-* `ember install ember-attribute-validations`
+- Ember.js v3.12 or above
+- Ember CLI v3.12 or above
+- Node.js v10 or above
 
 ## Usage
+
 To add validation to your Models you must use the `ValidatorMixin` provided by the addon and define `validation` options to your Attributes.
 
 ```javascript
@@ -59,34 +62,37 @@ Validation of the Model is executed in the `save` method of the Model. If the va
 You can also manually call the `validate` method directly on the Model, if the Model is valid, this would return `true` otherwise `false`.
 
 ## Validators
+
 This addon comes with couple of built in `Validators`:
 
-* [RequiredValidator](#requiredvalidator)
-* [AcceptanceValidator](#acceptancevalidator)
-* [DigitValidator](#digitvalidator)
-* [EmailValidator](#emailvalidator)
-* [InValidator (EnumValidator)](#invalidator)
-* [MaxValidator](#maxvalidator)
-* [MinValidator](#minvalidator)
-* [NumberValidator](#numbervalidator)
-* [RangeValidator](#rangevalidator)
-* [URLValidator](#urlvalidator)
-* [PatternValidator](#patternvalidator)
-* [DateValidator](#datevalidator)
-* [DateBeforeValidator](#datebeforevalidator)
-* [DateAfterValidator](#dateaftervalidator)
-* [UUIDValidator](#uuidvalidator)
-* DecimalsValidator
-* DigitValidator
-* WholeNumberValidator
-* PrecisionValidator
+- [RequiredValidator](#requiredvalidator)
+- [AcceptanceValidator](#acceptancevalidator)
+- [DigitValidator](#digitvalidator)
+- [EmailValidator](#emailvalidator)
+- [InValidator (EnumValidator)](#invalidator)
+- [MaxValidator](#maxvalidator)
+- [MinValidator](#minvalidator)
+- [NumberValidator](#numbervalidator)
+- [RangeValidator](#rangevalidator)
+- [URLValidator](#urlvalidator)
+- [PatternValidator](#patternvalidator)
+- [DateValidator](#datevalidator)
+- [DateBeforeValidator](#datebeforevalidator)
+- [DateAfterValidator](#dateaftervalidator)
+- [UUIDValidator](#uuidvalidator)
+- DecimalsValidator
+- DigitValidator
+- WholeNumberValidator
+- PrecisionValidator
 
 You can also create your own custom `Validators` by using the provided blueprint.
 
 ```bash
 ember generate validator validator-name
 ```
+
 And you would get something like this:
+
 ```javascript
 import Validator from 'ember-attribute-validations/validator';
 
@@ -117,20 +123,22 @@ export DS.Model.extend(ValidatorMixin, {
     }
 });
 ```
+
 As you may have noticed we are relying on a simple naming convention to run validation. In this example, we have defined additional property for our `Validator` instance. You can also pass a `message` property that would have precedence over the existing `message` property defined in the `ValidatorNameValidator`.
 
 or if you wish to create a regex based `Validator`:
+
 ```bash
 ember generate pattern-validator pattern-validator-name
 ```
+
 ```javascript
-import PatternValidator from 'ember-attribute-validations/pattern-validator';
+import PatternValidator from "ember-attribute-validations/pattern-validator";
 
 export default PatternValidator.extend({
-    message: '%@ is not passing the test',
-    pattern: /my pattern/
+  message: "%@ is not passing the test",
+  pattern: /my pattern/
 });
-
 ```
 
 ```javascript
@@ -143,6 +151,7 @@ export DS.Model.extend(ValidatorMixin, {
     }
 });
 ```
+
 You can also do this manualy, but keep in mind that all validators must be either placed in the `validators` folder or be directly registered in the Ember container with the type `validator`.
 
 ## Message Resolver
@@ -158,47 +167,47 @@ When a validation of the attribute fails, `Validator` creates an error message b
 For instance if we have a Model with 2 attributes, declared like this in your `models/user.js` file:
 
 ```javascript
-import DS from 'ember-data';
+import DS from "ember-data";
 
 export default DS.Model.extend({
-    name: DS.attr('string', {
-        validation: {
-            required: true
-        }
-    }),
-    age: DS.attr('number', {
-        validation: {
-            required: true,
-            min: 18
-        }
-    })
+  name: DS.attr("string", {
+    validation: {
+      required: true
+    }
+  }),
+  age: DS.attr("number", {
+    validation: {
+      required: true,
+      min: 18
+    }
+  })
 });
 ```
 
 And we have created our own implementation of the `MessageResolver` that we placed in the `resolvers/message-resolver.js` file. Here we are going to declare our own catalog of error messages.
 
 ```javascript
-import MessageResolver from 'ember-attribute-validations/message-resolver';
+import MessageResolver from "ember-attribute-validations/message-resolver";
 
 const { computed, get } = Ember;
 
 export default MessageResolver.extend({
-    catalog: computed(function() {
-        return {
-            'required': 'Field %@ is required',
-            'min.string': 'String must have more than %@ characters',
-            'user': {
-                'age': {
-                    'min': 'You must have more than 18 years to register.'
-                }
-            }
-        };
-    }),
-    resolveMessage(key) {
-        var catalog = this.get('catalog');
+  catalog: computed(function() {
+    return {
+      required: "Field %@ is required",
+      "min.string": "String must have more than %@ characters",
+      user: {
+        age: {
+          min: "You must have more than 18 years to register."
+        }
+      }
+    };
+  }),
+  resolveMessage(key) {
+    var catalog = this.get("catalog");
 
-        return get(catalog, key);
-    }
+    return get(catalog, key);
+  }
 });
 ```
 
@@ -239,19 +248,19 @@ Once the message is found, it is stored in the cache for the current looked up k
 You can also register the messages in the container, and they can be fetched from there and used inside the `MessageResolver`.
 
 ```javascript
-import MessageResolver from 'ember-attribute-validations/message-resolver';
+import MessageResolver from "ember-attribute-validations/message-resolver";
 
 const { computed, get } = Ember;
 
 export default MessageResolver.extend({
-    catalog: computed(function() {
-        return this.container.lookup('i18n:messages');
-    }),
-    resolveMessage(key) {
-        var catalog = this.get('catalog');
+  catalog: computed(function() {
+    return this.container.lookup("i18n:messages");
+  }),
+  resolveMessage(key) {
+    var catalog = this.get("catalog");
 
-        return get(catalog, key);
-    }
+    return get(catalog, key);
+  }
 });
 ```
 
@@ -262,246 +271,242 @@ Examples on how to use validators.
 #### RequiredValidator
 
 ```javascript
-import DS from 'ember-data';
+import DS from "ember-data";
 
 export default DS.Model.extend({
-    name: DS.attr('string', {
-        validation: {
-            required: true
-        }
-    })
+  name: DS.attr("string", {
+    validation: {
+      required: true
+    }
+  })
 });
-
 ```
 
 #### AcceptanceValidator
 
 ```javascript
-import DS from 'ember-data';
+import DS from "ember-data";
 
 export default DS.Model.extend({
-    published: DS.attr('boolean', {
-        validation: {
-            acceptance: true
-        }
-    })
+  published: DS.attr("boolean", {
+    validation: {
+      acceptance: true
+    }
+  })
 });
-
 ```
 
 #### DigitValidator
 
 ```javascript
-import DS from 'ember-data';
+import DS from "ember-data";
 
 export default DS.Model.extend({
-    age: DS.attr('number', {
-        validation: {
-            digit: true
-        }
-    })
+  age: DS.attr("number", {
+    validation: {
+      digit: true
+    }
+  })
 });
-
 ```
 
 #### DateValidator
 
 ```javascript
-import DS from 'ember-data';
+import DS from "ember-data";
 
 export default DS.Model.extend({
-    dateOfBirth: DS.attr('date', {
-        validation: {
-            date: true
-        }
-    })
+  dateOfBirth: DS.attr("date", {
+    validation: {
+      date: true
+    }
+  })
 });
-
 ```
 
 #### DateBeforeValidator
 
 ```javascript
-import DS from 'ember-data';
+import DS from "ember-data";
 
 export default DS.Model.extend({
-    dateOfBirth: DS.attr('date', {
-        validation: {
-            before: new Date()
-        }
-    })
+  dateOfBirth: DS.attr("date", {
+    validation: {
+      before: new Date()
+    }
+  })
 });
-
 ```
 
 Or with a function
 
 ```javascript
-import moment from 'moment';
-import DS from 'ember-data';
+import moment from "moment";
+import DS from "ember-data";
 
 export default DS.Model.extend({
-    dateOfBirth: DS.attr('date', {
-        validation: {
-            before() {
-                return moment().startOf('d').toDate();
-            }
-        }
-    })
+  dateOfBirth: DS.attr("date", {
+    validation: {
+      before() {
+        return moment()
+          .startOf("d")
+          .toDate();
+      }
+    }
+  })
 });
-
 ```
 
 #### DateAfterValidator
 
 ```javascript
-import DS from 'ember-data';
+import DS from "ember-data";
 
 export default DS.Model.extend({
-    dateOfBirth: DS.attr('date', {
-        validation: {
-            after: new Date()
-        }
-    })
+  dateOfBirth: DS.attr("date", {
+    validation: {
+      after: new Date()
+    }
+  })
 });
-
 ```
 
 Or with a function
 
 ```javascript
-import moment from 'moment';
-import DS from 'ember-data';
+import moment from "moment";
+import DS from "ember-data";
 
 export default DS.Model.extend({
-    dateOfBirth: DS.attr('date', {
-        validation: {
-            after() {
-                return moment().startOf('d').toDate();
-            }
-        }
-    })
+  dateOfBirth: DS.attr("date", {
+    validation: {
+      after() {
+        return moment()
+          .startOf("d")
+          .toDate();
+      }
+    }
+  })
 });
-
 ```
 
 #### EmailValidator
 
 ```javascript
-import DS from 'ember-data';
+import DS from "ember-data";
 
 export default DS.Model.extend({
-    email: DS.attr('string', {
-        validation: {
-            email: true
-        }
-    })
+  email: DS.attr("string", {
+    validation: {
+      email: true
+    }
+  })
 });
 ```
 
 #### InValidator
 
 ```javascript
-import DS from 'ember-data';
+import DS from "ember-data";
 
 export default DS.Model.extend({
-    property: DS.attr('string', {
-        validation: {
-            in: {
-                values: ['foo', 'bar']
-            }
-        }
-    })
+  property: DS.attr("string", {
+    validation: {
+      in: {
+        values: ["foo", "bar"]
+      }
+    }
+  })
 });
 ```
 
 #### MaxValidator
 
 ```javascript
-import DS from 'ember-data';
+import DS from "ember-data";
 
 export default DS.Model.extend({
-    age: DS.attr('number', {
-        validation: {
-            max: 18
-        }
-    })
+  age: DS.attr("number", {
+    validation: {
+      max: 18
+    }
+  })
 });
 ```
 
 #### MinValidator
 
 ```javascript
-import DS from 'ember-data';
+import DS from "ember-data";
 
 export default DS.Model.extend({
-    age: DS.attr('number', {
-        validation: {
-            min: 18
-        }
-    })
+  age: DS.attr("number", {
+    validation: {
+      min: 18
+    }
+  })
 });
 ```
 
 #### NumberValidator
 
 ```javascript
-import DS from 'ember-data';
+import DS from "ember-data";
 
 export default DS.Model.extend({
-    age: DS.attr('number', {
-        validation: {
-            number: true
-        }
-    })
+  age: DS.attr("number", {
+    validation: {
+      number: true
+    }
+  })
 });
 ```
 
 #### RangeValidator
 
 ```javascript
-import DS from 'ember-data';
+import DS from "ember-data";
 
 export default DS.Model.extend({
-    age: DS.attr('number', {
-        validation: {
-            range: {
-                from: 0,
-                to: 18
-            }
-        }
-    })
+  age: DS.attr("number", {
+    validation: {
+      range: {
+        from: 0,
+        to: 18
+      }
+    }
+  })
 });
 ```
 
 Or with a String length
 
 ```javascript
-import DS from 'ember-data';
+import DS from "ember-data";
 
 export default DS.Model.extend({
-    password: DS.attr('string', {
-        validation: {
-            range: {
-                from: 8,
-                to: 12
-            }
-        }
-    })
+  password: DS.attr("string", {
+    validation: {
+      range: {
+        from: 8,
+        to: 12
+      }
+    }
+  })
 });
 ```
 
 #### URLValidator
 
 ```javascript
-import DS from 'ember-data';
+import DS from "ember-data";
 
 export default DS.Model.extend({
-    website: DS.attr('string', {
-        validation: {
-            url: true
-        }
-    })
+  website: DS.attr("string", {
+    validation: {
+      url: true
+    }
+  })
 });
 ```
 
@@ -510,30 +515,30 @@ export default DS.Model.extend({
 Here you can pass `all`, `3`, `4` or `5` as a `version` property value. If `all` is passed it validates the 1 and 2 UUID verions.
 
 ```javascript
-import DS from 'ember-data';
+import DS from "ember-data";
 
 export default DS.Model.extend({
-    uuid: DS.attr('string', {
-        validation: {
-            uuid: {
-                version: 3
-            }
-        }
-    })
+  uuid: DS.attr("string", {
+    validation: {
+      uuid: {
+        version: 3
+      }
+    }
+  })
 });
 ```
 
 #### PatternValidator
 
 ```javascript
-import DS from 'ember-data';
+import DS from "ember-data";
 
 export default DS.Model.extend({
-    pattern: DS.attr('string', {
-        validation: {
-            pattern: 'some regex rule'
-        }
-    })
+  pattern: DS.attr("string", {
+    validation: {
+      pattern: "some regex rule"
+    }
+  })
 });
 ```
 
@@ -541,16 +546,16 @@ More documentation to follow...
 
 ## Running
 
-* `ember server`
-* Visit your app at http://localhost:4200.
+- `ember server`
+- Visit your app at http://localhost:4200.
 
 ## Running Tests
 
-* `ember test`
-* `ember test --server`
+- `ember test`
+- `ember test --server`
 
 ## Building
 
-* `ember build`
+- `ember build`
 
 For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
