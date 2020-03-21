@@ -9,9 +9,7 @@ export default class ContactModel extends Model {
   salutation!: string;
 
   //@ts-ignore
-  @attr("string", {
-    validation: { required: true, range: { from: 2, to: 20 } }
-  })
+  @attr("string", { validation: { required: true, range: { from: 2, to: 20 } }})
   firstName!: string;
 
   //@ts-ignore
@@ -27,15 +25,7 @@ export default class ContactModel extends Model {
   age?: number;
 
   //@ts-ignore
-  @attr("date", {
-    validation: {
-      date: true,
-      after: new Date("2000-01-01"),
-      before() {
-        return new Date();
-      }
-    }
-  })
+  @attr("date", { validation: { date: true, after: new Date("2000-01-01"), before() { return new Date(); }}})
   birthdate?: Date;
 }
 
