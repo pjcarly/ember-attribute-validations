@@ -1,27 +1,27 @@
 ember-attribute-validations:
-  error: 'Some required information is missing or incomplete. Please correct your entries and try again.'
-  acceptance: '{label} must be checked'
-  date: '{label} must be a valid date'
-  afterDate: '{label} must be after {date}'
-  beforeDate: '{label} must be before {date}'
-  digit: '{label} must be a digit'
-  number: '{label} must be a number'
-  wholenumber: '{label} must be a whole number'
-  negative: '{label} must be a negative number'
-  positive: '{label} must be a positive number'
-  decimals: '{label} cannot have more than {decimals} decimals'
-  precision: '{label} cannot have more than {digits} digits'
-  email: '{label} is an invalid email address'
-  url: '{label} is an invalid URL'
-  in: '{label} is not in the allowed values of: {values}'
-  required: '{label} is required'
+  error: "Some required information is missing or incomplete. Please correct your entries and try again."
+  acceptance: "{label} must be checked"
+  date: "{label} must be a valid date"
+  afterDate: "{label} must be after {date}"
+  beforeDate: "{label} must be before {date}"
+  digit: "{label} must be a digit"
+  number: "{label} must be a number"
+  wholenumber: "{label} must be a whole number"
+  negative: "{label} must be a negative number"
+  positive: "{label} must be a positive number"
+  decimals: "{label} cannot have more than {decimals} decimals"
+  precision: "{label} cannot have more than {digits} digits"
+  email: "{label} is an invalid email address"
+  url: "{label} is an invalid URL"
+  in: "{label} is not in the allowed values of: {values}"
+  required: "{label} is required"
   max:
-    string: '{label} must be at most {max} characters'
-    number: '{label} must be less than or equal to {max}'
+    string: "{label} must be at most {max} characters"
+    number: "{label} must be less than or equal to {max}"
   min:
-    string: '{label} must be at least {min} characters'
-    number: '{label} must be greater than or equal to {min}'
+    string: "{label} must be at least {min} characters"
+    number: "{label} must be greater than or equal to {min}"
   range:
-    string: '{label} must be between {start} and {end} characters'
-    number: '{label} must be between {start} and {end}'
-  pattern: '{label} is invalid'
+    string: "{label} must be between {start} and {end} characters"
+    number: "{label} must be between {start} and {end}"
+  pattern: "{label} is invalid"

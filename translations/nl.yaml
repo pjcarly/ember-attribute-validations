@@ -1,27 +1,27 @@
 ember-attribute-validations:
-  error: 'Sommige vereiste informatie ontbreekt of is onvolledig. Corrigeer uw invoer en probeer het opnieuw.'
-  acceptance: '{label} moet gecontroleerd worden'
-  date: '{label} moet een geldige datum zijn'
-  afterDate: '{label} moet na {date} zijn'
-  beforeDate: '{label} moet voor {date} zijn'
-  digit: '{label} moet een cijfer zijn'
-  number: '{label} moet een nummer zijn'
-  wholenumber: '{label} moet een heel getal zijn'
-  negative: '{label} moet een negatief getal zijn'
-  positive: '{label} moet een positief getal zijn'
-  decimals: '{label} kan niet meer dan {decimals} decimalen hebben'
-  precision: '{label} kan niet meer dan {digits} cijfers hebben'
-  email: '{label} is een onjuist email adres'
-  url: '{label} is een ongeldige URL'
-  in: '{label} enkel deze waardes zijn toegestaan: {values}'
-  required: '{label} is verplicht'
+  error: "Sommige vereiste informatie ontbreekt of is onvolledig. Corrigeer uw invoer en probeer het opnieuw."
+  acceptance: "{label} moet gecontroleerd worden"
+  date: "{label} moet een geldige datum zijn"
+  afterDate: "{label} moet na {date} zijn"
+  beforeDate: "{label} moet voor {date} zijn"
+  digit: "{label} moet een cijfer zijn"
+  number: "{label} moet een nummer zijn"
+  wholenumber: "{label} moet een heel getal zijn"
+  negative: "{label} moet een negatief getal zijn"
+  positive: "{label} moet een positief getal zijn"
+  decimals: "{label} kan niet meer dan {decimals} decimalen hebben"
+  precision: "{label} kan niet meer dan {digits} cijfers hebben"
+  email: "{label} is een onjuist email adres"
+  url: "{label} is een ongeldige URL"
+  in: "{label} enkel deze waardes zijn toegestaan: {values}"
+  required: "{label} is verplicht"
   max:
-    string: '{label} mag maximum {max} karakters bevatten'
-    number: '{label} mag niet groter zijn dan {max}'
+    string: "{label} mag maximum {max} karakters bevatten"
+    number: "{label} mag niet groter zijn dan {max}"
   min:
-    string: '{label} mag niet meer dan {min} karakters bevatten'
-    number: '{label} moet groter of gelijk zijn aan {min}'
+    string: "{label} mag niet meer dan {min} karakters bevatten"
+    number: "{label} moet groter of gelijk zijn aan {min}"
   range:
-    string: '{label} moet tussen {start} en {end} aantal karakters zijn'
-    number: '{label} moet tussen {start} en {end} liggen'
-  pattern: '{label} onjuist'
+    string: "{label} moet tussen {start} en {end} aantal karakters zijn"
+    number: "{label} moet tussen {start} en {end} liggen"
+  pattern: "{label} onjuist"
