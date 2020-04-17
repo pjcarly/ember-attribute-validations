@@ -47,7 +47,7 @@
     "ember-resolver": "~5.2.1",
     "ember-source": "~3.16.0",
     "ember-try": "~1.2.1",
-    "eslint-plugin-ember": "~7.1.0",
+    "eslint-plugin-ember": "~8.4.0",
     "eslint-plugin-node": "~10.0.0",
     "loader.js": "~4.7.0",
     "typescript": "^3.8.3"
