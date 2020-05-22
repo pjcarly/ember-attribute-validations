@@ -34,6 +34,7 @@
     "@types/rsvp": "^4.0.3",
     "babel-eslint": "~8.0.0",
     "broccoli-asset-rev": "~3.0.0",
+    "els-addon-typed-templates": "^2.2.18",
     "ember-cli": "~3.16.0",
     "ember-cli-dependency-checker": "~3.2.0",
     "ember-cli-eslint": "~5.1.0",
@@ -54,7 +55,7 @@
     "eslint-plugin-ember": "~8.4.0",
     "eslint-plugin-node": "~10.0.0",
     "loader.js": "~4.7.0",
-    "typescript": "^3.8.3"
+    "typescript": "^3.9.0"
   },
   "keywords": [
     "ember-addon",
