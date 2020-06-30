@@ -1,7 +1,8 @@
+// @ts-ignore
 import Validator from "ember-attribute-validations/mixins/validator";
 
 export function validationModel(desc: any) {
-  if(typeof desc === 'function') {
+  if (typeof desc === "function") {
     desc.reopen(Validator);
   } else {
     return {
@@ -10,7 +11,7 @@ export function validationModel(desc: any) {
         target.reopen(Validator);
 
         return target;
-      }
+      },
     };
   }
 }
