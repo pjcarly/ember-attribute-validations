@@ -1,35 +1,41 @@
-import Mixin from '@ember/object/mixin';
-import ValidationError from '../error';
-import { canInvoke } from '../utils';
-import { getOwner } from '@ember/application';
-import { isEmpty } from '@ember/utils';
-import { isArray } from '@ember/array';
-import { get } from '@ember/object';
-import { assert } from '@ember/debug';
-import { assign } from '@ember/polyfills';
-import { run } from '@ember/runloop';
-import { camelize } from '@ember/string';
-import { reject } from 'rsvp';
-import { inject as service } from '@ember/service';
+import Mixin from "@ember/object/mixin";
+import ValidationError from "../error";
+import { canInvoke } from "../utils";
+import { getOwner } from "@ember/application";
+import { isEmpty } from "@ember/utils";
+import { isArray } from "@ember/array";
+import { get } from "@ember/object";
+import { assert } from "@ember/debug";
+import { assign } from "@ember/polyfills";
+import { run } from "@ember/runloop";
+import { camelize } from "@ember/string";
+import { reject } from "rsvp";
+import { inject as service } from "@ember/service";
 
 function createValidationError(model, intl) {
-  const message = intl.t('ember-attribute-validations.error');
+  const message = intl.t("ember-attribute-validations.error");
   return new ValidationError(message, model.errors);
 }
 
 function lookupValidtorFactory(container, key) {
-  return container.factoryFor(`validator:${key}`).class || container.factoryFor(`ember-attribute-validations@validator:${key}`).class;
+  return (
+    container.factoryFor(`validator:${key}`).class ||
+    container.factoryFor(`ember-attribute-validations@validator:${key}`).class
+  );
 }
 
 function lookupValidator(container, validator) {
   const typeKey = validator.type;
   const validatorClass = lookupValidtorFactory(container, typeKey);
 
-  assert('Could not find Validator `' + typeKey + '`.', typeof validatorClass === 'function');
+  assert(
+    "Could not find Validator `" + typeKey + "`.",
+    typeof validatorClass === "function"
+  );
 
   let value = validator.value;
 
-  if (typeof value !== 'object') {
+  if (typeof value !== "object") {
     value = {};
 
     value[validator.type] = validator.value;
@@ -37,7 +43,7 @@ function lookupValidator(container, validator) {
 
   assign(value, {
     attribute: validator.attribute,
-    container: container
+    container: container,
   });
 
   validatorClass.typeKey = camelize(typeKey);
@@ -53,7 +59,6 @@ function lookupValidator(container, validator) {
  * @class ValidatorMixin
  */
 export default Mixin.create({
-
   intl: service(),
 
   /**
@@ -65,7 +70,7 @@ export default Mixin.create({
    */
   validatorsFor(attribute) {
     const meta = attribute.options;
-    let validations = get(meta, 'validation');
+    let validations = get(meta, "validation");
 
     if (isEmpty(validations)) {
       return [];
@@ -84,7 +89,7 @@ export default Mixin.create({
         validators.push({
           type: name,
           value: validation[name],
-          attribute: attribute
+          attribute: attribute,
         });
       });
     });
@@ -112,12 +117,13 @@ export default Mixin.create({
     const name = attribute.name;
 
     // Assign the Model name to the Attribute
-    attribute.parentTypeKey = this.constructor.modelName || this.constructor.typeKey;
+    attribute.parentTypeKey =
+      this.constructor.modelName || this.constructor.typeKey;
 
     validators.forEach((validator) => {
       const result = validator.validate(name, this.get(name), attribute, this);
 
-      if (typeof result === 'string') {
+      if (typeof result === "string") {
         this._addValidationError(name, result);
       }
     });
@@ -140,12 +146,18 @@ export default Mixin.create({
     const validators = this.validatorsFor(relationship);
     const name = relationship.key;
 
-    relationship.parentTypeKey = this.constructor.modelName || this.constructor.typeKey;
+    relationship.parentTypeKey =
+      this.constructor.modelName || this.constructor.typeKey;
 
     validators.forEach((validator) => {
-      const result = validator.validate(name, this.get(name), relationship, this);
+      const result = validator.validate(
+        name,
+        this.get(name),
+        relationship,
+        this
+      );
 
-      if (typeof result === 'string') {
+      if (typeof result === "string") {
         this._addValidationError(name, result);
       }
     });
@@ -166,33 +178,33 @@ export default Mixin.create({
    */
   validate() {
     // Do not validate the records which are deleted
-    if (this.get('isDeleted')) {
+    if (this.isDeleted) {
       return true;
     }
 
-    const errors = this.get('errors');
+    const errors = this.errors;
     errors._clear();
 
     // Clear the errors from the model and set the model
     // into an `uncommitted` state if the model is invalid
-    if (!this.get('isValid')) {
-      errors.trigger('becameValid');
+    if (!this.isValid) {
+      errors.trigger("becameValid");
     }
 
     this.eachAttribute((key, attribute) => {
-      run(this, '_validateAttribute', attribute);
+      run(this, "_validateAttribute", attribute);
     });
 
     this.eachRelationship((key, relationship) => {
-      run(this, '_validateRelationship', relationship);
+      run(this, "_validateRelationship", relationship);
     });
 
-    const isValid = get(errors, 'isEmpty');
+    const isValid = get(errors, "isEmpty");
 
     // Move the model into an 'invalid' state if the errors
     // are not empty
-    if(!isValid) {
-      errors.trigger('becameInvalid');
+    if (!isValid) {
+      errors.trigger("becameInvalid");
     }
 
     return isValid;
@@ -208,11 +220,11 @@ export default Mixin.create({
    */
   _addValidationError(attribute, message) {
     // If the model is in a Saved state, flag it as dirty.
-    if(!this.hasDirtyAttributes) {
-      this.send('becomeDirty');
+    if (!this.hasDirtyAttributes) {
+      this.send("becomeDirty");
     }
 
-    if(canInvoke(this.errors, '_add')) {
+    if (canInvoke(this.errors, "_add")) {
       this.errors._add(attribute, message);
     } else {
       this.errors.add(attribute, message);
@@ -223,8 +235,8 @@ export default Mixin.create({
    * Override of the Save method of DS.Model
    * @param {*} param0 Options for the save method. Pass validate=false if you want to ignore validation
    */
-  save({validate=true}={}) {
-    if(!validate) {
+  save({ validate = true } = {}) {
+    if (!validate) {
       return this._super();
     }
 
@@ -233,5 +245,5 @@ export default Mixin.create({
     }
 
     return reject(createValidationError(this, this.intl));
-  }
+  },
 });

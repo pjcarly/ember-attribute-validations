@@ -1,8 +1,8 @@
-import Model from 'ember-data/model';
-import Validator from 'ember-attribute-validations/validator';
-import { getValidationType } from 'ember-attribute-validations/utils';
-import { assert } from '@ember/debug';
-import { isPresent } from '@ember/utils';
+import Model from "ember-data/model";
+import Validator from "ember-attribute-validations/validator";
+import { getValidationType } from "ember-attribute-validations/utils";
+import { assert } from "@ember/debug";
+import { isPresent } from "@ember/utils";
 
 /**
  * Validator that could be used to validate Strings and Numbers.
@@ -14,7 +14,7 @@ import { isPresent } from '@ember/utils';
  * @extends {Validator}
  */
 export default class RangeValidator extends Validator {
-  name = 'range';
+  name = "range";
 
   /**
    * Number representing the starting point
@@ -24,7 +24,7 @@ export default class RangeValidator extends Validator {
    * @type {Number}
    * @default null
    */
-  from !: number;
+  from!: number;
 
   /**
    * Number representing the ending point
@@ -34,37 +34,35 @@ export default class RangeValidator extends Validator {
    * @type {Number}
    * @default null
    */
-  to !: number;
+  to!: number;
 
-  validate(_: string, value: any, attribute: any, _2: Model) : string | boolean {
+  validate(_: string, value: any, attribute: any, _2: Model): string | boolean {
     const type = getValidationType(attribute.type);
-    const fromValue = this.get('from');
-    const toValue = this.get('to');
 
-    assert('You must define a `from` for RangeValidator', isPresent(fromValue));
-    assert('You must define a `to` for RangeValidator', isPresent(toValue));
+    assert("You must define a `from` for RangeValidator", isPresent(this.from));
+    assert("You must define a `to` for RangeValidator", isPresent(this.to));
 
     let invalid = true;
 
-    if(type === 'string') {
+    if (type === "string") {
       invalid = this.validateString(value);
-    } else if(type === 'number') {
+    } else if (type === "number") {
       invalid = this.validateNumber(value);
     }
 
-    if(invalid) {
-      return this.format({ start: fromValue+'', end: toValue+'' });
+    if (invalid) {
+      return this.format({ start: this.from + "", end: this.to + "" });
     }
 
     return false;
   }
 
   validateString(value: string) {
-    if(typeof value !== 'string') {
+    if (typeof value !== "string") {
       return true;
     }
 
-    const length = value && value.length || 0;
+    const length = (value && value.length) || 0;
 
     return length < this.from || length > this.to;
   }
@@ -72,7 +70,7 @@ export default class RangeValidator extends Validator {
   validateNumber(value: string) {
     const testValue = parseInt(value, 10);
 
-    if(isNaN(testValue)) {
+    if (isNaN(testValue)) {
       return true;
     }
 
