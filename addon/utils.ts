@@ -1,5 +1,5 @@
+import Model from "@ember-data/model";
 import DS from "ember-data";
-
 import { isPresent } from "@ember/utils";
 import { isEmpty } from "@ember/utils";
 
@@ -58,14 +58,11 @@ export function hasValue(value: any): boolean {
  * @return {Boolean}
  */
 export function hasBelongsToValue(
-  // @ts-ignore
-  value: DS.Model | DS.PromiseObject<any>
+  value: Model | DS.PromiseObject<any>
 ): boolean | undefined {
-  // @ts-ignore
-  if (value instanceof DS.Model) {
+  if (value instanceof Model) {
     // an async:false relationship
     return isPresent(value) && isPresent(value.get("id"));
-    // @ts-ignore
   } else if (value instanceof DS.PromiseObject) {
     // an async: true relationship
     return (
