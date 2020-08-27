@@ -35,9 +35,3 @@ build/Release
 
 # Docs
 /docs
-
-# Yarn
-yarn.lock
-
-#NPM
-.npmrc
