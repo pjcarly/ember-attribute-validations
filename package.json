@@ -1,7 +1,7 @@
 {
   "name": "@getflights/ember-attribute-validations",
   "version": "1.0.0",
-  "description": "The default blueprint for ember-cli addons.",
+  "description": "A package that validates models on save based on the models attributes",
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -90,6 +90,6 @@
     "configPath": "tests/dummy/config"
   },
   "publishConfig": {
-    "@foo:registry": "https://gitlab.com/api/v4/projects/ember-attribute-validations/packages/npm/"
+    "@foo:registry": "https://gitlab.com/api/v4/projects/getflights/ember-attribute-validations/packages/npm/"
   }
 }

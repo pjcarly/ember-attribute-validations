@@ -38,3 +38,6 @@ build/Release
 
 # Yarn
 yarn.lock
+
+#NPM
+.npmrc
