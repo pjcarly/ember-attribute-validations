@@ -1,6 +1,6 @@
 {
-  "name": "ember-attribute-validations",
-  "version": "0.1.2",
+  "name": "@getflights/ember-attribute-validations",
+  "version": "1.0.0",
   "description": "The default blueprint for ember-cli addons.",
   "directories": {
     "doc": "doc",
@@ -88,5 +88,8 @@
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
+  },
+  "publishConfig": {
+    "@foo:registry": "https://gitlab.com/api/v4/projects/ember-attribute-validations/packages/npm/"
   }
 }
