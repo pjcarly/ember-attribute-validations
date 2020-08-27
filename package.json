@@ -90,6 +90,6 @@
     "configPath": "tests/dummy/config"
   },
   "publishConfig": {
-    "@foo:registry": "https://gitlab.com/api/v4/projects/getflights/ember-attribute-validations/packages/npm/"
+    "@getflights:registry": "https://gitlab.com/api/v4/projects/20773295/packages/npm/"
   }
 }
