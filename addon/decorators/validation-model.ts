@@ -1,5 +1,5 @@
 // @ts-ignore
-import Validator from "ember-attribute-validations/mixins/validator";
+import Validator from "@getflights/ember-attribute-validations/mixins/validator";
 
 export function validationModel(desc: any) {
   if (typeof desc === "function") {

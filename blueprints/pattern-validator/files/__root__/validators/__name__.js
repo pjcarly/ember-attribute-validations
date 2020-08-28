@@ -1,5 +1,5 @@
-import PatternValidator from 'ember-attribute-validations/pattern-validator';
+import PatternValidator from "@getflights/ember-attribute-validations/pattern-validator";
 
 export default PatternValidator.extend({
-  pattern: null
+  pattern: null,
 });

@@ -1,1 +1,1 @@
-export { default } from 'ember-attribute-validations/pattern-validators/url';
+export { default } from "@getflights/ember-attribute-validations/pattern-validators/url";

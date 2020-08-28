@@ -1,1 +1,1 @@
-export { default } from 'ember-attribute-validations/validators/digit';
+export { default } from "@getflights/ember-attribute-validations/validators/digit";

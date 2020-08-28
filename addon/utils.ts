@@ -58,11 +58,13 @@ export function hasValue(value: any): boolean {
  * @return {Boolean}
  */
 export function hasBelongsToValue(
+  // @ts-ignore
   value: Model | DS.PromiseObject<any>
 ): boolean | undefined {
   if (value instanceof Model) {
     // an async:false relationship
     return isPresent(value) && isPresent(value.get("id"));
+    // @ts-ignore
   } else if (value instanceof DS.PromiseObject) {
     // an async: true relationship
     return (

@@ -23,10 +23,14 @@
     "paths": {
       "dummy/tests/*": ["tests/*"],
       "dummy/*": ["tests/dummy/app/*", "app/*"],
-      "ember-attribute-validations": ["addon"],
-      "ember-attribute-validations/*": ["addon/*"],
-      "ember-attribute-validations/test-support": ["addon-test-support"],
-      "ember-attribute-validations/test-support/*": ["addon-test-support/*"],
+      "@getflights/ember-attribute-validations": ["addon"],
+      "@getflights/ember-attribute-validations/*": ["addon/*"],
+      "@getflights/ember-attribute-validations/test-support": [
+        "addon-test-support"
+      ],
+      "@getflights/ember-attribute-validations/test-support/*": [
+        "addon-test-support/*"
+      ],
       "*": ["types/*"]
     },
     "experimentalDecorators": true

@@ -1,9 +1,9 @@
-import Validator from 'ember-attribute-validations/validator';
-import Model from 'ember-data/model';
-import { hasValue } from '../utils';
-import { assert } from '@ember/debug';
-import { isPresent } from '@ember/utils';
-import { isArray } from '@ember/array';
+import Validator from "@getflights/ember-attribute-validations/validator";
+import Model from "ember-data/model";
+import { hasValue } from "../utils";
+import { assert } from "@ember/debug";
+import { isPresent } from "@ember/utils";
+import { isArray } from "@ember/array";
 
 /**
  * Validator that is used to validate if the
@@ -13,7 +13,7 @@ import { isArray } from '@ember/array';
  * @extends {Validator}
  */
 export default class InValidator extends Validator {
-  name = 'in';
+  name = "in";
   /**
    * Available Enum values
    *
@@ -21,13 +21,16 @@ export default class InValidator extends Validator {
    * @type {Array}
    * @default null
    */
-  values !: string[];
+  values!: string[];
 
-  validate(_: string, value: any, _2: any, _3: Model) : string | boolean {
-    assert('You must define an array of Enum values in order to validate.', isPresent(this.values) && isArray(this.values));
+  validate(_: string, value: any, _2: any, _3: Model): string | boolean {
+    assert(
+      "You must define an array of Enum values in order to validate.",
+      isPresent(this.values) && isArray(this.values)
+    );
 
-    if(hasValue(value) && this.values.indexOf(value) < 0) {
-      return this.format({ values: this.values.join(', ') });
+    if (hasValue(value) && this.values.indexOf(value) < 0) {
+      return this.format({ values: this.values.join(", ") });
     }
 
     return false;

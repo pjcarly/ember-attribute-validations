@@ -1,6 +1,6 @@
-import Validator from 'ember-attribute-validations/validator';
-import { isBlank } from '@ember/utils';
-import Model from 'ember-data/model';
+import Validator from "@getflights/ember-attribute-validations/validator";
+import { isBlank } from "@ember/utils";
+import Model from "ember-data/model";
 
 /**
  * Validator that checks if the Attribute value
@@ -11,11 +11,10 @@ import Model from 'ember-data/model';
  */
 
 export default class WholeNumberValidator extends Validator {
-  name = 'wholenumber';
+  name = "wholenumber";
 
-  validate(_: string, value: any, _2: any, _3: Model) : string | boolean {
-
-    if (!isBlank(value) && (isNaN(value) || (value % 1 !== 0))) {
+  validate(_: string, value: any, _2: any, _3: Model): string | boolean {
+    if (!isBlank(value) && (isNaN(value) || value % 1 !== 0)) {
       return this.format();
     }
 

@@ -1,6 +1,6 @@
-import Validator from 'ember-attribute-validations/validator';
-import Model from 'ember-data/model';
-import { isBlank } from '@ember/utils';
+import Validator from "@getflights/ember-attribute-validations/validator";
+import Model from "ember-data/model";
+import { isBlank } from "@ember/utils";
 
 /**
  * Validator that checks if the Attribute value is a positive number.
@@ -10,10 +10,10 @@ import { isBlank } from '@ember/utils';
  */
 
 export default class PositiveValidator extends Validator {
-  name = 'positive';
+  name = "positive";
 
-  validate(_: string, value: any, _2: any, _3: Model) : string | boolean {
-    if (!isBlank(value) && (isNaN(value) || (value < 0))) {
+  validate(_: string, value: any, _2: any, _3: Model): string | boolean {
+    if (!isBlank(value) && (isNaN(value) || value < 0)) {
       return this.format();
     }
 

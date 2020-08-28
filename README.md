@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.org/vladaspasic/ember-attribute-validations.svg?branch=master)](https://travis-ci.org/vladaspasic/ember-attribute-validations) [![Ember Observer Score](http://emberobserver.com/badges/ember-attribute-validations.svg)](http://emberobserver.com/addons/ember-attribute-validations)
-
 # ember-attribute-validations
 
 Ember addon for adding validation functionality to your Ember Data Models.
@@ -16,7 +14,7 @@ To add validation to your Models you must use the `ValidatorMixin` provided by t
 
 ```javascript
 import DS from 'ember-data';
-import ValidatorMixin from 'ember-attribute-validations/mixins/validator';
+import ValidatorMixin from "@getflights/ember-attribute-validations/mixins/validator';
 
 export DS.Model.extend(ValidatorMixin, {
     name: DS.atrt('string', {
@@ -94,7 +92,7 @@ ember generate validator validator-name
 And you would get something like this:
 
 ```javascript
-import Validator from 'ember-attribute-validations/validator';
+import Validator from '@getflights/ember-attribute-validations/validator';
 
 export default Validator.extend({
     message: 'something is wrong with %@',
@@ -113,7 +111,7 @@ And use your validator like so:
 
 ```javascript
 import DS from 'ember-data';
-import ValidatorMixin from 'ember-attribute-validations/mixins/validator';
+import ValidatorMixin from '@getflights/ember-attribute-validations/mixins/validator';
 
 export DS.Model.extend(ValidatorMixin, {
     validation: {
@@ -133,17 +131,17 @@ ember generate pattern-validator pattern-validator-name
 ```
 
 ```javascript
-import PatternValidator from "ember-attribute-validations/pattern-validator";
+import PatternValidator from "@getflights/ember-attribute-validations/pattern-validator";
 
 export default PatternValidator.extend({
   message: "%@ is not passing the test",
-  pattern: /my pattern/
+  pattern: /my pattern/,
 });
 ```
 
 ```javascript
 import DS from 'ember-data';
-import ValidatorMixin from 'ember-attribute-validations/mixins/validator';
+import ValidatorMixin from '@getflights/ember-attribute-validations/mixins/validator';
 
 export DS.Model.extend(ValidatorMixin, {
     validation: {
@@ -172,42 +170,42 @@ import DS from "ember-data";
 export default DS.Model.extend({
   name: DS.attr("string", {
     validation: {
-      required: true
-    }
+      required: true,
+    },
   }),
   age: DS.attr("number", {
     validation: {
       required: true,
-      min: 18
-    }
-  })
+      min: 18,
+    },
+  }),
 });
 ```
 
 And we have created our own implementation of the `MessageResolver` that we placed in the `resolvers/message-resolver.js` file. Here we are going to declare our own catalog of error messages.
 
 ```javascript
-import MessageResolver from "ember-attribute-validations/message-resolver";
+import MessageResolver from "@getflights/ember-attribute-validations/message-resolver";
 
 const { computed, get } = Ember;
 
 export default MessageResolver.extend({
-  catalog: computed(function() {
+  catalog: computed(function () {
     return {
       required: "Field %@ is required",
       "min.string": "String must have more than %@ characters",
       user: {
         age: {
-          min: "You must have more than 18 years to register."
-        }
-      }
+          min: "You must have more than 18 years to register.",
+        },
+      },
     };
   }),
   resolveMessage(key) {
     var catalog = this.get("catalog");
 
     return get(catalog, key);
-  }
+  },
 });
 ```
 
@@ -248,19 +246,19 @@ Once the message is found, it is stored in the cache for the current looked up k
 You can also register the messages in the container, and they can be fetched from there and used inside the `MessageResolver`.
 
 ```javascript
-import MessageResolver from "ember-attribute-validations/message-resolver";
+import MessageResolver from "@getflights/ember-attribute-validations/message-resolver";
 
 const { computed, get } = Ember;
 
 export default MessageResolver.extend({
-  catalog: computed(function() {
+  catalog: computed(function () {
     return this.container.lookup("i18n:messages");
   }),
   resolveMessage(key) {
     var catalog = this.get("catalog");
 
     return get(catalog, key);
-  }
+  },
 });
 ```
 
@@ -276,9 +274,9 @@ import DS from "ember-data";
 export default DS.Model.extend({
   name: DS.attr("string", {
     validation: {
-      required: true
-    }
-  })
+      required: true,
+    },
+  }),
 });
 ```
 
@@ -290,9 +288,9 @@ import DS from "ember-data";
 export default DS.Model.extend({
   published: DS.attr("boolean", {
     validation: {
-      acceptance: true
-    }
-  })
+      acceptance: true,
+    },
+  }),
 });
 ```
 
@@ -304,9 +302,9 @@ import DS from "ember-data";
 export default DS.Model.extend({
   age: DS.attr("number", {
     validation: {
-      digit: true
-    }
-  })
+      digit: true,
+    },
+  }),
 });
 ```
 
@@ -318,9 +316,9 @@ import DS from "ember-data";
 export default DS.Model.extend({
   dateOfBirth: DS.attr("date", {
     validation: {
-      date: true
-    }
-  })
+      date: true,
+    },
+  }),
 });
 ```
 
@@ -332,9 +330,9 @@ import DS from "ember-data";
 export default DS.Model.extend({
   dateOfBirth: DS.attr("date", {
     validation: {
-      before: new Date()
-    }
-  })
+      before: new Date(),
+    },
+  }),
 });
 ```
 
@@ -348,12 +346,10 @@ export default DS.Model.extend({
   dateOfBirth: DS.attr("date", {
     validation: {
       before() {
-        return moment()
-          .startOf("d")
-          .toDate();
-      }
-    }
-  })
+        return moment().startOf("d").toDate();
+      },
+    },
+  }),
 });
 ```
 
@@ -365,9 +361,9 @@ import DS from "ember-data";
 export default DS.Model.extend({
   dateOfBirth: DS.attr("date", {
     validation: {
-      after: new Date()
-    }
-  })
+      after: new Date(),
+    },
+  }),
 });
 ```
 
@@ -381,12 +377,10 @@ export default DS.Model.extend({
   dateOfBirth: DS.attr("date", {
     validation: {
       after() {
-        return moment()
-          .startOf("d")
-          .toDate();
-      }
-    }
-  })
+        return moment().startOf("d").toDate();
+      },
+    },
+  }),
 });
 ```
 
@@ -398,9 +392,9 @@ import DS from "ember-data";
 export default DS.Model.extend({
   email: DS.attr("string", {
     validation: {
-      email: true
-    }
-  })
+      email: true,
+    },
+  }),
 });
 ```
 
@@ -413,10 +407,10 @@ export default DS.Model.extend({
   property: DS.attr("string", {
     validation: {
       in: {
-        values: ["foo", "bar"]
-      }
-    }
-  })
+        values: ["foo", "bar"],
+      },
+    },
+  }),
 });
 ```
 
@@ -428,9 +422,9 @@ import DS from "ember-data";
 export default DS.Model.extend({
   age: DS.attr("number", {
     validation: {
-      max: 18
-    }
-  })
+      max: 18,
+    },
+  }),
 });
 ```
 
@@ -442,9 +436,9 @@ import DS from "ember-data";
 export default DS.Model.extend({
   age: DS.attr("number", {
     validation: {
-      min: 18
-    }
-  })
+      min: 18,
+    },
+  }),
 });
 ```
 
@@ -456,9 +450,9 @@ import DS from "ember-data";
 export default DS.Model.extend({
   age: DS.attr("number", {
     validation: {
-      number: true
-    }
-  })
+      number: true,
+    },
+  }),
 });
 ```
 
@@ -472,10 +466,10 @@ export default DS.Model.extend({
     validation: {
       range: {
         from: 0,
-        to: 18
-      }
-    }
-  })
+        to: 18,
+      },
+    },
+  }),
 });
 ```
 
@@ -489,10 +483,10 @@ export default DS.Model.extend({
     validation: {
       range: {
         from: 8,
-        to: 12
-      }
-    }
-  })
+        to: 12,
+      },
+    },
+  }),
 });
 ```
 
@@ -504,9 +498,9 @@ import DS from "ember-data";
 export default DS.Model.extend({
   website: DS.attr("string", {
     validation: {
-      url: true
-    }
-  })
+      url: true,
+    },
+  }),
 });
 ```
 
@@ -521,10 +515,10 @@ export default DS.Model.extend({
   uuid: DS.attr("string", {
     validation: {
       uuid: {
-        version: 3
-      }
-    }
-  })
+        version: 3,
+      },
+    },
+  }),
 });
 ```
 
@@ -536,9 +530,9 @@ import DS from "ember-data";
 export default DS.Model.extend({
   pattern: DS.attr("string", {
     validation: {
-      pattern: "some regex rule"
-    }
-  })
+      pattern: "some regex rule",
+    },
+  }),
 });
 ```
 

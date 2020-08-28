@@ -1,4 +1,4 @@
-import PatternValidator from 'ember-attribute-validations/pattern-validator';
+import PatternValidator from "@getflights/ember-attribute-validations/pattern-validator";
 
 /**
  * Validator that checks if the Attribute value
@@ -8,6 +8,6 @@ import PatternValidator from 'ember-attribute-validations/pattern-validator';
  * @extends {PatternValidator}
  */
 export default class DigitValidator extends PatternValidator {
-  name = 'digit';
+  name = "digit";
   pattern = /^\d+$/;
 }

@@ -1,9 +1,8 @@
-/* jshint node: true */
-'use strict';
+"use strict";
 
 module.exports = {
-  name: 'ember-attribute-validations',
+  name: require("./package").name,
   isDevelopingAddon() {
     return true;
-  }
+  },
 };

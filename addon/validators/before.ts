@@ -1,10 +1,10 @@
-import Validator from 'ember-attribute-validations/validator';
-import Model from 'ember-data/model';
-import { hasValue, toDate } from '../utils';
-import { typeOf } from '@ember/utils';
-import { run } from '@ember/runloop';
-import { assert } from '@ember/debug';
-import { isPresent } from '@ember/utils';
+import Validator from "@getflights/ember-attribute-validations/validator";
+import Model from "ember-data/model";
+import { hasValue, toDate } from "../utils";
+import { typeOf } from "@ember/utils";
+import { run } from "@ember/runloop";
+import { assert } from "@ember/debug";
+import { isPresent } from "@ember/utils";
 
 /**
  * Validator that checks if the Attribute value
@@ -14,7 +14,7 @@ import { isPresent } from '@ember/utils';
  * @extends {Validator}
  */
 export default class DateBeforeValidator extends Validator {
-  name = 'beforeDate';
+  name = "beforeDate";
 
   /**
    * before Date to be compared
@@ -24,18 +24,23 @@ export default class DateBeforeValidator extends Validator {
    * @default null
    */
 
-  validate(_: string, value: any, attribute: any, _2: Model) : string | boolean {
-    if(hasValue(value)) {
-      assert('You must define a `before` Date on your model', isPresent(attribute.options.validation.before));
+  validate(_: string, value: any, attribute: any, _2: Model): string | boolean {
+    if (hasValue(value)) {
+      assert(
+        "You must define a `before` Date on your model",
+        isPresent(attribute.options.validation.before)
+      );
 
       const date = toDate(value);
-      const before = this._resolveBeforeDate(attribute.options.validation.before);
+      const before = this._resolveBeforeDate(
+        attribute.options.validation.before
+      );
 
-      if(!date || !before) {
+      if (!date || !before) {
         return this.format();
       }
 
-      if(this._compareDates(date, before)) {
+      if (this._compareDates(date, before)) {
         return this.format({ date: before.toString() });
       }
     }
@@ -55,12 +60,12 @@ export default class DateBeforeValidator extends Validator {
    * @return {Date}
    */
   _resolveBeforeDate(before: () => Date | Date) {
-    if(typeOf(before) === 'function') {
+    if (typeOf(before) === "function") {
       // @ts-ignore
       before = run(before);
     }
 
-    assert('You must define a `before` Date on your model', isPresent(before));
+    assert("You must define a `before` Date on your model", isPresent(before));
 
     return toDate(before);
   }

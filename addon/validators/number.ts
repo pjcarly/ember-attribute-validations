@@ -1,6 +1,6 @@
-import Validator from 'ember-attribute-validations/validator';
-import Model from 'ember-data/model';
-import { isBlank } from '@ember/utils';
+import Validator from "@getflights/ember-attribute-validations/validator";
+import Model from "ember-data/model";
+import { isBlank } from "@ember/utils";
 
 /**
  * Validator that checks if the Attribute value
@@ -11,10 +11,9 @@ import { isBlank } from '@ember/utils';
  */
 
 export default class NumberValidator extends Validator {
-  name = 'number';
+  name = "number";
 
-  validate(_: string, value: any, _2: any, _3: Model) : string | boolean {
-
+  validate(_: string, value: any, _2: any, _3: Model): string | boolean {
     if (!isBlank(value) && isNaN(value)) {
       return this.format();
     }

@@ -1,10 +1,10 @@
-import Validator from 'ember-attribute-validations/validator';
-import Model from 'ember-data/model';
-import { hasValue, toDate } from '../utils';
-import { typeOf } from '@ember/utils';
-import { run } from '@ember/runloop';
-import { assert } from '@ember/debug';
-import { isPresent } from '@ember/utils';
+import Validator from "@getflights/ember-attribute-validations/validator";
+import Model from "ember-data/model";
+import { hasValue, toDate } from "../utils";
+import { typeOf } from "@ember/utils";
+import { run } from "@ember/runloop";
+import { assert } from "@ember/debug";
+import { isPresent } from "@ember/utils";
 
 /**
  * Validator that checks if the Attribute value
@@ -14,7 +14,7 @@ import { isPresent } from '@ember/utils';
  * @extends {Validator}
  */
 export default class DateAfterValidator extends Validator {
-  name = 'afterDate';
+  name = "afterDate";
 
   /**
    * after Date to be compared
@@ -24,18 +24,21 @@ export default class DateAfterValidator extends Validator {
    * @default null
    */
 
-  validate(_: string, value: any, attribute: any, _2: Model) : string | boolean {
-    if(hasValue(value)) {
-      assert('You must define a `after` Date on your model', isPresent(attribute.options.validation.after));
+  validate(_: string, value: any, attribute: any, _2: Model): string | boolean {
+    if (hasValue(value)) {
+      assert(
+        "You must define a `after` Date on your model",
+        isPresent(attribute.options.validation.after)
+      );
 
       const date = toDate(value);
       const after = this._resolveAfterDate(attribute.options.validation.after);
 
-      if(!date || !after) {
+      if (!date || !after) {
         return this.format();
       }
 
-      if(this._compareDates(date, after)) {
+      if (this._compareDates(date, after)) {
         return this.format({ date: after.toString() });
       }
     }
@@ -55,12 +58,12 @@ export default class DateAfterValidator extends Validator {
    * @return {Date}
    */
   _resolveAfterDate(after: () => Date | Date) {
-    if(typeOf(after) === 'function') {
+    if (typeOf(after) === "function") {
       // @ts-ignore
       after = run(after);
     }
 
-    assert('You must define a `after` Date on your model', isPresent(after));
+    assert("You must define a `after` Date on your model", isPresent(after));
 
     return toDate(after);
   }
