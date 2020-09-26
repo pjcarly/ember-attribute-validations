@@ -1,5 +1,5 @@
 import Validator from "@getflights/ember-attribute-validations/validator";
-import Model from "ember-data/model";
+import Model from "@ember-data/model";
 /**
  * Acceptance Validator used to validate boolean like
  * Attributes.

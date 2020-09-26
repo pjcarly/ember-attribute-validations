@@ -1,5 +1,5 @@
 import Validator from "@getflights/ember-attribute-validations/validator";
-import Model from "ember-data/model";
+import Model from "@ember-data/model";
 import { hasValue } from "../utils";
 import { assert } from "@ember/debug";
 import { isPresent } from "@ember/utils";

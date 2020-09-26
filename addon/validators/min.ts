@@ -2,7 +2,7 @@ import Validator from "@getflights/ember-attribute-validations/validator";
 import { getValidationType } from "@getflights/ember-attribute-validations/utils";
 import { assert } from "@ember/debug";
 import { isPresent } from "@ember/utils";
-import Model from "ember-data/model";
+import Model from "@ember-data/model";
 
 /**
  * Validator that could be used to validate minimum length,

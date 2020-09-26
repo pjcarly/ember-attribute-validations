@@ -1,5 +1,5 @@
 import Validator from "@getflights/ember-attribute-validations/validator";
-import Model from "ember-data/model";
+import Model from "@ember-data/model";
 /**
  * Validator that is used to validate if the
  * value is in range of acceptable values.

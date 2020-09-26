@@ -1,5 +1,5 @@
 import Validator from "@getflights/ember-attribute-validations/validator";
-import Model from "ember-data/model";
+import Model from "@ember-data/model";
 /**
  * Validator that uses a RegExp pattern to test
  * the attribute value.

@@ -1,6 +1,6 @@
 import Validator from "@getflights/ember-attribute-validations/validator";
 import { isBlank } from "@ember/utils";
-import Model from "ember-data/model";
+import Model from "@ember-data/model";
 
 /**
  * Validator that checks if the Attribute value

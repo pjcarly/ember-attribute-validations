@@ -1,5 +1,5 @@
 import Validator from "@getflights/ember-attribute-validations/validator";
-import Model from "ember-data/model";
+import Model from "@ember-data/model";
 /**
  * Validator that could be used to validate minimum length,
  * if the attribute is String, or to validate the minimum value

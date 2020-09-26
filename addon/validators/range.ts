@@ -1,4 +1,4 @@
-import Model from "ember-data/model";
+import Model from "@ember-data/model";
 import Validator from "@getflights/ember-attribute-validations/validator";
 import { getValidationType } from "@getflights/ember-attribute-validations/utils";
 import { assert } from "@ember/debug";

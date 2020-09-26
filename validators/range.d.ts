@@ -1,4 +1,4 @@
-import Model from "ember-data/model";
+import Model from "@ember-data/model";
 import Validator from "@getflights/ember-attribute-validations/validator";
 /**
  * Validator that could be used to validate Strings and Numbers.

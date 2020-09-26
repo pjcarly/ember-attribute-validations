@@ -1,5 +1,5 @@
 import EmberObject from "@ember/object";
-import Model from "ember-data/model";
+import Model from "@ember-data/model";
 import { computed } from "@ember/object";
 import { inject as service } from "@ember/service";
 import { assert } from "@ember/debug";
