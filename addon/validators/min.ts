@@ -49,7 +49,7 @@ export default class MinValidator extends Validator {
       return true;
     }
 
-    var length = (value && value.length) || 0;
+    const length = (value && value.length) || 0;
 
     return length < this.min;
   }

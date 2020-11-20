@@ -17,7 +17,7 @@ export default abstract class Validator extends EmberObject {
   @service intl!: any;
 
   attribute!: any;
-  name!: string;
+  abstract name: string;
 
   /**
    * This Property returns the intlKey that can be used to resolve a validation message

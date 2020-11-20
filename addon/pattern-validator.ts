@@ -22,7 +22,7 @@ export default abstract class PatternValidator extends Validator {
    * @type {RegExp}
    * @default null
    */
-  pattern!: RegExp;
+  abstract pattern: RegExp;
 
   validate(_: string, value: any, _2: any, _3: Model) {
     assert(

@@ -153,7 +153,7 @@ export function isArray(value: any): boolean {
  * @return integer
  */
 export function decimalPlaces(num: number): number {
-  var match = ("" + num).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
+  const match = ("" + num).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
   if (!match) {
     return 0;
   }

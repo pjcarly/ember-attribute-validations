@@ -25,7 +25,7 @@ export default class DateBeforeValidator extends Validator {
    */
 
   validate(_: string, value: any, attribute: any, _2: Model): string | boolean {
-    if (hasValue(value)) {
+    if (hasValue(value) && value !== false) {
       assert(
         "You must define a `before` Date on your model",
         isPresent(attribute.options.validation.before)
