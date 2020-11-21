@@ -1,15 +1,12 @@
-import Validator from "@getflights/ember-attribute-validations/validator";
+import BaseValidator from "@getflights/ember-attribute-validations/base-validator";
 import Model from "@ember-data/model";
 import { amountOfDigits } from "@getflights/ember-attribute-validations/utils";
 import { isBlank } from "@ember/utils";
 
 /**
  * Validator that checks the precision of a number
- *
- * @class PrecisionValidator
- * @extends {Validator}
  */
-export default class PrecisionValidator extends Validator {
+export default class PrecisionValidator extends BaseValidator {
   name = "precision";
 
   validate(

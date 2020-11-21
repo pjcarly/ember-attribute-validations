@@ -1,5 +1,5 @@
 import Model from "@ember-data/model";
-import Validator from "@getflights/ember-attribute-validations/validator";
+import BaseValidator from "@getflights/ember-attribute-validations/base-validator";
 import { getValidationType } from "@getflights/ember-attribute-validations/utils";
 import { assert } from "@ember/debug";
 import { isPresent } from "@ember/utils";
@@ -10,10 +10,8 @@ import { isPresent } from "@ember/utils";
  * If the value is a String it's length should be in the defined range.
  * If it is a Number, it's value should be in defined range.
  *
- * @class  RangeValidator
- * @extends {Validator}
  */
-export default class RangeValidator extends Validator {
+export default class RangeValidator extends BaseValidator {
   name = "range";
 
   /**

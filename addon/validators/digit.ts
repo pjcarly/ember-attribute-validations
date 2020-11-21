@@ -3,9 +3,6 @@ import PatternValidator from "@getflights/ember-attribute-validations/pattern-va
 /**
  * Validator that checks if the Attribute value
  * contains only digits.
- *
- * @class DigitValidator
- * @extends {PatternValidator}
  */
 export default class DigitValidator extends PatternValidator {
   name = "digit";

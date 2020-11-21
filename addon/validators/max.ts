@@ -1,4 +1,4 @@
-import Validator from "@getflights/ember-attribute-validations/validator";
+import BaseValidator from "@getflights/ember-attribute-validations/base-validator";
 import Model from "@ember-data/model";
 import {
   hasValue,
@@ -11,11 +11,8 @@ import { isPresent } from "@ember/utils";
  * Validator that could be used to validate maximum length,
  * if the attribute is String, or to validate the maximum value
  * if the Attribute is a Number.
- *
- * @class  MaxValidator
- * @extends {Validator}
  */
-export default class MaxValidator extends Validator {
+export default class MaxValidator extends BaseValidator {
   name = "max";
 
   /**

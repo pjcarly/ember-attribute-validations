@@ -1,4 +1,4 @@
-import Validator from "@getflights/ember-attribute-validations/validator";
+import BaseValidator from "@getflights/ember-attribute-validations/base-validator";
 import { getValidationType } from "@getflights/ember-attribute-validations/utils";
 import { assert } from "@ember/debug";
 import { isPresent } from "@ember/utils";
@@ -8,11 +8,8 @@ import Model from "@ember-data/model";
  * Validator that could be used to validate minimum length,
  * if the attribute is String, or to validate the minimum value
  * if the Attribute is a Number.
- *
- * @class  MinValidator
- * @extends {Validator}
  */
-export default class MinValidator extends Validator {
+export default class MinValidator extends BaseValidator {
   name = "min";
 
   /**

@@ -1,14 +1,11 @@
-import Validator from "@getflights/ember-attribute-validations/validator";
+import BaseValidator from "@getflights/ember-attribute-validations/base-validator";
 import Model from "@ember-data/model";
 import { hasValue, hasBelongsToValue } from "../utils";
 
 /**
  * Validator that checks if the value is set.
- *
- * @class  RequiredValidator
- * @extends {Validator}
  */
-export default class RequiredValidator extends Validator {
+export default class RequiredValidator extends BaseValidator {
   name = "required";
 
   validate(_: string, value: any, attribute: any, _2: Model): string | boolean {

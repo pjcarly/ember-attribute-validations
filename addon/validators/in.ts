@@ -1,4 +1,4 @@
-import Validator from "@getflights/ember-attribute-validations/validator";
+import BaseValidator from "@getflights/ember-attribute-validations/base-validator";
 import Model from "@ember-data/model";
 import { hasValue } from "../utils";
 import { assert } from "@ember/debug";
@@ -8,11 +8,8 @@ import { isArray } from "@ember/array";
 /**
  * Validator that is used to validate if the
  * value is in range of acceptable values.
- *
- * @class  InValidator
- * @extends {Validator}
  */
-export default class InValidator extends Validator {
+export default class InValidator extends BaseValidator {
   name = "in";
   /**
    * Available Enum values

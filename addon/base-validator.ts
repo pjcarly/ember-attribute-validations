@@ -9,11 +9,8 @@ import { capitalize } from "@ember/string";
 /**
  * Validator Class used to perform specific Attribute
  * Validation.
- *
- * @class Validator
- * @extends {EmberObject}
  */
-export default abstract class Validator extends EmberObject {
+export default abstract class BaseValidator extends EmberObject {
   @service intl!: any;
 
   attribute!: any;

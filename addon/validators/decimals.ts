@@ -1,4 +1,4 @@
-import Validator from "@getflights/ember-attribute-validations/validator";
+import BaseValidator from "@getflights/ember-attribute-validations/base-validator";
 import Model from "@ember-data/model";
 import { decimalPlaces } from "@getflights/ember-attribute-validations/utils";
 import { isBlank } from "@ember/utils";
@@ -6,12 +6,9 @@ import { isBlank } from "@ember/utils";
 /**
  * Validator that checks if the Attribute value
  * has a max amount of decimals
- *
- * @class DecimalsValidator
- * @extends {Validator}
  */
 
-export default class DecimalsValidator extends Validator {
+export default class DecimalsValidator extends BaseValidator {
   name = "decimals";
 
   validate(

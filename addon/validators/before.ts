@@ -1,4 +1,4 @@
-import Validator from "@getflights/ember-attribute-validations/validator";
+import BaseValidator from "@getflights/ember-attribute-validations/base-validator";
 import Model from "@ember-data/model";
 import { hasValue, toDate } from "../utils";
 import { typeOf } from "@ember/utils";
@@ -9,11 +9,8 @@ import { isPresent } from "@ember/utils";
 /**
  * Validator that checks if the Attribute value
  * is before the specified date
- *
- * @class DateBeforeValidator
- * @extends {Validator}
  */
-export default class DateBeforeValidator extends Validator {
+export default class DateBeforeValidator extends BaseValidator {
   name = "beforeDate";
 
   /**
