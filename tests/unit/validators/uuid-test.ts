@@ -1,24 +1,23 @@
-import Model from "@ember-data/model";
 import { setOwner } from "@ember/application";
 import Service from "@ember/service";
-import Validator, {
-  uuid as patterns,
-} from "@getflights/ember-attribute-validations/validators/uuid";
+import { AttributeInterface } from "@getflights/ember-attribute-validations/base-validator";
+import Validator from "@getflights/ember-attribute-validations/validators/uuid";
 import { setupTest } from "ember-qunit";
 import { module, test } from "qunit";
 
-const attribute = {
+const attribute: AttributeInterface = {
   options: {},
   name: "uuid",
+  type: "string",
+  parentTypeKey: "test",
+  isAttribute: true,
 };
 
 module("uuid Validator test", function (hooks) {
   setupTest(hooks);
 
   test("validate all", function (assert) {
-    const validator = Validator.create({
-      attribute: attribute,
-    });
+    const validator = new Validator(attribute);
     setOwner(validator, this.owner);
 
     console.log(validator.pattern);
@@ -57,12 +56,7 @@ module("uuid Validator test", function (hooks) {
   });
 
   test("validate v3", function (assert) {
-    const validator = Validator.create({
-      version: "3",
-      attribute: attribute,
-    });
-    validator.set("version", "3");
-    validator.set("attribute", attribute);
+    const validator = new Validator(attribute, "3");
 
     validate(
       assert,
@@ -80,10 +74,7 @@ module("uuid Validator test", function (hooks) {
   });
 
   test("validate v4", function (assert) {
-    const validator = Validator.create({
-      version: "4",
-      attribute: attribute,
-    });
+    const validator = new Validator(attribute, "4");
 
     validate(
       assert,
@@ -106,10 +97,7 @@ module("uuid Validator test", function (hooks) {
   });
 
   test("validate v5", function (assert) {
-    const validator = Validator.create({
-      version: "5",
-      attribute: attribute,
-    });
+    const validator = new Validator(attribute, "5");
 
     validate(
       assert,

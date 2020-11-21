@@ -1,23 +1,24 @@
 import Model from "@ember-data/model";
 import { setOwner } from "@ember/application";
 import Service from "@ember/service";
+import { AttributeInterface } from "@getflights/ember-attribute-validations/base-validator";
 import Validator from "@getflights/ember-attribute-validations/validators/in";
 import { setupTest } from "ember-qunit";
 import { module, test } from "qunit";
 
-const attribute = {
-  options: <Model>{},
+const attribute: AttributeInterface = {
+  options: {},
   name: "enum",
+  type: "any",
+  parentTypeKey: "test",
+  isAttribute: true,
 };
 
 module("enum Validator test", function (hooks) {
   setupTest(hooks);
 
   test("validate", function (assert) {
-    const validator = Validator.create({
-      values: ["foo", "bar"],
-      attribute: attribute,
-    });
+    const validator = new Validator(attribute, ["foo", "bar"]);
     setOwner(validator, this.owner);
 
     this.owner.register(

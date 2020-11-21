@@ -1,6 +1,7 @@
 import Model from "@ember-data/model";
 import { setOwner } from "@ember/application";
 import Service from "@ember/service";
+import { AttributeInterface } from "@getflights/ember-attribute-validations/base-validator";
 import Validator from "@getflights/ember-attribute-validations/validators/min";
 import { setupTest } from "ember-qunit";
 import { module, test } from "qunit";
@@ -8,15 +9,16 @@ import { module, test } from "qunit";
 module("Min Validator test", function (hooks) {
   setupTest(hooks);
   test("test missing min value", function (assert) {
-    const attribute = {
+    const attribute: AttributeInterface = {
       type: "string",
       options: {},
       name: "email",
+      parentTypeKey: "test",
+      isAttribute: true,
     };
 
-    const validator = Validator.create({
-      attribute: attribute,
-    });
+    // @ts-expect-error
+    const validator = new Validator(attribute);
 
     assert.throws(
       function () {
@@ -32,16 +34,15 @@ module("Min Validator test", function (hooks) {
   });
 
   test("validate string", function (assert) {
-    const attribute = {
+    const attribute: AttributeInterface = {
       type: "string",
       options: {},
       name: "email",
+      parentTypeKey: "test",
+      isAttribute: true,
     };
 
-    const validator = Validator.create({
-      attribute: attribute,
-      min: 3,
-    });
+    const validator = new Validator(attribute, 3);
     setOwner(validator, this.owner);
 
     this.owner.register(
@@ -89,16 +90,15 @@ module("Min Validator test", function (hooks) {
   });
 
   test("validate number", function (assert) {
-    const attribute = {
+    const attribute: AttributeInterface = {
       type: "number",
       options: {},
       name: "rating",
+      parentTypeKey: "test",
+      isAttribute: true,
     };
 
-    const validator = Validator.create({
-      attribute: attribute,
-      min: 5,
-    });
+    const validator = new Validator(attribute, 5);
     setOwner(validator, this.owner);
 
     this.owner.register(

@@ -1,6 +1,7 @@
 import Model from "@ember-data/model";
 import { setOwner } from "@ember/application";
 import Service from "@ember/service";
+import { AttributeInterface } from "@getflights/ember-attribute-validations/base-validator";
 import Validator from "@getflights/ember-attribute-validations/validators/before";
 import { setupTest } from "ember-qunit";
 import { module, test } from "qunit";
@@ -9,7 +10,7 @@ const currentDate = Date.parse(
   "Fri Nov 20 2020 18:06:21 GMT+0100 (Central European Standard Time)"
 );
 
-const attribute = {
+const attribute: AttributeInterface = {
   options: {
     validation: {
       before() {
@@ -18,15 +19,16 @@ const attribute = {
     },
   },
   name: "Date",
+  type: "date",
+  parentTypeKey: "test",
+  isAttribute: true,
 };
 
 module("Date Before Validator test", function (hooks) {
   setupTest(hooks);
 
   test("validate", function (assert) {
-    const validator = Validator.create({
-      attribute: attribute,
-    });
+    const validator = new Validator(attribute);
     setOwner(validator, this.owner);
 
     this.owner.register(

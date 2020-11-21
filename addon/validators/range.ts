@@ -1,8 +1,11 @@
 import Model from "@ember-data/model";
-import BaseValidator from "@getflights/ember-attribute-validations/base-validator";
+import BaseValidator, {
+  AttributeInterface,
+} from "@getflights/ember-attribute-validations/base-validator";
 import { getValidationType } from "@getflights/ember-attribute-validations/utils";
 import { assert } from "@ember/debug";
 import { isPresent } from "@ember/utils";
+import { tracked } from "@glimmer/tracking";
 
 /**
  * Validator that could be used to validate Strings and Numbers.
@@ -17,22 +20,20 @@ export default class RangeValidator extends BaseValidator {
   /**
    * Number representing the starting point
    * of the range validation.
-   *
-   * @property from
-   * @type {Number}
-   * @default null
    */
-  from!: number;
+  @tracked from: number;
 
   /**
    * Number representing the ending point
    * of the range validation.
-   *
-   * @property to
-   * @type {Number}
-   * @default null
    */
-  to!: number;
+  @tracked to: number;
+
+  constructor(attribute: AttributeInterface, from: number, to: number) {
+    super(attribute);
+    this.from = from;
+    this.to = to;
+  }
 
   validate(_: string, value: any, attribute: any, _2: Model): string | boolean {
     const type = getValidationType(attribute.type);

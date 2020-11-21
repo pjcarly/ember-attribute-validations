@@ -1,8 +1,11 @@
-import BaseValidator from "@getflights/ember-attribute-validations/base-validator";
+import BaseValidator, {
+  AttributeInterface,
+} from "@getflights/ember-attribute-validations/base-validator";
 import { getValidationType } from "@getflights/ember-attribute-validations/utils";
 import { assert } from "@ember/debug";
 import { isPresent } from "@ember/utils";
 import Model from "@ember-data/model";
+import { tracked } from "@glimmer/tracking";
 
 /**
  * Validator that could be used to validate minimum length,
@@ -14,12 +17,13 @@ export default class MinValidator extends BaseValidator {
 
   /**
    * Min value for the validator.
-   *
-   * @property min
-   * @type {Number}
-   * @default null
    */
-  min!: number;
+  @tracked min: number;
+
+  constructor(attribute: AttributeInterface, min: number) {
+    super(attribute);
+    this.min = min;
+  }
 
   validate(_: string, value: any, attribute: any, _2: Model): string | boolean {
     const type = getValidationType(attribute.type);

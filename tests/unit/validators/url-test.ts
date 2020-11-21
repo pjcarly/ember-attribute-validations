@@ -1,22 +1,24 @@
 import Model from "@ember-data/model";
 import { setOwner } from "@ember/application";
 import Service from "@ember/service";
+import { AttributeInterface } from "@getflights/ember-attribute-validations/base-validator";
 import Validator from "@getflights/ember-attribute-validations/validators/url";
 import { setupTest } from "ember-qunit";
 import { module, test } from "qunit";
 
-const attribute = {
+const attribute: AttributeInterface = {
   options: {},
   name: "url",
+  type: "link",
+  parentTypeKey: "test",
+  isAttribute: true,
 };
 
 module("url Validator test", function (hooks) {
   setupTest(hooks);
 
   test("validate", function (assert) {
-    const validator = Validator.create({
-      attribute: attribute,
-    });
+    const validator = new Validator(attribute);
     setOwner(validator, this.owner);
 
     this.owner.register(

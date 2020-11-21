@@ -1,7 +1,7 @@
 import PatternValidator from "@getflights/ember-attribute-validations/pattern-validator";
-import { computed } from "@ember/object";
-import { get } from "@ember/object";
 import { assert } from "@ember/debug";
+import { tracked } from "@glimmer/tracking";
+import { AttributeInterface } from "../base-validator";
 
 export const uuid: { [key: string]: RegExp } = {
   3: /^[0-9A-F]{8}-[0-9A-F]{4}-3[0-9A-F]{3}-[0-9A-F]{4}-[0-9A-F]{12}$/i,
@@ -17,13 +17,20 @@ export default class UUIDValidator extends PatternValidator {
    * By default it would try to validate 1 or 2 versions.
    *
    * Valid arguments are all, 3, 4, 5
-   *
-   * @property version
-   * @type {String}
-   * @default all
    */
   name = "uuid";
-  version: "3" | "4" | "5" | "all" = "all";
+  @tracked version: "3" | "4" | "5" | "all" = "all";
+
+  constructor(
+    attribute: AttributeInterface,
+    version?: "3" | "4" | "5" | "all"
+  ) {
+    super(attribute);
+
+    if (version) {
+      this.version = version;
+    }
+  }
 
   get pattern(): RegExp {
     const pattern = uuid[this.version];

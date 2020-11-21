@@ -1,4 +1,6 @@
-import BaseValidator from "@getflights/ember-attribute-validations/base-validator";
+import BaseValidator, {
+  AttributeInterface,
+} from "@getflights/ember-attribute-validations/base-validator";
 import Model from "@ember-data/model";
 import {
   hasValue,
@@ -6,6 +8,7 @@ import {
 } from "@getflights/ember-attribute-validations/utils";
 import { assert } from "@ember/debug";
 import { isPresent } from "@ember/utils";
+import { tracked } from "@glimmer/tracking";
 
 /**
  * Validator that could be used to validate maximum length,
@@ -18,11 +21,13 @@ export default class MaxValidator extends BaseValidator {
   /**
    * Max value for the validator.
    *
-   * @property max
-   * @type {Number}
-   * @default null
    */
-  max!: number;
+  @tracked max: number;
+
+  constructor(attribute: AttributeInterface, max: number) {
+    super(attribute);
+    this.max = max;
+  }
 
   validate(_: string, value: any, attribute: any, _2: Model): string | boolean {
     const type = getValidationType(attribute.type);

@@ -1,22 +1,23 @@
 import Model from "@ember-data/model";
 import { setOwner } from "@ember/application";
 import Service from "@ember/service";
+import { AttributeInterface } from "@getflights/ember-attribute-validations/base-validator";
 import Validator from "@getflights/ember-attribute-validations/validators/digit";
 import { setupTest } from "ember-qunit";
 import { module, test } from "qunit";
 
-const attribute = {
-  options: <Model>{},
+const attribute: AttributeInterface = {
+  options: {},
   name: "Digit",
+  type: "number",
+  parentTypeKey: "test",
+  isAttribute: true,
 };
 
 module("Digit Validator test", function (hooks) {
   setupTest(hooks);
   test("validate", function (assert) {
-    const validator = Validator.create({
-      message: "%@ must be a digit",
-      attribute: attribute,
-    });
+    const validator = new Validator(attribute);
     setOwner(validator, this.owner);
 
     this.owner.register(
