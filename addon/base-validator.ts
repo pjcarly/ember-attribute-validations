@@ -13,7 +13,9 @@ export interface AttributeInterface {
   meta?: {
     isRelationship?: boolean;
   };
-  options?: Object;
+  options?: {
+    validation?: any;
+  };
 }
 
 /**
