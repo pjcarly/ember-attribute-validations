@@ -1,8 +1,7 @@
-import Model, { attr } from "@ember-data/model";
-import { validationModel } from "@getflights/ember-attribute-validations/decorators/validation-model";
+import { attr } from "@ember-data/model";
+import ValidationModel from "@getflights/ember-attribute-validations/model/validation-model";
 
-@validationModel
-export default class CompanyModel extends Model {
+export default class CompanyModel extends ValidationModel {
   //@ts-ignore
   @attr("string", { validation: { required: true } })
   name!: string;
