@@ -1,7 +1,7 @@
 import Model from "@ember-data/model";
 import { inject as service } from "@ember/service";
 import RSVP, { reject } from "rsvp";
-import ValidatorService from "../service/validator";
+import ValidatorService from "../services/validator";
 
 export default class ValidationModel extends Model {
   @service intl!: any;

@@ -1,5 +1,5 @@
 import Model from "@ember-data/model";
-import { getOwner } from "@ember/application";
+import { getOwner, setOwner } from "@ember/application";
 import { isArray } from "@ember/array";
 import { assert } from "@ember/debug";
 import { computed } from "@ember/object";
@@ -53,7 +53,9 @@ export default class ValidatorService extends Service {
 
     validatorClass.typeKey = camelize(typeKey);
 
-    return validatorClass.create(value);
+    const validatorInstance = new validatorClass(value.attribute);
+    setOwner(validatorInstance, this.container);
+    return validatorInstance;
   }
 
   /**
@@ -187,11 +189,11 @@ export default class ValidatorService extends Service {
 
     // @ts-ignore
     model.eachAttribute((key: string, attribute: AttributeInterface) => {
-      run(this, this._validateAttribute, attribute);
+      run(this, this._validateAttribute, model, attribute);
     });
 
     model.eachRelationship((_, relationship) => {
-      run(this, this._validateRelationship, relationship);
+      run(this, this._validateRelationship, model, relationship);
     });
 
     const isValid = <boolean>(<unknown>errors.isEmpty);
