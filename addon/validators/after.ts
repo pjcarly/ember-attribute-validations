@@ -48,13 +48,8 @@ export default class DateAfterValidator extends BaseValidator {
    *
    * If the property is a function, it would be invoked
    * with a Model instance context.
-   *
-   * @method _resolveAfterDate
-   * @private
-   * @param  {DS.Model} model
-   * @return {Date}
    */
-  _resolveAfterDate(after: () => Date | Date) {
+  private _resolveAfterDate(after: () => Date | Date): Date | null {
     if (typeOf(after) === "function") {
       // @ts-ignore
       after = run(after);
@@ -67,14 +62,8 @@ export default class DateAfterValidator extends BaseValidator {
 
   /**
    * Compares the two given Dates.
-   *
-   * @method _compareDates
-   * @private
-   * @param  {Date} date
-   * @param  {Date} after
-   * @return {Boolean}
    */
-  _compareDates(date: Date, after: Date) {
+  private _compareDates(date: Date, after: Date) {
     return !!(date && after && date < after);
   }
 }

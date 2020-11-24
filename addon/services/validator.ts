@@ -188,11 +188,11 @@ export default class ValidatorService extends Service {
     }
 
     // @ts-ignore
-    model.eachAttribute((key: string, attribute: AttributeInterface) => {
+    model.eachAttribute((_key: string, attribute: AttributeInterface) => {
       run(this, this._validateAttribute, model, attribute);
     });
 
-    model.eachRelationship((_, relationship) => {
+    model.eachRelationship((_key, relationship) => {
       run(this, this._validateRelationship, model, relationship);
     });
 

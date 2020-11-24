@@ -50,13 +50,8 @@ export default class DateBeforeValidator extends BaseValidator {
    *
    * If the property is a function, it would be invoked
    * with a Model instance context.
-   *
-   * @method _resolveBeforeDate
-   * @private
-   * @param  {DS.Model} model
-   * @return {Date}
    */
-  _resolveBeforeDate(before: () => Date | Date) {
+  private _resolveBeforeDate(before: () => Date | Date): Date | null {
     if (typeOf(before) === "function") {
       // @ts-ignore
       before = run(before);
@@ -69,14 +64,8 @@ export default class DateBeforeValidator extends BaseValidator {
 
   /**
    * Compares the two given Dates.
-   *
-   * @method _compareDates
-   * @private
-   * @param  {Date} date
-   * @param  {Date} before
-   * @return {Boolean}
    */
-  _compareDates(date: Date, before: Date) {
+  private _compareDates(date: Date, before: Date) {
     return !!(date && before && date > before);
   }
 }

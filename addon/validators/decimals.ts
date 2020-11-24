@@ -7,7 +7,6 @@ import { isBlank } from "@ember/utils";
  * Validator that checks if the Attribute value
  * has a max amount of decimals
  */
-
 export default class DecimalsValidator extends BaseValidator {
   name = "decimals";
 
