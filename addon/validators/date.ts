@@ -1,14 +1,16 @@
-import BaseValidator from "@getflights/ember-attribute-validations/base-validator";
+import BaseValidator, {
+  ValidatorOptions,
+} from "@getflights/ember-attribute-validations/base-validator";
 import Model from "@ember-data/model";
 import { hasValue, toDate } from "../utils";
 
 /**
  * Validator that checks if the Attribute value is a valid Date.
  */
-export default class DateValidator extends BaseValidator {
+export default class DateValidator extends BaseValidator<ValidatorOptions> {
   name = "date";
 
-  validate(_: string, value: any, _2: any, _3: Model): string | boolean {
+  validate(value: any, _model: Model): string | boolean {
     if (hasValue(value)) {
       const date = toDate(value);
 

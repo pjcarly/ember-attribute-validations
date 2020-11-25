@@ -1,4 +1,6 @@
-import BaseValidator from "@getflights/ember-attribute-validations/base-validator";
+import BaseValidator, {
+  ValidatorOptions,
+} from "@getflights/ember-attribute-validations/base-validator";
 import Model from "@ember-data/model";
 import { isBlank } from "@ember/utils";
 
@@ -6,10 +8,10 @@ import { isBlank } from "@ember/utils";
  * Validator that checks if the Attribute value is a positive number.
  */
 
-export default class PositiveValidator extends BaseValidator {
+export default class PositiveValidator extends BaseValidator<ValidatorOptions> {
   name = "positive";
 
-  validate(_: string, value: any, _2: any, _3: Model): string | boolean {
+  validate(value: any, _model: Model): string | boolean {
     if (!isBlank(value) && (isNaN(value) || value < 0)) {
       return this.format();
     }

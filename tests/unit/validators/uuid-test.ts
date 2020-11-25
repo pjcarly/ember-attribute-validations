@@ -20,8 +20,6 @@ module("uuid Validator test", function (hooks) {
     const validator = new Validator(attribute);
     setOwner(validator, this.owner);
 
-    console.log(validator.pattern);
-
     this.owner.register(
       "service:intl",
       class IntlMockService extends Service {

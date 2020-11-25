@@ -3,15 +3,19 @@ import { getOwner, setOwner } from "@ember/application";
 import { isArray } from "@ember/array";
 import { assert } from "@ember/debug";
 import { computed } from "@ember/object";
-import { assign } from "@ember/polyfills";
 import { run } from "@ember/runloop";
 import Service from "@ember/service";
 import { inject as service } from "@ember/service";
-import { camelize } from "@ember/string";
 import { isEmpty } from "@ember/utils";
 import DS from "ember-data";
 import { AttributeInterface } from "../base-validator";
 import ValidationError from "../error";
+
+export interface ValidatorLookup {
+  type: string;
+  value: any;
+  attribute: AttributeInterface;
+}
 
 export default class ValidatorService extends Service {
   @service intl!: any;
@@ -29,8 +33,8 @@ export default class ValidatorService extends Service {
     );
   }
 
-  lookupValidator(validator: any) {
-    const typeKey = validator.type;
+  lookupValidator(lookup: ValidatorLookup) {
+    const typeKey = lookup.type;
     const validatorClass = this.lookupValidtorFactory(typeKey);
 
     assert(
@@ -38,22 +42,15 @@ export default class ValidatorService extends Service {
       typeof validatorClass === "function"
     );
 
-    let value = validator.value;
+    let value = lookup.value;
 
     if (typeof value !== "object") {
       value = {};
 
-      value[validator.type] = validator.value;
+      value[lookup.type] = lookup.value;
     }
 
-    assign(value, {
-      attribute: validator.attribute,
-      container: this.container,
-    });
-
-    validatorClass.typeKey = camelize(typeKey);
-
-    const validatorInstance = new validatorClass(value.attribute);
+    const validatorInstance = new validatorClass(lookup.attribute);
     setOwner(validatorInstance, this.container);
     return validatorInstance;
   }
@@ -73,7 +70,7 @@ export default class ValidatorService extends Service {
       validations = [validations];
     }
 
-    const validators: any[] = [];
+    const validators: ValidatorLookup[] = [];
 
     validations.forEach((validation: any) => {
       const keys = Object.keys(validation);
@@ -113,7 +110,7 @@ export default class ValidatorService extends Service {
 
     validators.forEach((validator) => {
       // @ts-ignore
-      const result = validator.validate(name, model.get(name), attribute, this);
+      const result = validator.validate(model.get(name), model);
 
       if (typeof result === "string") {
         this._addValidationError(model, name, result);
@@ -144,12 +141,7 @@ export default class ValidatorService extends Service {
       model.constructor.modelName || model.constructor.typeKey;
 
     validators.forEach((validator) => {
-      const result = validator.validate(
-        name,
-        model.get(name),
-        relationship,
-        model
-      );
+      const result = validator.validate(model.get(name), model);
 
       if (typeof result === "string") {
         this._addValidationError(model, name, result);

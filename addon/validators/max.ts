@@ -1,5 +1,6 @@
 import BaseValidator, {
   AttributeInterface,
+  ValidatorOptions,
 } from "@getflights/ember-attribute-validations/base-validator";
 import Model from "@ember-data/model";
 import {
@@ -10,12 +11,16 @@ import { assert } from "@ember/debug";
 import { isPresent } from "@ember/utils";
 import { tracked } from "@glimmer/tracking";
 
+export interface MaxValidatorOptions extends ValidatorOptions {
+  max: number;
+}
+
 /**
  * Validator that could be used to validate maximum length,
  * if the attribute is String, or to validate the maximum value
  * if the Attribute is a Number.
  */
-export default class MaxValidator extends BaseValidator {
+export default class MaxValidator extends BaseValidator<MaxValidatorOptions> {
   name = "max";
 
   /**
@@ -24,15 +29,15 @@ export default class MaxValidator extends BaseValidator {
    */
   @tracked max: number;
 
-  constructor(attribute: AttributeInterface, max: number) {
+  constructor(attribute: AttributeInterface, options?: MaxValidatorOptions) {
     super(attribute);
-    this.max = max;
+
+    assert("You must define a `max` for MaxValidator", isPresent(options?.max));
+    this.max = <number>options?.max;
   }
 
-  validate(_: string, value: any, attribute: any, _2: Model): string | boolean {
-    const type = getValidationType(attribute.type);
-
-    assert("You must define a `max` for MaxValidator", isPresent(this.max));
+  validate(value: any, _model: Model): string | boolean {
+    const type = getValidationType(this.attribute.type);
 
     if (!hasValue(value)) {
       return false;

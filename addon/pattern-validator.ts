@@ -1,4 +1,6 @@
-import BaseValidator from "@getflights/ember-attribute-validations/base-validator";
+import BaseValidator, {
+  ValidatorOptions,
+} from "@getflights/ember-attribute-validations/base-validator";
 import Model from "@ember-data/model";
 import { hasValue } from "@getflights/ember-attribute-validations/utils";
 import { assert } from "@ember/debug";
@@ -10,7 +12,9 @@ import { assert } from "@ember/debug";
  * You should be able to create a PatternValidator by
  * just assigning a `pattern` value.
  */
-export default abstract class PatternValidator extends BaseValidator {
+export default abstract class PatternValidator<
+  T extends ValidatorOptions
+> extends BaseValidator<T> {
   /**
    * RegExp like pattern that would be used to test
    * the Attribute value.
@@ -21,7 +25,7 @@ export default abstract class PatternValidator extends BaseValidator {
    */
   abstract pattern: RegExp;
 
-  validate(_: string, value: any, _2: any, _3: Model) {
+  validate(value: any, _model: Model) {
     assert(
       "You must define a RegExp pattern in order to validate.",
       this.pattern instanceof RegExp

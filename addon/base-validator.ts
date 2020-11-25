@@ -12,23 +12,35 @@ export interface AttributeInterface {
   isAttribute: boolean;
   meta?: {
     isRelationship?: boolean;
+    kind?: "belongsTo" | "hasMany";
   };
   options?: {
     validation?: any;
   };
 }
 
+export interface ValidatorOptions {}
+
 /**
  * Validator Class used to perform specific Attribute
  * Validation.
  */
-export default abstract class BaseValidator {
+export default abstract class BaseValidator<T extends ValidatorOptions> {
   @service intl!: any;
 
+  /**
+   * The meta attribute or relationship returned when looking up the value through Ember Data
+   * to find this value, we either run eachAttribute or eachRelationship on the model, and loop over every value
+   * The value is assigned to this attribute
+   */
   @tracked attribute: AttributeInterface;
+
+  /**
+   * The name of the validator, this must be unqiue over every validator
+   */
   abstract name: string;
 
-  constructor(attribute: AttributeInterface) {
+  constructor(attribute: AttributeInterface, _options?: T) {
     this.attribute = attribute;
   }
 
@@ -133,13 +145,10 @@ export default abstract class BaseValidator {
    *
    * This method should be implemented by all extending classes.
    *
+   * @param attributeName The name of the attribute
+   * @param value The value of the attribute on the model
    */
-  abstract validate(
-    attributeName: string,
-    value: any,
-    meta: any,
-    model: Model
-  ): string | boolean;
+  abstract validate(value: any, model: Model): string | boolean;
 
   /**
    * Formats the validation error message.
@@ -147,7 +156,7 @@ export default abstract class BaseValidator {
    * All arguments passed to this function would be used by the
    *
    */
-  format(messageParameters: { [key: string]: string } = {}): string {
+  format(messageParameters: { [key: string]: string | number } = {}): string {
     const intlKey = this.intlKey;
 
     if (!messageParameters.hasOwnProperty("label")) {

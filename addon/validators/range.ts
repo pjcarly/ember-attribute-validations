@@ -1,11 +1,16 @@
 import Model from "@ember-data/model";
 import BaseValidator, {
   AttributeInterface,
+  ValidatorOptions,
 } from "@getflights/ember-attribute-validations/base-validator";
 import { getValidationType } from "@getflights/ember-attribute-validations/utils";
 import { assert } from "@ember/debug";
-import { isPresent } from "@ember/utils";
 import { tracked } from "@glimmer/tracking";
+
+export interface RangeValidatorOptions extends ValidatorOptions {
+  from: number;
+  to: number;
+}
 
 /**
  * Validator that could be used to validate Strings and Numbers.
@@ -14,7 +19,9 @@ import { tracked } from "@glimmer/tracking";
  * If it is a Number, it's value should be in defined range.
  *
  */
-export default class RangeValidator extends BaseValidator {
+export default class RangeValidator extends BaseValidator<
+  RangeValidatorOptions
+> {
   name = "range";
 
   /**
@@ -29,17 +36,18 @@ export default class RangeValidator extends BaseValidator {
    */
   @tracked to: number;
 
-  constructor(attribute: AttributeInterface, from: number, to: number) {
+  constructor(attribute: AttributeInterface, options?: RangeValidatorOptions) {
     super(attribute);
-    this.from = from;
-    this.to = to;
+
+    assert("You must define a `from` for RangeValidator", options?.from);
+    assert("You must define a `to` for RangeValidator", options?.to);
+
+    this.from = options.from;
+    this.to = options.to;
   }
 
-  validate(_: string, value: any, attribute: any, _2: Model): string | boolean {
-    const type = getValidationType(attribute.type);
-
-    assert("You must define a `from` for RangeValidator", isPresent(this.from));
-    assert("You must define a `to` for RangeValidator", isPresent(this.to));
+  validate(value: any, _2: Model): string | boolean {
+    const type = getValidationType(this.attribute.type);
 
     let invalid = true;
 
