@@ -61,7 +61,20 @@ module("uuid Validator test", function (hooks) {
       version: "3",
     };
     const validator = new Validator(attribute, options);
+    setOwner(validator, this.owner);
 
+    this.owner.register(
+      "service:intl",
+      class IntlMockService extends Service {
+        t(key: string, _: { [key: string]: string }): string {
+          return key;
+        }
+
+        exists(key: string): boolean {
+          return key === `ember-attribute-validations.${validator.name}`;
+        }
+      }
+    );
     validate(
       assert,
       validator,
@@ -82,7 +95,20 @@ module("uuid Validator test", function (hooks) {
       version: "4",
     };
     const validator = new Validator(attribute, options);
+    setOwner(validator, this.owner);
 
+    this.owner.register(
+      "service:intl",
+      class IntlMockService extends Service {
+        t(key: string, _: { [key: string]: string }): string {
+          return key;
+        }
+
+        exists(key: string): boolean {
+          return key === `ember-attribute-validations.${validator.name}`;
+        }
+      }
+    );
     validate(
       assert,
       validator,
@@ -108,7 +134,20 @@ module("uuid Validator test", function (hooks) {
       version: "5",
     };
     const validator = new Validator(attribute, options);
+    setOwner(validator, this.owner);
 
+    this.owner.register(
+      "service:intl",
+      class IntlMockService extends Service {
+        t(key: string, _: { [key: string]: string }): string {
+          return key;
+        }
+
+        exists(key: string): boolean {
+          return key === `ember-attribute-validations.${validator.name}`;
+        }
+      }
+    );
     validate(
       assert,
       validator,
@@ -136,14 +175,13 @@ function validate(
   valid: string[],
   invalid: any[]
 ) {
-  assert.expect(0);
   valid.forEach(function (uuid) {
     assert.equal(validator.validate(uuid, <Model>{}), false);
   });
   invalid.forEach(function (uuid) {
     assert.equal(
       validator.validate(uuid, <Model>{}),
-      "Uuid must be a valid UUID"
+      "ember-attribute-validations.uuid"
     );
   });
   // Should not validate empty values

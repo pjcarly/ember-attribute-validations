@@ -1,7 +1,8 @@
-import PatternValidator from "@getflights/ember-attribute-validations/pattern-validator";
+import PatternValidator, {
+  PatternValidatorOptions,
+} from "@getflights/ember-attribute-validations/pattern-validator";
 import { assert } from "@ember/debug";
-import { tracked } from "@glimmer/tracking";
-import { AttributeInterface, ValidatorOptions } from "../base-validator";
+import { AttributeInterface } from "../base-validator";
 
 export const uuid: { [key: string]: RegExp } = {
   3: /^[0-9A-F]{8}-[0-9A-F]{4}-3[0-9A-F]{3}-[0-9A-F]{4}-[0-9A-F]{12}$/i,
@@ -10,7 +11,7 @@ export const uuid: { [key: string]: RegExp } = {
   all: /^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$/i,
 };
 
-export interface UUIDValidatorOptions extends ValidatorOptions {
+export interface UUIDValidatorOptions extends PatternValidatorOptions {
   version: "3" | "4" | "5" | "all";
 }
 
@@ -25,25 +26,20 @@ export default class UUIDValidator extends PatternValidator<
    *
    * Valid arguments are all, 3, 4, 5
    */
-  @tracked version: "3" | "4" | "5" | "all" = "all";
+  version: "3" | "4" | "5" | "all" = "all";
 
   constructor(attribute: AttributeInterface, options?: UUIDValidatorOptions) {
     super(attribute, options);
 
-    assert("You must define a `version` for UUIDValidator", options?.version);
-    assert(
-      "You must define a `version` for UUIDValidator",
-      ["3", "4", "5", "all"].includes(options.version)
-    );
+    if (options?.version) {
+      assert(
+        "Your defined `version` for UUIDValidator is invalid, only 3, 4, 5 and all are supported",
+        ["3", "4", "5", "all"].includes(options.version)
+      );
 
-    this.version = options.version;
-  }
+      this.version = options.version;
+    }
 
-  get pattern(): RegExp {
-    const pattern = uuid[this.version];
-
-    assert("Invalid UUID version `" + this.version + "`.", !!pattern);
-
-    return pattern;
+    this.pattern = uuid[this.version];
   }
 }
