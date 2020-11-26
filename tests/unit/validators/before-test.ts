@@ -11,13 +11,6 @@ const currentDate = Date.parse(
 );
 
 const attribute: AttributeInterface = {
-  options: {
-    validation: {
-      before() {
-        return currentDate;
-      },
-    },
-  },
   name: "Date",
   type: "date",
   parentTypeKey: "test",
@@ -28,7 +21,11 @@ module("Date Before Validator test", function (hooks) {
   setupTest(hooks);
 
   test("validate", function (assert) {
-    const validator = new Validator(attribute);
+    const validator = new Validator(attribute, {
+      before() {
+        return new Date(currentDate);
+      },
+    });
     setOwner(validator, this.owner);
 
     this.owner.register(

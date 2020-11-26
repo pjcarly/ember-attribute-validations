@@ -10,7 +10,7 @@ import { assert } from "@ember/debug";
 import { isPresent } from "@ember/utils";
 
 export interface DateBeforeValidatorOptions extends ValidatorOptions {
-  before: () => Date | Date;
+  before: (() => Date) | Date;
 }
 
 /**
@@ -71,7 +71,7 @@ export default class DateBeforeValidator extends BaseValidator<
    * If the property is a function, it would be invoked
    * with a Model instance context.
    */
-  private _resolveBeforeDate(before: () => Date | Date): Date | null {
+  private _resolveBeforeDate(before: (() => Date) | Date): Date | null {
     if (typeOf(before) === "function") {
       // @ts-ignore
       before = run(before);
@@ -86,6 +86,6 @@ export default class DateBeforeValidator extends BaseValidator<
    * Compares the two given Dates.
    */
   private _compareDates(date: Date, before: Date) {
-    return !!(date && before && date > before);
+    return !!(date && before && date.getTime() >= before.getTime());
   }
 }
