@@ -170,6 +170,7 @@ export function decimalPlaces(num: number): number {
  * @return integer
  */
 export function amountOfDigits(num: number): number {
+  num = Math.abs(num);
   return (num + "").replace(".", "").replace(",", "").length;
 }
 
