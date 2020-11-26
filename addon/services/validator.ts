@@ -42,15 +42,14 @@ export default class ValidatorService extends Service {
       typeof validatorClass === "function"
     );
 
-    let value = lookup.value;
+    // These are the ValidatorOptions or an extension of it
+    const options: any = {};
 
-    if (typeof value !== "object") {
-      value = {};
-
-      value[lookup.type] = lookup.value;
+    if (lookup.value !== true) {
+      options[lookup.type] = lookup.value;
     }
 
-    const validatorInstance = new validatorClass(lookup.attribute);
+    const validatorInstance = new validatorClass(lookup.attribute, options);
     setOwner(validatorInstance, this.container);
     return validatorInstance;
   }
