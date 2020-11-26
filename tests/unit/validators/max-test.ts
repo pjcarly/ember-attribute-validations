@@ -20,10 +20,9 @@ module("Max Validator test", function (hooks) {
       isAttribute: true,
     };
 
-    const validator = new Validator(attribute);
-
     assert.throws(
       function () {
+        const validator = new Validator(attribute);
         validator.validate("value", <Model>{});
       },
       function (err: any) {

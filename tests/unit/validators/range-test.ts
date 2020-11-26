@@ -20,10 +20,9 @@ module("Range Validator test", function (hooks) {
       isAttribute: true,
     };
 
-    const validator = new Validator(attribute);
-
     assert.throws(
       function () {
+        const validator = new Validator(attribute);
         validator.validate("value", <Model>{});
       },
       function (err: any) {
@@ -48,10 +47,10 @@ module("Range Validator test", function (hooks) {
     const options: RangeValidatorOptions = {
       from: 3,
     };
-    const validator = new Validator(attribute, options);
 
     assert.throws(
       function () {
+        const validator = new Validator(attribute, options);
         validator.validate("value", <Model>{});
       },
       function (err: any) {

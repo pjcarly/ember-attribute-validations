@@ -27,7 +27,7 @@ export default class MinValidator extends BaseValidator<MinValidatorOptions> {
 
   constructor(attribute: AttributeInterface, options?: MinValidatorOptions) {
     super(attribute);
-    assert("You must define a `max` for MinValidator", isPresent(options?.min));
+    assert("You must define a `min` for MinValidator", isPresent(options?.min));
     this.min = <number>options?.min;
   }
 
