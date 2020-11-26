@@ -32,30 +32,21 @@ module("Digit Validator test", function (hooks) {
         }
       }
     );
-    assert.equal(validator.validate("digit", 1, attribute, <Model>{}), false);
-    assert.equal(validator.validate("digit", 9, attribute, <Model>{}), false);
-    assert.equal(
-      validator.validate("digit", "12345", attribute, <Model>{}),
-      false
-    );
+    assert.equal(validator.validate(1, <Model>{}), false);
+    assert.equal(validator.validate(9, <Model>{}), false);
+    assert.equal(validator.validate("12345", <Model>{}), false);
 
     // Should not validate empty values
-    assert.equal(
-      validator.validate("digit", null, attribute, <Model>{}),
-      false
-    );
-    assert.equal(
-      validator.validate("digit", undefined, attribute, <Model>{}),
-      false
-    );
-    assert.equal(validator.validate("digit", "", attribute, <Model>{}), false);
+    assert.equal(validator.validate(null, <Model>{}), false);
+    assert.equal(validator.validate(undefined, <Model>{}), false);
+    assert.equal(validator.validate("", <Model>{}), false);
 
     assert.equal(
-      validator.validate("digit", false, attribute, <Model>{}),
+      validator.validate(false, <Model>{}),
       "ember-attribute-validations.digit"
     );
     assert.equal(
-      validator.validate("digit", "some value", attribute, <Model>{}),
+      validator.validate("some value", <Model>{}),
       "ember-attribute-validations.digit"
     );
   });

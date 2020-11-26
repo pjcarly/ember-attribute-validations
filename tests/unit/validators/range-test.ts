@@ -2,7 +2,9 @@ import Model from "@ember-data/model";
 import { setOwner } from "@ember/application";
 import Service from "@ember/service";
 import { AttributeInterface } from "@getflights/ember-attribute-validations/base-validator";
-import Validator from "@getflights/ember-attribute-validations/validators/range";
+import Validator, {
+  RangeValidatorOptions,
+} from "@getflights/ember-attribute-validations/validators/range";
 import { setupTest } from "ember-qunit";
 import { module, test } from "qunit";
 
@@ -18,12 +20,11 @@ module("Range Validator test", function (hooks) {
       isAttribute: true,
     };
 
-    // @ts-expect-error
     const validator = new Validator(attribute);
 
     assert.throws(
       function () {
-        validator.validate("email", "value", attribute, <Model>{});
+        validator.validate("value", <Model>{});
       },
       function (err: any) {
         return (
@@ -44,11 +45,14 @@ module("Range Validator test", function (hooks) {
     };
 
     // @ts-expect-error
-    const validator = new Validator(attribute, 1);
+    const options: RangeValidatorOptions = {
+      from: 3,
+    };
+    const validator = new Validator(attribute, options);
 
     assert.throws(
       function () {
-        validator.validate("email", "value", attribute, <Model>{});
+        validator.validate("value", <Model>{});
       },
       function (err: any) {
         return (
@@ -68,7 +72,12 @@ module("Range Validator test", function (hooks) {
       isAttribute: true,
     };
 
-    const validator = new Validator(attribute, 3, 10);
+    const options: RangeValidatorOptions = {
+      from: 3,
+      to: 10,
+    };
+
+    const validator = new Validator(attribute, options);
     setOwner(validator, this.owner);
 
     this.owner.register(
@@ -84,37 +93,28 @@ module("Range Validator test", function (hooks) {
       }
     );
 
-    assert.equal(
-      validator.validate("email", "babyyoda", attribute, <Model>{}),
-      false
-    );
-    assert.equal(
-      validator.validate("email", "manda", attribute, <Model>{}),
-      false
-    );
-    assert.equal(
-      validator.validate("email", "some email", attribute, <Model>{}),
-      false
-    );
+    assert.equal(validator.validate("babyyoda", <Model>{}), false);
+    assert.equal(validator.validate("manda", <Model>{}), false);
+    assert.equal(validator.validate("some email", <Model>{}), false);
 
     assert.equal(
-      validator.validate("email", "", attribute, <Model>{}),
+      validator.validate("", <Model>{}),
       "ember-attribute-validations.range"
     );
     assert.equal(
-      validator.validate("email", "fo", attribute, <Model>{}),
+      validator.validate("fo", <Model>{}),
       "ember-attribute-validations.range"
     );
     assert.equal(
-      validator.validate("email", null, attribute, <Model>{}),
+      validator.validate(null, <Model>{}),
       "ember-attribute-validations.range"
     );
     assert.equal(
-      validator.validate("email", false, attribute, <Model>{}),
+      validator.validate(false, <Model>{}),
       "ember-attribute-validations.range"
     );
     assert.equal(
-      validator.validate("email", undefined, attribute, <Model>{}),
+      validator.validate(undefined, <Model>{}),
       "ember-attribute-validations.range"
     );
   });
@@ -128,7 +128,12 @@ module("Range Validator test", function (hooks) {
       isAttribute: true,
     };
 
-    const validator = new Validator(attribute, 3, 10);
+    const options: RangeValidatorOptions = {
+      from: 3,
+      to: 10,
+    };
+
+    const validator = new Validator(attribute, options);
     setOwner(validator, this.owner);
 
     this.owner.register(
@@ -144,41 +149,29 @@ module("Range Validator test", function (hooks) {
       }
     );
 
-    assert.equal(
-      validator.validate("attribute", "3", attribute, <Model>{}),
-      false
-    );
-    assert.equal(
-      validator.validate("attribute", "9", attribute, <Model>{}),
-      false
-    );
-    assert.equal(
-      validator.validate("attribute", 8, attribute, <Model>{}),
-      false
-    );
-    assert.equal(
-      validator.validate("attribute", 4, attribute, <Model>{}),
-      false
-    );
+    assert.equal(validator.validate("3", <Model>{}), false);
+    assert.equal(validator.validate("9", <Model>{}), false);
+    assert.equal(validator.validate(8, <Model>{}), false);
+    assert.equal(validator.validate(4, <Model>{}), false);
 
     assert.equal(
-      validator.validate("attribute", 11, attribute, <Model>{}),
+      validator.validate(11, <Model>{}),
       "ember-attribute-validations.range"
     );
     assert.equal(
-      validator.validate("attribute", "2", attribute, <Model>{}),
+      validator.validate("2", <Model>{}),
       "ember-attribute-validations.range"
     );
     assert.equal(
-      validator.validate("attribute", null, attribute, <Model>{}),
+      validator.validate(null, <Model>{}),
       "ember-attribute-validations.range"
     );
     assert.equal(
-      validator.validate("attribute", false, attribute, <Model>{}),
+      validator.validate(false, <Model>{}),
       "ember-attribute-validations.range"
     );
     assert.equal(
-      validator.validate("attribute", undefined, attribute, <Model>{}),
+      validator.validate(undefined, <Model>{}),
       "ember-attribute-validations.range"
     );
   });

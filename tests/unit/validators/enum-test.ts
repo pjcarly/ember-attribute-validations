@@ -2,7 +2,9 @@ import Model from "@ember-data/model";
 import { setOwner } from "@ember/application";
 import Service from "@ember/service";
 import { AttributeInterface } from "@getflights/ember-attribute-validations/base-validator";
-import Validator from "@getflights/ember-attribute-validations/validators/in";
+import Validator, {
+  InValidatorOptions,
+} from "@getflights/ember-attribute-validations/validators/in";
 import { setupTest } from "ember-qunit";
 import { module, test } from "qunit";
 
@@ -18,7 +20,11 @@ module("enum Validator test", function (hooks) {
   setupTest(hooks);
 
   test("validate", function (assert) {
-    const validator = new Validator(attribute, ["foo", "bar"]);
+    const options: InValidatorOptions = {
+      in: ["foo", "bar"],
+    };
+
+    const validator = new Validator(attribute, options);
     setOwner(validator, this.owner);
 
     this.owner.register(
@@ -33,47 +39,36 @@ module("enum Validator test", function (hooks) {
         }
       }
     );
-    assert.equal(
-      validator.validate("enum", "foo", attribute, <Model>{}),
-      false
-    );
-    assert.equal(
-      validator.validate("enum", "bar", attribute, <Model>{}),
-      false
-    );
+    assert.equal(validator.validate("foo", <Model>{}), false);
+    assert.equal(validator.validate("bar", <Model>{}), false);
 
     // Should not validate empty values
-    assert.equal(
-      validator.validate("enum", undefined, attribute, <Model>{}),
-      false
-    );
-    assert.equal(validator.validate("enum", null, attribute, <Model>{}), false);
-    assert.equal(validator.validate("enum", "", attribute, <Model>{}), false);
+    assert.equal(validator.validate(undefined, <Model>{}), false);
+    assert.equal(validator.validate(null, <Model>{}), false);
+    assert.equal(validator.validate("", <Model>{}), false);
 
     assert.equal(
       validator.validate(
-        "enum",
         "manda.lorian@gmail.com",
-        attribute,
+
         <Model>{}
       ),
       "ember-attribute-validations.in"
     );
     assert.equal(
       validator.validate(
-        "enum",
         "manda.loria.n@dev.dom.net",
-        attribute,
+
         <Model>{}
       ),
       "ember-attribute-validations.in"
     );
     assert.equal(
-      validator.validate("enum", false, attribute, <Model>{}),
+      validator.validate(false, <Model>{}),
       "ember-attribute-validations.in"
     );
     assert.equal(
-      validator.validate("enum", "some value", attribute, <Model>{}),
+      validator.validate("some value", <Model>{}),
       "ember-attribute-validations.in"
     );
   });

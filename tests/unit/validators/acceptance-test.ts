@@ -32,29 +32,23 @@ module("Acceptance Validator test", function (hooks) {
       }
     );
 
-    assert.equal(
-      validator.validate("check", true, attribute, <Model>{}),
-      false
-    );
-    assert.equal(
-      validator.validate("check", "true", attribute, <Model>{}),
-      false
-    );
+    assert.equal(validator.validate(true, <Model>{}), false);
+    assert.equal(validator.validate("true", <Model>{}), false);
 
     assert.equal(
-      validator.validate("check", null, attribute, <Model>{}),
+      validator.validate(null, <Model>{}),
       "ember-attribute-validations.acceptance"
     );
     assert.equal(
-      validator.validate("check", false, attribute, <Model>{}),
+      validator.validate(false, <Model>{}),
       "ember-attribute-validations.acceptance"
     );
     assert.equal(
-      validator.validate("check", undefined, attribute, <Model>{}),
+      validator.validate(undefined, <Model>{}),
       "ember-attribute-validations.acceptance"
     );
     assert.equal(
-      validator.validate("check", "some value", attribute, <Model>{}),
+      validator.validate("some value", <Model>{}),
       "ember-attribute-validations.acceptance"
     );
   });

@@ -44,67 +44,45 @@ module("Date Before Validator test", function (hooks) {
       }
     );
 
-    assert.equal(
-      validator.validate("date", currentDate - 1000, attribute, <Model>{}),
-      false
-    );
+    assert.equal(validator.validate(currentDate - 1000, <Model>{}), false);
     assert.equal(
       validator.validate(
-        "date",
         "Mon Aug 17 2001 00:24:56 GMT-0500 (CDT)",
-        attribute,
+
         <Model>{}
       ),
       false
     );
     assert.equal(
       validator.validate(
-        "date",
         "Tue, 15 Nov 2000 12:45:26 GMT",
-        attribute,
+
         <Model>{}
       ),
       false
     );
 
     // Should not validate empty values
-    assert.equal(validator.validate("date", null, attribute, <Model>{}), false);
-    assert.equal(
-      validator.validate("date", undefined, attribute, <Model>{}),
-      false
-    );
-    assert.equal(
-      validator.validate("date", false, attribute, <Model>{}),
-      false
-    );
-    assert.equal(validator.validate("date", "", attribute, <Model>{}), false);
-    assert.equal(validator.validate("date", [], attribute, <Model>{}), false);
+    assert.equal(validator.validate(null, <Model>{}), false);
+    assert.equal(validator.validate(undefined, <Model>{}), false);
+    assert.equal(validator.validate(false, <Model>{}), false);
+    assert.equal(validator.validate("", <Model>{}), false);
+    assert.equal(validator.validate([], <Model>{}), false);
 
     assert.equal(
       validator.validate(
-        "date",
         currentDate + 10 * 60 * 1000,
-        attribute,
+
         <Model>{}
       ),
       "ember-attribute-validations.beforeDate"
     );
     assert.equal(
-      validator.validate(
-        "date",
-        "Mon Aug 17 2045 00:24:56 GMT-0500 (CDT)",
-        attribute,
-        <Model>{}
-      ),
+      validator.validate("Mon Aug 17 2045 00:24:56 GMT-0500 (CDT)", <Model>{}),
       "ember-attribute-validations.beforeDate"
     );
     assert.equal(
-      validator.validate(
-        "date",
-        "Tue, 15 Nov 2045 12:45:26 GMT",
-        attribute,
-        <Model>{}
-      ),
+      validator.validate("Tue, 15 Nov 2045 12:45:26 GMT", <Model>{}),
       "ember-attribute-validations.beforeDate"
     );
   });

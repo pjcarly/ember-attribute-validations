@@ -34,88 +34,69 @@ module("Date Validator test", function (hooks) {
       }
     );
 
-    assert.equal(
-      validator.validate("date", Date.now(), attribute, <Model>{}),
-      false
-    );
-    assert.equal(
-      validator.validate("date", new Date(), attribute, <Model>{}),
-      false
-    );
+    assert.equal(validator.validate(Date.now(), <Model>{}), false);
+    assert.equal(validator.validate(new Date(), <Model>{}), false);
     assert.equal(
       validator.validate(
-        "date",
         new Date().toISOString(),
-        attribute,
+
         <Model>{}
       ),
       false
     );
-    assert.equal(
-      validator.validate("date", "2/22/23", attribute, <Model>{}),
-      false
-    );
-    assert.equal(
-      validator.validate("date", "11/2/23 12:24", attribute, <Model>{}),
-      false
-    );
+    assert.equal(validator.validate("2/22/23", <Model>{}), false);
+    assert.equal(validator.validate("11/2/23 12:24", <Model>{}), false);
     assert.equal(
       validator.validate(
-        "date",
         "Mon Aug 17 2015 00:24:56 GMT-0500 (CDT)",
-        attribute,
+
         <Model>{}
       ),
       false
     );
     assert.equal(
       validator.validate(
-        "date",
         "Tue, 15 Nov 1994 12:45:26 GMT",
-        attribute,
+
         <Model>{}
       ),
       false
     );
 
     // Should not validate empty values
-    assert.equal(validator.validate("date", null, attribute, <Model>{}), false);
-    assert.equal(
-      validator.validate("date", undefined, attribute, <Model>{}),
-      false
-    );
-    assert.equal(validator.validate("date", "", attribute, <Model>{}), false);
-    assert.equal(validator.validate("date", [], attribute, <Model>{}), false);
+    assert.equal(validator.validate(null, <Model>{}), false);
+    assert.equal(validator.validate(undefined, <Model>{}), false);
+    assert.equal(validator.validate("", <Model>{}), false);
+    assert.equal(validator.validate([], <Model>{}), false);
 
     assert.equal(
-      validator.validate("date", false, attribute, <Model>{}),
+      validator.validate(false, <Model>{}),
       "ember-attribute-validations.date"
     );
     assert.equal(
-      validator.validate("date", <Model>{}, attribute, <Model>{}),
+      validator.validate(<Model>{}, <Model>{}),
       "ember-attribute-validations.date"
     );
     assert.equal(
-      validator.validate("date", "some value", attribute, <Model>{}),
+      validator.validate("some value", <Model>{}),
       "ember-attribute-validations.date"
     );
     assert.equal(
-      validator.validate("date", "2011-foo-04", attribute, <Model>{}),
+      validator.validate("2011-foo-04", <Model>{}),
       "ember-attribute-validations.date"
     );
     assert.equal(
-      validator.validate("date", "2009367", attribute, <Model>{}),
+      validator.validate("2009367", <Model>{}),
       "ember-attribute-validations.date"
     );
     assert.equal(
-      validator.validate("date", "2009M511", attribute, <Model>{}),
+      validator.validate("2009M511", <Model>{}),
       "ember-attribute-validations.date"
     );
     assert.equal(
       validator.validate(
-        "date",
         "2010-02-18T16,25:23:48,444",
-        attribute,
+
         <Model>{}
       ),
       "ember-attribute-validations.date"

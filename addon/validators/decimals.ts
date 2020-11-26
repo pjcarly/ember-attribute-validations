@@ -2,7 +2,7 @@ import BaseValidator, {
   AttributeInterface,
   ValidatorOptions,
 } from "@getflights/ember-attribute-validations/base-validator";
-import Model, { attr } from "@ember-data/model";
+import Model from "@ember-data/model";
 import { decimalPlaces } from "@getflights/ember-attribute-validations/utils";
 import { isBlank } from "@ember/utils";
 import { assert } from "@ember/debug";

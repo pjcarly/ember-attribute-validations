@@ -34,43 +34,31 @@ module("Number Validator test", function (hooks) {
       }
     );
 
-    assert.equal(
-      validator.validate("stars", "100.000", attribute, <Model>{}),
-      false
-    );
-    assert.equal(validator.validate("stars", 9, attribute, <Model>{}), false);
-    assert.equal(validator.validate("stars", 0, attribute, <Model>{}), false);
-    assert.equal(
-      validator.validate("stars", "12345", attribute, <Model>{}),
-      false
-    );
-    assert.equal(
-      validator.validate("stars", "78.98", attribute, <Model>{}),
-      false
-    );
+    assert.equal(validator.validate("100.000", <Model>{}), false);
+    assert.equal(validator.validate(9, <Model>{}), false);
+    assert.equal(validator.validate(0, <Model>{}), false);
+    assert.equal(validator.validate("12345", <Model>{}), false);
+    assert.equal(validator.validate("78.98", <Model>{}), false);
 
     // Should not validate empty values
-    assert.equal(
-      validator.validate("url", undefined, attribute, <Model>{}),
-      false
-    );
-    assert.equal(validator.validate("url", null, attribute, <Model>{}), false);
-    assert.equal(validator.validate("url", "", attribute, <Model>{}), false);
+    assert.equal(validator.validate(undefined, <Model>{}), false);
+    assert.equal(validator.validate(null, <Model>{}), false);
+    assert.equal(validator.validate("", <Model>{}), false);
 
     assert.equal(
-      validator.validate("stars", "78.98,00", attribute, <Model>{}),
+      validator.validate("78.98,00", <Model>{}),
       "ember-attribute-validations.number"
     );
     assert.equal(
-      validator.validate("stars", false, attribute, <Model>{}),
+      validator.validate(false, <Model>{}),
       "ember-attribute-validations.number"
     );
     assert.equal(
-      validator.validate("stars", true, attribute, <Model>{}),
+      validator.validate(true, <Model>{}),
       "ember-attribute-validations.number"
     );
     assert.equal(
-      validator.validate("stars", "some value", attribute, <Model>{}),
+      validator.validate("some value", <Model>{}),
       "ember-attribute-validations.number"
     );
   });
