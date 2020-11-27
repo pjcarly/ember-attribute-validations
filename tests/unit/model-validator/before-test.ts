@@ -14,7 +14,7 @@ module("Model | Date Before", function (hooks) {
 
     const model = class DummyModel extends ValidationModel {
       // @ts-ignore
-      @attr("boolean", {
+      @attr("date", {
         validation: { before: beforeDate },
       })
       date!: Date;

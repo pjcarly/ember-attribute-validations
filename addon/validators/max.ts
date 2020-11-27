@@ -69,7 +69,7 @@ export default class MaxValidator extends BaseValidator<MaxValidatorOptions> {
   }
 
   validateNumber(value: string) {
-    const testValue = parseInt(value, 10);
+    const testValue = parseFloat(value);
 
     if (isNaN(testValue)) {
       return true;

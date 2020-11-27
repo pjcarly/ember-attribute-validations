@@ -13,7 +13,7 @@ module("Model | Date After", function (hooks) {
     const afterDate = new Date(2020, 1, 1, 1, 1, 1, 1);
     const model = class DummyModel extends ValidationModel {
       // @ts-ignore
-      @attr("boolean", { validation: { after: afterDate } })
+      @attr("date", { validation: { after: afterDate } })
       date!: Date;
     };
 

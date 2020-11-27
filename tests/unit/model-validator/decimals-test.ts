@@ -6,13 +6,13 @@ import ValidationModel from "@getflights/ember-attribute-validations/model/valid
 import { setupTest } from "ember-qunit";
 import { module, test } from "qunit";
 
-module("Model | Positive", function (hooks) {
+module("Model | Decimals", function (hooks) {
   setupTest(hooks);
 
   test("validate", function (assert) {
     const model = class DummyModel extends ValidationModel {
       // @ts-ignore
-      @attr("number", { validation: { positive: true } })
+      @attr("number", { validation: { decimals: 2 } })
       number?: number;
     };
 
@@ -25,7 +25,7 @@ module("Model | Positive", function (hooks) {
         }
 
         exists(key: string): boolean {
-          return key === `ember-attribute-validations.positive`;
+          return key === `ember-attribute-validations.decimals`;
         }
       }
     );
@@ -44,13 +44,26 @@ module("Model | Positive", function (hooks) {
       assert.strictEqual(dummy.errors.length, 0);
 
       dummy.number = 123.456;
+      assert.notOk(dummy.validate());
+      assert.strictEqual(dummy.errors.length, 1);
+      assert.ok(dummy.errors.has("number"));
+
+      dummy.number = -123.456;
+      assert.notOk(dummy.validate());
+      assert.strictEqual(dummy.errors.length, 1);
+      assert.ok(dummy.errors.has("number"));
+
+      dummy.number = -123.45;
+      assert.ok(dummy.validate());
+      assert.strictEqual(dummy.errors.length, 0);
+
+      dummy.number = 123.45;
       assert.ok(dummy.validate());
       assert.strictEqual(dummy.errors.length, 0);
 
       dummy.number = -123;
-      assert.notOk(dummy.validate());
-      assert.strictEqual(dummy.errors.length, 1);
-      assert.ok(dummy.errors.has("number"));
+      assert.ok(dummy.validate());
+      assert.strictEqual(dummy.errors.length, 0);
 
       dummy.number = 123;
       assert.ok(dummy.validate());

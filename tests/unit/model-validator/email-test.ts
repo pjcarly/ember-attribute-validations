@@ -6,14 +6,14 @@ import ValidationModel from "@getflights/ember-attribute-validations/model/valid
 import { setupTest } from "ember-qunit";
 import { module, test } from "qunit";
 
-module("Model | Acceptance", function (hooks) {
+module("Model | Email", function (hooks) {
   setupTest(hooks);
 
   test("validate", function (assert) {
     const model = class DummyModel extends ValidationModel {
       // @ts-ignore
-      @attr("boolean", { validation: { acceptance: true } })
-      agreed!: boolean;
+      @attr("string", { validation: { email: true } })
+      email!: string;
     };
 
     this.owner.register("model:dummy", model);
@@ -25,7 +25,7 @@ module("Model | Acceptance", function (hooks) {
         }
 
         exists(key: string): boolean {
-          return key === `ember-attribute-validations.acceptance`;
+          return key === `ember-attribute-validations.email`;
         }
       }
     );
@@ -34,37 +34,25 @@ module("Model | Acceptance", function (hooks) {
     const dummy = store.createRecord("dummy");
 
     const attributes = <Map<string, any>>(<unknown>model.attributes);
-    assert.ok(attributes.has("agreed"));
+    assert.ok(attributes.has("email"));
     assert.strictEqual(dummy.constructor, model);
-    assert.strictEqual(dummy.agreed, undefined);
+    assert.strictEqual(dummy.email, undefined);
     assert.strictEqual(dummy.errors.length, 0);
 
+    dummy.email = "baby@yoda";
     assert.notOk(dummy.validate());
     assert.strictEqual(dummy.errors.length, 1);
-    assert.ok(dummy.errors.has("agreed"));
-    assert.deepEqual(dummy.errors.errorsFor("agreed"), [
+    assert.ok(dummy.errors.has("email"));
+    assert.deepEqual(dummy.errors.errorsFor("email"), [
       {
-        attribute: "agreed",
-        message: "ember-attribute-validations.acceptance",
+        attribute: "email",
+        message: "ember-attribute-validations.email",
       },
     ]);
 
-    dummy.errors.remove("agreed");
+    dummy.errors.remove("email");
     assert.strictEqual(dummy.errors.length, 0);
-    dummy.agreed = false;
-    assert.notOk(dummy.validate());
-    assert.strictEqual(dummy.errors.length, 1);
-    assert.ok(dummy.errors.has("agreed"));
-    assert.deepEqual(dummy.errors.errorsFor("agreed"), [
-      {
-        attribute: "agreed",
-        message: "ember-attribute-validations.acceptance",
-      },
-    ]);
-
-    dummy.errors.remove("agreed");
-    assert.strictEqual(dummy.errors.length, 0);
-    dummy.agreed = true;
+    dummy.email = "baby@yoda.sw";
     assert.ok(dummy.validate());
     assert.strictEqual(dummy.errors.length, 0);
   });

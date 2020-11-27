@@ -43,12 +43,6 @@ module("Model | Negative", function (hooks) {
       assert.ok(dummy.validate());
       assert.strictEqual(dummy.errors.length, 0);
 
-      dummy.number = "yoda";
-
-      assert.notOk(dummy.validate());
-      assert.strictEqual(dummy.errors.length, 1);
-      assert.ok(dummy.errors.has("number"));
-
       dummy.number = 123.456;
       assert.notOk(dummy.validate());
       assert.strictEqual(dummy.errors.length, 1);
