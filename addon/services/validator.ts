@@ -8,7 +8,7 @@ import Service from "@ember/service";
 import { inject as service } from "@ember/service";
 import { isEmpty } from "@ember/utils";
 import DS from "ember-data";
-import { AttributeInterface } from "../base-validator";
+import BaseValidator, { AttributeInterface } from "../base-validator";
 import ValidationError from "../error";
 
 export interface ValidatorLookup {
@@ -33,7 +33,7 @@ export default class ValidatorService extends Service {
     );
   }
 
-  lookupValidator(lookup: ValidatorLookup) {
+  lookupValidator(lookup: ValidatorLookup): BaseValidator<any> {
     const typeKey = lookup.type;
     const validatorClass = this.lookupValidtorFactory(typeKey);
 
@@ -57,7 +57,7 @@ export default class ValidatorService extends Service {
   /**
    * Resolves the List of Validators for a given attribute.
    */
-  validatorsFor(attribute: AttributeInterface) {
+  validatorsFor(attribute: AttributeInterface): BaseValidator<any>[] {
     const meta = attribute.options;
     let validations = meta?.validation;
 
