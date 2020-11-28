@@ -16,6 +16,8 @@ export interface AttributeInterface {
   };
   options?: {
     validation?: any;
+    precision?: number;
+    decimals ?: number;
   };
 }
 
