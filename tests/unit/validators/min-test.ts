@@ -1,26 +1,28 @@
 import Model from "@ember-data/model";
 import { setOwner } from "@ember/application";
 import Service from "@ember/service";
-import Validator from "@getflights/ember-attribute-validations/validators/min";
+import { AttributeInterface } from "@getflights/ember-attribute-validations/base-validator";
+import Validator, {
+  MinValidatorOptions,
+} from "@getflights/ember-attribute-validations/validators/min";
 import { setupTest } from "ember-qunit";
 import { module, test } from "qunit";
 
 module("Min Validator test", function (hooks) {
   setupTest(hooks);
   test("test missing min value", function (assert) {
-    const attribute = {
+    const attribute: AttributeInterface = {
       type: "string",
       options: {},
       name: "email",
+      parentTypeKey: "test",
+      isAttribute: true,
     };
-
-    const validator = Validator.create({
-      attribute: attribute,
-    });
 
     assert.throws(
       function () {
-        validator.validate("email", "value", attribute, <Model>{});
+        const validator = new Validator(attribute);
+        validator.validate("value", <Model>{});
       },
       function (err: any) {
         return (
@@ -32,16 +34,18 @@ module("Min Validator test", function (hooks) {
   });
 
   test("validate string", function (assert) {
-    const attribute = {
+    const attribute: AttributeInterface = {
       type: "string",
       options: {},
       name: "email",
+      parentTypeKey: "test",
+      isAttribute: true,
     };
 
-    const validator = Validator.create({
-      attribute: attribute,
+    const options: MinValidatorOptions = {
       min: 3,
-    });
+    };
+    const validator = new Validator(attribute, options);
     setOwner(validator, this.owner);
 
     this.owner.register(
@@ -57,48 +61,43 @@ module("Min Validator test", function (hooks) {
       }
     );
 
-    assert.equal(
-      validator.validate("email", "testing value", attribute, <Model>{}),
-      false
-    );
-    assert.equal(
-      validator.validate("email", "manda", attribute, <Model>{}),
-      false
-    );
+    assert.equal(validator.validate("testing value", <Model>{}), false);
+    assert.equal(validator.validate("manda", <Model>{}), false);
 
     assert.equal(
-      validator.validate("email", "", attribute, <Model>{}),
+      validator.validate("", <Model>{}),
       "ember-attribute-validations.min"
     );
     assert.equal(
-      validator.validate("email", null, attribute, <Model>{}),
+      validator.validate(null, <Model>{}),
       "ember-attribute-validations.min"
     );
     assert.equal(
-      validator.validate("email", false, attribute, <Model>{}),
+      validator.validate(false, <Model>{}),
       "ember-attribute-validations.min"
     );
     assert.equal(
-      validator.validate("email", undefined, attribute, <Model>{}),
+      validator.validate(undefined, <Model>{}),
       "ember-attribute-validations.min"
     );
     assert.equal(
-      validator.validate("email", "fo", attribute, <Model>{}),
+      validator.validate("fo", <Model>{}),
       "ember-attribute-validations.min"
     );
   });
 
   test("validate number", function (assert) {
-    const attribute = {
+    const attribute: AttributeInterface = {
       type: "number",
       options: {},
       name: "rating",
+      parentTypeKey: "test",
+      isAttribute: true,
     };
-
-    const validator = Validator.create({
-      attribute: attribute,
+    const options: MinValidatorOptions = {
       min: 5,
-    });
+    };
+    const validator = new Validator(attribute, options);
     setOwner(validator, this.owner);
 
     this.owner.register(
@@ -114,26 +113,23 @@ module("Min Validator test", function (hooks) {
       }
     );
 
-    assert.equal(
-      validator.validate("rating", "6", attribute, <Model>{}),
-      false
-    );
-    assert.equal(validator.validate("rating", 8, attribute, <Model>{}), false);
+    assert.equal(validator.validate("6", <Model>{}), false);
+    assert.equal(validator.validate(8, <Model>{}), false);
 
     assert.equal(
-      validator.validate("rating", 1, attribute, <Model>{}),
+      validator.validate(1, <Model>{}),
       "ember-attribute-validations.min"
     );
     assert.equal(
-      validator.validate("rating", null, attribute, <Model>{}),
+      validator.validate(null, <Model>{}),
       "ember-attribute-validations.min"
     );
     assert.equal(
-      validator.validate("rating", false, attribute, <Model>{}),
+      validator.validate(false, <Model>{}),
       "ember-attribute-validations.min"
     );
     assert.equal(
-      validator.validate("rating", undefined, attribute, <Model>{}),
+      validator.validate(undefined, <Model>{}),
       "ember-attribute-validations.min"
     );
   });

@@ -1,20 +1,50 @@
-import EmberObject from "@ember/object";
 import Model from "@ember-data/model";
-import { computed } from "@ember/object";
 import { inject as service } from "@ember/service";
 import { assert } from "@ember/debug";
 import { isPresent } from "@ember/utils";
 import { capitalize } from "@ember/string";
+import { tracked } from "@glimmer/tracking";
+
+export interface AttributeInterface {
+  parentTypeKey: string;
+  name: string;
+  type: string;
+  isAttribute: boolean;
+  meta?: {
+    isRelationship?: boolean;
+    kind?: "belongsTo" | "hasMany";
+  };
+  options?: {
+    validation?: any;
+    precision?: number;
+    decimals ?: number;
+  };
+}
+
+export interface ValidatorOptions {}
 
 /**
  * Validator Class used to perform specific Attribute
  * Validation.
  */
-export default abstract class BaseValidator extends EmberObject {
+export default abstract class BaseValidator<T extends ValidatorOptions> {
   @service intl!: any;
 
-  attribute!: any;
+  /**
+   * The meta attribute or relationship returned when looking up the value through Ember Data
+   * to find this value, we either run eachAttribute or eachRelationship on the model, and loop over every value
+   * The value is assigned to this attribute
+   */
+  @tracked attribute: AttributeInterface;
+
+  /**
+   * The name of the validator, this must be unqiue over every validator
+   */
   abstract name: string;
+
+  constructor(attribute: AttributeInterface, _options?: T) {
+    this.attribute = attribute;
+  }
 
   /**
    * This Property returns the intlKey that can be used to resolve a validation message
@@ -22,7 +52,6 @@ export default abstract class BaseValidator extends EmberObject {
    * @property message
    * @type String
    */
-  @computed("attribute", "name")
   get intlKey(): string {
     assert(
       `Your validator is missing a name. You must add the property "name" to your validator class, which contains a string name of the validator.`,
@@ -85,10 +114,7 @@ export default abstract class BaseValidator extends EmberObject {
    * You dont need to install the ember-field-components addon,
    * you can simply add the correct keys in the ember-intl translations.
    *
-   * @property attributeLabel
-   * @type {String}
    */
-  @computed("attribute", "intl.locale")
   get attributeLabel(): string {
     const modelName = this.attribute.parentTypeKey;
     const field = this.attribute.name;
@@ -121,30 +147,18 @@ export default abstract class BaseValidator extends EmberObject {
    *
    * This method should be implemented by all extending classes.
    *
-   * @method validate
-   * @param  {String}    name      Attribute name
-   * @param  {*}         value     Attribute value
-   * @param  {Attribute} attribute Attribute
-   * @param  {DS.Model}  model     Model instance
-   * @return {String|Boolean}
+   * @param attributeName The name of the attribute
+   * @param value The value of the attribute on the model
    */
-  abstract validate(
-    attribute: string,
-    value: any,
-    meta: any,
-    model: Model
-  ): string | boolean;
+  abstract validate(value: any, model: Model): string | boolean;
 
   /**
    * Formats the validation error message.
    *
    * All arguments passed to this function would be used by the
    *
-   * @method format
-   * @param {*} messageParameters Key value parameters that will be passed into the intl.t() function
-   * @return {String}
    */
-  format(messageParameters: { [key: string]: string } = {}): string {
+  format(messageParameters: { [key: string]: string | number } = {}): string {
     const intlKey = this.intlKey;
 
     if (!messageParameters.hasOwnProperty("label")) {

@@ -78,10 +78,10 @@ This addon comes with couple of built in `Validators`:
 - [DateBeforeValidator](#datebeforevalidator)
 - [DateAfterValidator](#dateaftervalidator)
 - [UUIDValidator](#uuidvalidator)
-- DecimalsValidator
-- DigitValidator
-- WholeNumberValidator
-- PrecisionValidator
+- [DecimalsValidator](#decimalsvalidator)
+- [DigitValidator](#digitvalidator)
+- [WholeNumberValidator](#wholenumbervalidator)
+- [PrecisionValidator](#precisionvalidator)
 
 You can also create your own custom `Validators` by using the provided blueprint.
 
@@ -294,6 +294,20 @@ export default DS.Model.extend({
 });
 ```
 
+#### DecimalsValidator
+
+```javascript
+import DS from "ember-data";
+
+export default DS.Model.extend({
+  age: DS.attr("number", {
+    validation: {
+      decimals: 2,
+    },
+  }),
+});
+```
+
 #### DigitValidator
 
 ```javascript
@@ -406,9 +420,7 @@ import DS from "ember-data";
 export default DS.Model.extend({
   property: DS.attr("string", {
     validation: {
-      in: {
-        values: ["foo", "bar"],
-      },
+      in: ["foo", "bar"],
     },
   }),
 });
@@ -451,6 +463,20 @@ export default DS.Model.extend({
   age: DS.attr("number", {
     validation: {
       number: true,
+    },
+  }),
+});
+```
+
+#### PrecisionValidator
+
+```javascript
+import DS from "ember-data";
+
+export default DS.Model.extend({
+  age: DS.attr("number", {
+    validation: {
+      precision: true,
     },
   }),
 });
@@ -517,6 +543,20 @@ export default DS.Model.extend({
       uuid: {
         version: 3,
       },
+    },
+  }),
+});
+```
+
+#### WholenumberValidator
+
+```javascript
+import DS from "ember-data";
+
+export default DS.Model.extend({
+  uuid: DS.attr("string", {
+    validation: {
+      wholenumber: true,
     },
   }),
 });

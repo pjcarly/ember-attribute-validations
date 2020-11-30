@@ -1,8 +1,16 @@
 import Model from "@ember-data/model";
-import BaseValidator from "@getflights/ember-attribute-validations/base-validator";
+import BaseValidator, {
+  AttributeInterface,
+  ValidatorOptions,
+} from "@getflights/ember-attribute-validations/base-validator";
 import { getValidationType } from "@getflights/ember-attribute-validations/utils";
 import { assert } from "@ember/debug";
-import { isPresent } from "@ember/utils";
+import { tracked } from "@glimmer/tracking";
+
+export interface RangeValidatorOptions extends ValidatorOptions {
+  from: number;
+  to: number;
+}
 
 /**
  * Validator that could be used to validate Strings and Numbers.
@@ -11,34 +19,35 @@ import { isPresent } from "@ember/utils";
  * If it is a Number, it's value should be in defined range.
  *
  */
-export default class RangeValidator extends BaseValidator {
+export default class RangeValidator extends BaseValidator<
+  RangeValidatorOptions
+> {
   name = "range";
 
   /**
    * Number representing the starting point
    * of the range validation.
-   *
-   * @property from
-   * @type {Number}
-   * @default null
    */
-  from!: number;
+  @tracked from: number;
 
   /**
    * Number representing the ending point
    * of the range validation.
-   *
-   * @property to
-   * @type {Number}
-   * @default null
    */
-  to!: number;
+  @tracked to: number;
 
-  validate(_: string, value: any, attribute: any, _2: Model): string | boolean {
-    const type = getValidationType(attribute.type);
+  constructor(attribute: AttributeInterface, options?: RangeValidatorOptions) {
+    super(attribute);
 
-    assert("You must define a `from` for RangeValidator", isPresent(this.from));
-    assert("You must define a `to` for RangeValidator", isPresent(this.to));
+    assert("You must define a `from` for RangeValidator", options?.from);
+    assert("You must define a `to` for RangeValidator", options?.to);
+
+    this.from = options.from;
+    this.to = options.to;
+  }
+
+  validate(value: any, _2: Model): string | boolean {
+    const type = getValidationType(this.attribute.type);
 
     let invalid = true;
 

@@ -1,3 +1,4 @@
+import { tracked } from "@glimmer/tracking";
 import DS from "ember-data";
 
 /**
@@ -5,24 +6,17 @@ import DS from "ember-data";
  *
  * This error contains the `DS.Errors` object from the Model.
  */
-function ValidationError(this: any, message: string, errors: DS.Errors) {
-  Error.call(this, message);
+export default class ValidationError extends Error {
+  @tracked errors: DS.Errors;
+  @tracked message: string;
 
-  if (Error.captureStackTrace) {
-    Error.captureStackTrace(this, ValidationError);
+  constructor(message: string, errors: DS.Errors) {
+    super(message);
+    this.message = message;
+    this.errors = errors;
+
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, ValidationError);
+    }
   }
-
-  this.message = message;
-  this.errors = errors;
 }
-
-ValidationError.prototype = Object.create(Error.prototype, {
-  constructor: {
-    value: ValidationError,
-  },
-  name: {
-    value: "ValidationError",
-  },
-});
-
-export default ValidationError;

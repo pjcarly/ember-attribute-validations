@@ -1,4 +1,7 @@
-import BaseValidator from "@getflights/ember-attribute-validations/base-validator";
+import BaseValidator, {
+  AttributeInterface,
+  ValidatorOptions,
+} from "@getflights/ember-attribute-validations/base-validator";
 import Model from "@ember-data/model";
 import { hasValue, toDate } from "../utils";
 import { typeOf } from "@ember/utils";
@@ -6,12 +9,37 @@ import { run } from "@ember/runloop";
 import { assert } from "@ember/debug";
 import { isPresent } from "@ember/utils";
 
+export interface DateAfterValidatorOptions extends ValidatorOptions {
+  after: Date | (() => Date);
+}
+
 /**
  * Validator that checks if the Attribute value
  * is after the specified date
  */
-export default class DateAfterValidator extends BaseValidator {
+export default class DateAfterValidator extends BaseValidator<
+  DateAfterValidatorOptions
+> {
   name = "afterDate";
+
+  after: Date;
+
+  constructor(
+    attribute: AttributeInterface,
+    options?: DateAfterValidatorOptions
+  ) {
+    super(attribute, options);
+
+    assert(
+      "You must define a `after` for DateAfterValidator, this can be a Date or a function returning a date",
+      options && options.after
+    );
+
+    const resolvedDate = this._resolveAfterDate(options.after);
+    assert("Invalid date resolved by the date after validation", resolvedDate);
+
+    this.after = resolvedDate;
+  }
 
   /**
    * after Date to be compared
@@ -21,22 +49,16 @@ export default class DateAfterValidator extends BaseValidator {
    * @default null
    */
 
-  validate(_: string, value: any, attribute: any, _2: Model): string | boolean {
+  validate(value: any, _model: Model): string | boolean {
     if (hasValue(value) && value !== false) {
-      assert(
-        "You must define a `after` Date on your model",
-        isPresent(attribute.options.validation.after)
-      );
-
       const date = toDate(value);
-      const after = this._resolveAfterDate(attribute.options.validation.after);
 
-      if (!date || !after) {
+      if (!date || !this.after) {
         return this.format();
       }
 
-      if (this._compareDates(date, after)) {
-        return this.format({ date: after.toString() });
+      if (this._compareDates(date, this.after)) {
+        return this.format({ date: this.after.toString() });
       }
     }
 
@@ -48,13 +70,8 @@ export default class DateAfterValidator extends BaseValidator {
    *
    * If the property is a function, it would be invoked
    * with a Model instance context.
-   *
-   * @method _resolveAfterDate
-   * @private
-   * @param  {DS.Model} model
-   * @return {Date}
    */
-  _resolveAfterDate(after: () => Date | Date) {
+  private _resolveAfterDate(after: (() => Date) | Date): Date | null {
     if (typeOf(after) === "function") {
       // @ts-ignore
       after = run(after);
@@ -67,14 +84,8 @@ export default class DateAfterValidator extends BaseValidator {
 
   /**
    * Compares the two given Dates.
-   *
-   * @method _compareDates
-   * @private
-   * @param  {Date} date
-   * @param  {Date} after
-   * @return {Boolean}
    */
-  _compareDates(date: Date, after: Date) {
-    return !!(date && after && date < after);
+  private _compareDates(date: Date, after: Date): boolean {
+    return !!(date && after && date.getTime() <= after.getTime());
   }
 }

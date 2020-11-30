@@ -1,14 +1,15 @@
-import Model, { attr } from "@ember-data/model";
-import { validationModel } from "@getflights/ember-attribute-validations/decorators/validation-model";
+import { attr } from "@ember-data/model";
+import ValidationModel from "@getflights/ember-attribute-validations/model/validation-model";
 
-@validationModel
-export default class ContactModel extends Model {
+export default class ContactModel extends ValidationModel {
   //@ts-ignore
   @attr("string", { validation: { in: { values: ["MR", "MS"] } } })
   salutation!: string;
 
   //@ts-ignore
-  @attr("string", { validation: { required: true, range: { from: 2, to: 20 } }})
+  @attr("string", {
+    validation: { required: true, range: { from: 2, to: 20 } },
+  })
   firstName!: string;
 
   //@ts-ignore
@@ -24,7 +25,15 @@ export default class ContactModel extends Model {
   age?: number;
 
   //@ts-ignore
-  @attr("date", {validation: { date: true, after: new Date("2000-01-01"), before() {return new Date();}}})
+  @attr("date", {
+    validation: {
+      date: true,
+      after: new Date("2000-01-01"),
+      before() {
+        return new Date();
+      },
+    },
+  })
   birthdate?: Date;
 }
 

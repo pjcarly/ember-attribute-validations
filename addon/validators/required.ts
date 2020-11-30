@@ -1,20 +1,22 @@
-import BaseValidator from "@getflights/ember-attribute-validations/base-validator";
+import BaseValidator, {
+  ValidatorOptions,
+} from "@getflights/ember-attribute-validations/base-validator";
 import Model from "@ember-data/model";
 import { hasValue, hasBelongsToValue } from "../utils";
 
 /**
  * Validator that checks if the value is set.
  */
-export default class RequiredValidator extends BaseValidator {
+export default class RequiredValidator extends BaseValidator<ValidatorOptions> {
   name = "required";
 
-  validate(_: string, value: any, attribute: any, _2: Model): string | boolean {
-    if (attribute.isAttribute) {
+  validate(value: any, _model: Model): string | boolean {
+    if (this.attribute.isAttribute) {
       if (!hasValue(value)) {
         return this.format();
       }
-    } else if (attribute.meta.isRelationship) {
-      if (attribute.meta.kind === "belongsTo") {
+    } else if (this.attribute?.meta?.isRelationship) {
+      if (this.attribute.meta.kind === "belongsTo") {
         if (!hasBelongsToValue(value)) {
           return this.format();
         }

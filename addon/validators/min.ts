@@ -1,31 +1,38 @@
-import BaseValidator from "@getflights/ember-attribute-validations/base-validator";
+import BaseValidator, {
+  AttributeInterface,
+  ValidatorOptions,
+} from "@getflights/ember-attribute-validations/base-validator";
 import { getValidationType } from "@getflights/ember-attribute-validations/utils";
 import { assert } from "@ember/debug";
 import { isPresent } from "@ember/utils";
 import Model from "@ember-data/model";
+import { tracked } from "@glimmer/tracking";
+
+export interface MinValidatorOptions extends ValidatorOptions {
+  min: number;
+}
 
 /**
  * Validator that could be used to validate minimum length,
  * if the attribute is String, or to validate the minimum value
  * if the Attribute is a Number.
  */
-export default class MinValidator extends BaseValidator {
+export default class MinValidator extends BaseValidator<MinValidatorOptions> {
   name = "min";
 
   /**
    * Min value for the validator.
-   *
-   * @property min
-   * @type {Number}
-   * @default null
    */
-  min!: number;
+  @tracked min: number;
 
-  validate(_: string, value: any, attribute: any, _2: Model): string | boolean {
-    const type = getValidationType(attribute.type);
+  constructor(attribute: AttributeInterface, options?: MinValidatorOptions) {
+    super(attribute);
+    assert("You must define a `min` for MinValidator", isPresent(options?.min));
+    this.min = <number>options?.min;
+  }
 
-    assert("You must define a `min` for MinValidator", isPresent(this.min));
-
+  validate(value: any, _model: Model): string | boolean {
+    const type = getValidationType(this.attribute.type);
     let invalid = true;
 
     if (type === "string") {
@@ -52,7 +59,7 @@ export default class MinValidator extends BaseValidator {
   }
 
   validateNumber(value: string) {
-    const testValue = parseInt(value, 10);
+    const testValue = parseFloat(value);
 
     if (isNaN(testValue)) {
       return true;
