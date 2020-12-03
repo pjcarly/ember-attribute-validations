@@ -187,15 +187,7 @@ export default class ValidatorService extends Service {
       run(this, this._validateRelationship, model, relationship);
     });
 
-    const isValid = <boolean>(<unknown>errors.isEmpty);
-
-    // Move the model into an 'invalid' state if the errors
-    // are not empty
-    if (!isValid) {
-      errors.trigger("becameInvalid");
-    }
-
-    return isValid;
+    return <boolean>(<unknown>errors.isEmpty);
   }
 
   createValidationError(model: Model) {

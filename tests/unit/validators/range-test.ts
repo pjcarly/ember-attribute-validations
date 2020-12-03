@@ -43,9 +43,11 @@ module("Range Validator test", function (hooks) {
       isAttribute: true,
     };
 
-    // @ts-expect-error
     const options: RangeValidatorOptions = {
-      from: 3,
+      // @ts-expect-error
+      range: {
+        from: 3,
+      },
     };
 
     assert.throws(
@@ -72,8 +74,10 @@ module("Range Validator test", function (hooks) {
     };
 
     const options: RangeValidatorOptions = {
-      from: 3,
-      to: 10,
+      range: {
+        from: 3,
+        to: 10,
+      },
     };
 
     const validator = new Validator(attribute, options);
@@ -128,8 +132,10 @@ module("Range Validator test", function (hooks) {
     };
 
     const options: RangeValidatorOptions = {
-      from: 3,
-      to: 10,
+      range: {
+        from: 3,
+        to: 10,
+      },
     };
 
     const validator = new Validator(attribute, options);

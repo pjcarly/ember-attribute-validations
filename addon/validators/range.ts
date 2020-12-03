@@ -8,8 +8,10 @@ import { assert } from "@ember/debug";
 import { tracked } from "@glimmer/tracking";
 
 export interface RangeValidatorOptions extends ValidatorOptions {
-  from: number;
-  to: number;
+  range: {
+    from: number;
+    to: number;
+  };
 }
 
 /**
@@ -19,9 +21,7 @@ export interface RangeValidatorOptions extends ValidatorOptions {
  * If it is a Number, it's value should be in defined range.
  *
  */
-export default class RangeValidator extends BaseValidator<
-  RangeValidatorOptions
-> {
+export default class RangeValidator extends BaseValidator<RangeValidatorOptions> {
   name = "range";
 
   /**
@@ -38,12 +38,17 @@ export default class RangeValidator extends BaseValidator<
 
   constructor(attribute: AttributeInterface, options?: RangeValidatorOptions) {
     super(attribute);
+    assert(
+      "You must define a `from` for RangeValidator",
+      options?.range?.from || options?.range?.from === 0
+    );
+    assert(
+      "You must define a `to` for RangeValidator",
+      options?.range?.to || options?.range?.to === 0
+    );
 
-    assert("You must define a `from` for RangeValidator", options?.from);
-    assert("You must define a `to` for RangeValidator", options?.to);
-
-    this.from = options.from;
-    this.to = options.to;
+    this.from = options.range.from;
+    this.to = options.range.to;
   }
 
   validate(value: any, _2: Model): string | boolean {
