@@ -128,10 +128,12 @@ export default class ValidatorService extends Service {
    */
   private _validateRelationship(
     model: Model,
+    // @ts-ignore
     relationship: Parameters<Parameters<Model["eachRelationship"]>[0]>[1]
   ) {
     // @ts-ignore
     const validators = this.validatorsFor(relationship);
+    // @ts-ignore
     const name = relationship.key;
 
     // @ts-ignore
@@ -159,6 +161,7 @@ export default class ValidatorService extends Service {
         .send("becomeDirty");
     }
 
+    // @ts-ignore
     const errors = <DS.Errors>(<unknown>model.errors);
     errors.add(attribute, message);
   }
@@ -169,6 +172,7 @@ export default class ValidatorService extends Service {
       return true;
     }
 
+    // @ts-ignore
     const errors = <DS.Errors>(<unknown>model.errors);
     errors.clear();
 
@@ -183,6 +187,7 @@ export default class ValidatorService extends Service {
       run(this, this._validateAttribute, model, attribute);
     });
 
+    // @ts-ignore
     model.eachRelationship((_key, relationship) => {
       run(this, this._validateRelationship, model, relationship);
     });
@@ -192,6 +197,7 @@ export default class ValidatorService extends Service {
 
   createValidationError(model: Model) {
     const message = this.intl.t("ember-attribute-validations.error");
+    // @ts-ignore
     return new ValidationError(message, <DS.Errors>(<unknown>model.errors));
   }
 }

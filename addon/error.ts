@@ -7,9 +7,11 @@ import DS from "ember-data";
  * This error contains the `DS.Errors` object from the Model.
  */
 export default class ValidationError extends Error {
+  // @ts-ignore
   @tracked errors: DS.Errors;
   @tracked message: string;
 
+  // @ts-ignore
   constructor(message: string, errors: DS.Errors) {
     super(message);
     this.message = message;
