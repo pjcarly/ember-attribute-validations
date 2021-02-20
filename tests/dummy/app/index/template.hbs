@@ -1,73 +1,138 @@
-<h2>Company</h2>
+<h2>
+  Company
+</h2>
 {{#each this.company.errors as |error|}}
-  <p style="color: red;"><strong>({{error.attribute}})</strong> {{error.message}}</p>
+  {{! template-lint-disable no-inline-styles style-concatenation }}
+  <p style="color: red;">
+    <strong>
+      ({{error.attribute}})
+    </strong>
+    {{error.message}}
+  </p>
 {{/each}}
 
 <div>
-  <label for="name">Name</label>
+  <label for="name">
+    Name
+  </label>
   <Input id="name" @value={{this.company.name}} />
-  <small>Required</small>
+  <small>
+    Required
+  </small>
 </div>
 <div>
-  <label for="vatNumber">VAT Number</label>
+  <label for="vatNumber">
+    VAT Number
+  </label>
   <Input id="vatNumber" @value={{this.company.vatNumber}} />
-  <small>Max: 10</small>
+  <small>
+    Max: 10
+  </small>
 </div>
 <div>
-  <label for="rating">Rating</label>
+  <label for="rating">
+    Rating
+  </label>
   <Input id="rating" @value={{this.company.rating}} />
-  <small>Range: 0-5</small>
+  <small>
+    Range: 0-5
+  </small>
 </div>
 <div>
-  <label for="score">Score</label>
+  <label for="score">
+    Score
+  </label>
   <Input id="score" @value={{this.company.score}} />
-  <small>Precision: 2, Decimals: 1</small>
+  <small>
+    Precision: 2, Decimals: 1
+  </small>
 </div>
 <div>
-  <label for="debit">Debit</label>
+  <label for="debit">
+    Debit
+  </label>
   <Input id="debit" @value={{this.company.debit}} />
-  <small>Positive, Number</small>
+  <small>
+    Positive, Number
+  </small>
 </div>
 <div>
-  <label for="credit">Credit</label>
+  <label for="credit">
+    Credit
+  </label>
   <Input id="credit" @value={{this.company.credit}} />
-  <small>Negative, Number</small>
+  <small>
+    Negative, Number
+  </small>
 </div>
 
-<h2>Contact</h2>
+<h2>
+  Contact
+</h2>
 {{#each this.contact.errors as |error|}}
-  <p style="color: red;"><strong>({{error.attribute}})</strong> {{error.message}}</p>
+  <p style="color: red;">
+    <strong>
+      ({{error.attribute}})
+    </strong>
+    {{error.message}}
+  </p>
 {{/each}}
 
 <div>
-  <label for="salutation">Salutation</label>
+  <label for="salutation">
+    Salutation
+  </label>
   <Input id="salutation" @value={{this.contact.salutation}} />
-  <small>In "MR, MS"</small>
+  <small>
+    In "MR, MS"
+  </small>
 </div>
 <div>
-  <label for="firstName">First Name</label>
+  <label for="firstName">
+    First Name
+  </label>
   <Input id="firstName" @value={{this.contact.firstName}} />
-  <small>Required, Range 2-20</small>
+  <small>
+    Required, Range 2-20
+  </small>
 </div>
 <div>
-  <label for="lastName">Last Name</label>
+  <label for="lastName">
+    Last Name
+  </label>
   <Input id="lastName" @value={{this.contact.lastName}} />
-  <small>Required</small>
+  <small>
+    Required
+  </small>
 </div>
 <div>
-  <label for="email">Email</label>
+  <label for="email">
+    Email
+  </label>
   <Input id="email" @value={{this.contact.email}} />
-  <small>email</small>
+  <small>
+    email
+  </small>
 </div>
 <div>
-  <label for="age">Age</label>
+  <label for="age">
+    Age
+  </label>
   <Input id="age" @value={{this.contact.age}} />
-  <small>Wholenumber, min: 0, max: 150</small>
+  <small>
+    Wholenumber, min: 0, max: 150
+  </small>
 </div>
 <div>
-  <label for="birthdate">Birthdate</label>
+  <label for="birthdate">
+    Birthdate
+  </label>
   <Input id="birthdate" @value={{this.contact.birthdate}} />
-  <small>Date, After "2000-01-01", Before "today"</small>
+  <small>
+    Date, After "2000-01-01", Before "today"
+  </small>
 </div>
 
-<button {{on "click" this.save}}>Save</button>
+<button type="button" {{on "click" this.save}}>
+  Save
+</button>
