@@ -4876,6 +4876,24 @@ ember-auto-import@^1.5.3:
     walk-sync "^0.3.3"
     webpack "^4.43.0"
 
+ember-cache-primitive-polyfill@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/ember-cache-primitive-polyfill/-/ember-cache-primitive-polyfill-1.0.1.tgz#a27075443bd87e5af286c1cd8a7df24e3b9f6715"
+  integrity sha512-hSPcvIKarA8wad2/b6jDd/eU+OtKmi6uP+iYQbzi5TQpjsqV6b4QdRqrLk7ClSRRKBAtdTuutx+m+X+WlEd2lw==
+  dependencies:
+    ember-cli-babel "^7.22.1"
+    ember-cli-version-checker "^5.1.1"
+    ember-compatibility-helpers "^1.2.1"
+    silent-error "^1.1.1"
+
+ember-cached-decorator-polyfill@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/ember-cached-decorator-polyfill/-/ember-cached-decorator-polyfill-0.1.1.tgz#988c06808666cbffd621e9c6baa51b7c599c6a05"
+  integrity sha512-mMdzPQuR4D6hNXkdVFfIWTQbBERNFpm5G36sC4DzogQYDcFKQf5QXLVCmK+3KsEKjJOwPeXmClMQTNUfgtb5Ig==
+  dependencies:
+    ember-cache-primitive-polyfill "^1.0.1"
+    ember-cli-babel "^7.21.0"
+
 ember-cli-babel-plugin-helpers@^1.0.0, ember-cli-babel-plugin-helpers@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/ember-cli-babel-plugin-helpers/-/ember-cli-babel-plugin-helpers-1.1.1.tgz#5016b80cdef37036c4282eef2d863e1d73576879"
@@ -4900,7 +4918,7 @@ ember-cli-babel@^6.18.0, ember-cli-babel@^6.6.0, ember-cli-babel@^6.7.2, ember-c
     ember-cli-version-checker "^2.1.2"
     semver "^5.5.0"
 
-ember-cli-babel@^7.0.0, ember-cli-babel@^7.1.2, ember-cli-babel@^7.11.0, ember-cli-babel@^7.12.0, ember-cli-babel@^7.13.0, ember-cli-babel@^7.18.0, ember-cli-babel@^7.19.0, ember-cli-babel@^7.20.5, ember-cli-babel@^7.22.1, ember-cli-babel@^7.23.0, ember-cli-babel@^7.4.0, ember-cli-babel@^7.7.3:
+ember-cli-babel@^7.0.0, ember-cli-babel@^7.1.2, ember-cli-babel@^7.11.0, ember-cli-babel@^7.12.0, ember-cli-babel@^7.13.0, ember-cli-babel@^7.18.0, ember-cli-babel@^7.19.0, ember-cli-babel@^7.20.5, ember-cli-babel@^7.21.0, ember-cli-babel@^7.22.1, ember-cli-babel@^7.23.0, ember-cli-babel@^7.4.0, ember-cli-babel@^7.7.3:
   version "7.23.1"
   resolved "https://registry.yarnpkg.com/ember-cli-babel/-/ember-cli-babel-7.23.1.tgz#d1517228ede08a5d4b045c78a7429728e956b30b"
   integrity sha512-qYggmt3hRs6QJ6cRkww3ahMpyP8IEV2KFrIRO/Z6hu9MkE/8Y28Xd5NjQl6fPV3oLoG0vwuHzhNe3Jr7Wec8zw==
@@ -5292,7 +5310,7 @@ ember-cli@~3.24.0:
     workerpool "^6.0.3"
     yam "^1.0.0"
 
-ember-compatibility-helpers@^1.1.1, ember-compatibility-helpers@^1.2.0:
+ember-compatibility-helpers@^1.1.1, ember-compatibility-helpers@^1.2.0, ember-compatibility-helpers@^1.2.1:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/ember-compatibility-helpers/-/ember-compatibility-helpers-1.2.2.tgz#839e0c24190b7a2ec8c39b80e030811b1a95b6d3"
   integrity sha512-EKyCGOGBvKkBsk6wKfg3GhjTvTTkcEwzl/cv4VYvZM18cihmjGNpliR4BymWsKRWrv4VJLyq15Vhk3NHkSNBag==
