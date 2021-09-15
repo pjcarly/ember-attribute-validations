@@ -4,6 +4,7 @@ import { assert } from "@ember/debug";
 import { isPresent } from "@ember/utils";
 import { capitalize } from "@ember/string";
 import { tracked } from "@glimmer/tracking";
+import type IntlService from 'ember-intl/services/intl';
 
 export interface AttributeInterface {
   parentTypeKey: string;
@@ -17,18 +18,18 @@ export interface AttributeInterface {
   options?: {
     validation?: any;
     precision?: number;
-    decimals ?: number;
+    decimals?: number;
   };
 }
 
-export interface ValidatorOptions {}
+export interface ValidatorOptions { }
 
 /**
  * Validator Class used to perform specific Attribute
  * Validation.
  */
 export default abstract class BaseValidator<T extends ValidatorOptions> {
-  @service intl!: any;
+  @service intl!: IntlService;
 
   /**
    * The meta attribute or relationship returned when looking up the value through Ember Data

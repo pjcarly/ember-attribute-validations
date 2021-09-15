@@ -2,9 +2,10 @@ import Model from "@ember-data/model";
 import { inject as service } from "@ember/service";
 import RSVP, { reject } from "rsvp";
 import ValidatorService from "../services/validator";
+import type IntlService from 'ember-intl/services/intl';
 
 export default class ValidationModel extends Model {
-  @service intl!: any;
+  @service intl!: IntlService;
   @service validator!: ValidatorService;
 
   validate(): boolean {
@@ -18,9 +19,9 @@ export default class ValidationModel extends Model {
   save(
     options?:
       | {
-          adapterOptions?: object | undefined;
-          validate?: boolean;
-        }
+        adapterOptions?: object | undefined;
+        validate?: boolean;
+      }
       | undefined
   ): RSVP.Promise<this> {
     if (options && options.validate === false) {

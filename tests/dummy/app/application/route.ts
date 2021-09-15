@@ -1,8 +1,9 @@
 import Route from "@ember/routing/route";
 import { inject as service } from "@ember/service";
+import type IntlService from 'ember-intl/services/intl';
 
 export default class ApplicationRoute extends Route {
-  @service intl!: any;
+  @service intl!: IntlService;
 
   beforeModel() {
     // @ts-ignore

@@ -10,6 +10,7 @@ import { isEmpty } from "@ember/utils";
 import DS from "ember-data";
 import BaseValidator, { AttributeInterface } from "../base-validator";
 import ValidationError from "../error";
+import type IntlService from 'ember-intl/services/intl';
 
 export interface ValidatorLookup {
   type: string;
@@ -18,7 +19,7 @@ export interface ValidatorLookup {
 }
 
 export default class ValidatorService extends Service {
-  @service intl!: any;
+  @service intl!: IntlService;
 
   @computed()
   get container(): any {
