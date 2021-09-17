@@ -2,7 +2,6 @@ import Model from "@ember-data/model";
 import { getOwner, setOwner } from "@ember/application";
 import { isArray } from "@ember/array";
 import { assert } from "@ember/debug";
-import { computed } from "@ember/object";
 import { run } from "@ember/runloop";
 import Service from "@ember/service";
 import { inject as service } from "@ember/service";
@@ -11,6 +10,7 @@ import DS from "ember-data";
 import BaseValidator, { AttributeInterface } from "../base-validator";
 import ValidationError from "../error";
 import type IntlService from 'ember-intl/services/intl';
+import { cached } from "@glimmer/tracking";
 
 export interface ValidatorLookup {
   type: string;
@@ -21,7 +21,7 @@ export interface ValidatorLookup {
 export default class ValidatorService extends Service {
   @service intl!: IntlService;
 
-  @computed()
+  @cached
   get container(): any {
     return getOwner(this);
   }
