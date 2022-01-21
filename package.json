@@ -1,6 +1,6 @@
 {
   "name": "@getflights/ember-attribute-validations",
-  "version": "2.0.13",
+  "version": "2.0.14",
   "description": "A package that validates models on save based on the models attributes",
   "directories": {
     "doc": "doc",
@@ -26,14 +26,15 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "@ember/optional-features": "^2.0.0",
+    "@ember/test-helpers": "^2.6.0",
     "@types/ember": "^3.16.0",
     "@types/ember-data": "^3.16.1",
     "@types/ember-data__adapter": "^3.16.0",
     "@types/ember-data__model": "^3.16.0",
     "@types/ember-data__serializer": "^3.16.0",
     "@types/ember-data__store": "^3.16.0",
-    "@types/ember-qunit": "^3.4.8",
-    "@types/ember-test-helpers": "~1.0.5",
+    "@types/ember-qunit": "^5.0.0",
     "@types/ember-testing-helpers": "~0.0.3",
     "@types/ember__application": "^3.16.0",
     "@types/ember__array": "^3.16.1",
@@ -53,7 +54,7 @@
     "@types/ember__test": "^3.16.0",
     "@types/ember__test-helpers": "^1.7.0",
     "@types/ember__utils": "^3.16.0",
-    "@types/qunit": "^2.9.1",
+    "@types/qunit": "^2.11.3",
     "@types/rsvp": "^4.0.3",
     "babel-eslint": "^10.1.0",
     "broccoli-asset-rev": "^3.0.0",
@@ -71,7 +72,7 @@
     "ember-intl": "^5.5.0",
     "ember-load-initializers": "^2.1.1",
     "ember-moment": "~9.0.1",
-    "ember-qunit": "^4.6.0",
+    "ember-qunit": "^5.1.5",
     "ember-resolver": "^8.0.3",
     "ember-source": "~3.28.0",
     "ember-template-lint": "^2.19.0",
@@ -81,6 +82,7 @@
     "eslint-plugin-node": "~10.0.0",
     "loader.js": "^4.7.0",
     "npm-run-all": "^4.1.5",
+    "qunit": "^2.17.2",
     "typescript": "^4.0.0"
   },
   "keywords": [
@@ -99,6 +101,9 @@
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
+  },
+  "ember": {
+    "edition": "octane"
   },
   "publishConfig": {
     "@getflights:registry": "https://gitlab.com/api/v4/projects/20773295/packages/npm/"
