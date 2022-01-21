@@ -1,6 +1,6 @@
 {
   "name": "@getflights/ember-attribute-validations",
-  "version": "2.0.12",
+  "version": "2.0.13",
   "description": "A package that validates models on save based on the models attributes",
   "directories": {
     "doc": "doc",
@@ -58,7 +58,7 @@
     "babel-eslint": "^10.1.0",
     "broccoli-asset-rev": "^3.0.0",
     "els-addon-typed-templates": "^4.2.4",
-    "ember-cli": "~3.24.0",
+    "ember-cli": "~3.28.0",
     "ember-cli-dependency-checker": "^3.2.0",
     "ember-cli-eslint": "~5.1.0",
     "ember-cli-inject-live-reload": "^2.0.2",
@@ -70,10 +70,10 @@
     "ember-export-application-global": "^2.0.1",
     "ember-intl": "^5.5.0",
     "ember-load-initializers": "^2.1.1",
-    "ember-moment": "~7.8.1",
+    "ember-moment": "~9.0.1",
     "ember-qunit": "^4.6.0",
-    "ember-resolver": "^8.0.2",
-    "ember-source": "~3.24.0",
+    "ember-resolver": "^8.0.3",
+    "ember-source": "~3.28.0",
     "ember-template-lint": "^2.19.0",
     "ember-template-lint-typed-templates": "^0.1.7",
     "ember-try": "~1.2.1",
@@ -94,8 +94,8 @@
     "ember-cached-decorator-polyfill": "^0.1.1",
     "ember-cli-babel": "^7.19.0",
     "ember-cli-htmlbars": "^5.3.1",
-    "ember-cli-typescript": "^4.0.0",
-    "ember-data": "~3.24.0"
+    "ember-cli-typescript": "^4.1.0",
+    "ember-data": "~3.28.0"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
