@@ -52,7 +52,6 @@
     "@types/ember__string": "^3.16.0",
     "@types/ember__template": "^3.16.0",
     "@types/ember__test": "^3.16.0",
-    "@types/ember__test-helpers": "^1.7.0",
     "@types/ember__utils": "^3.16.0",
     "@types/qunit": "^2.11.3",
     "@types/rsvp": "^4.0.3",
