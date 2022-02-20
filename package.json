@@ -1,6 +1,6 @@
 {
   "name": "@getflights/ember-attribute-validations",
-  "version": "2.0.17",
+  "version": "2.0.18",
   "description": "A package that validates models on save based on the models attributes",
   "directories": {
     "doc": "doc",
@@ -103,6 +103,10 @@
     "ember-cli-htmlbars": "^5.7.2",
     "ember-cli-typescript": "^4.1.0",
     "ember-data": "~3.28.0"
+  },
+  "resolutions": {
+    "**/@embroider/macros": "< 0.50.0",
+    "**/@embroider/util": "< 0.50.0"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
