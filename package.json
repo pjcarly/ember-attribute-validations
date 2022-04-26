@@ -17,7 +17,9 @@
     "test": "npm-run-all lint:* test:*",
     "test:ember": "ember test",
     "prepublishOnly": "ember ts:precompile",
-    "postpublish": "ember ts:clean"
+    "postpublish": "ember ts:clean",
+    "release:test": "rm -rf logs && mkdir logs && JOBS=1 CI=1 ember test ci --silent --r xunit | tee logs/xunit.xml",
+    "release": "npm publish"
   },
   "repository": "https://gitlab.com/getflights/ember-attribute-validations",
   "engines": {
