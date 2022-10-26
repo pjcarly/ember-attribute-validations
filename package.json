@@ -19,7 +19,7 @@
     "prepublishOnly": "ember ts:precompile",
     "postpublish": "ember ts:clean",
     "release:version": "node -p \"require('./package.json').version\"",
-    "release:test": "rm -rf logs && mkdir logs && JOBS=1 CI=1 ember test ci --silent --r xunit | tee logs/xunit.xml",
+    "release:test": "rm -rf logs && mkdir logs && JOBS=1 CI=1 COVERAGE=true ember test ci --silent --r xunit | tee logs/xunit.xml",
     "release": "npm publish"
   },
   "repository": "https://gitlab.com/getflights/ember-attribute-validations",
